@@ -41,14 +41,6 @@
     (package-refresh-contents)
     (mapc 'package-install uninstalled-pkgs)))
 
-;; Add all my custom packages &/or submodules to 'load-path
-(when-let* ((my-dir (expand-file-name "tony" user-emacs-directory))
-	    (dir-exists (file-directory-p my-dir))
-	    (default-directory my-dir))
-  (progn
-    (prin1 (format "Dir: %s, exists: %s\n" default-directory dir-exists))
-    (normal-top-level-add-subdirs-to-load-path)))
-
 (use-package cider
   :ensure t
   :init
@@ -90,38 +82,34 @@
   :init
   (corfu-prescient-mode))
 
-;; (require 'evil)
-;; (evil-mode)
-
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-
-;; (global-set-key (kbd "C-c o a") #'org-agenda)
-
-;; (use-package evil-org
-;;   :after org
-;;   :hook (org-mode . evil-org-mode)
-;;   :config
-;;   (require 'evil-org-agenda)
-;;   (keymap-set org-mode-map "C-c a i" 'org-insert-item)
-;;   (keymap-set org-mode-map "C-c a h" 'org-insert-heading)
-;;   (keymap-set org-mode-map "C-c e h" 'org-edit-headline)
-;;   (keymap-set org-mode-map "C-c l s" 'org-store-link)
-;;   (keymap-set org-mode-map "C-c l i" 'org-insert-link)
-;;   (setq org-agenda-inhibit-startup t
-;; 	org-agenda-use-tag-inheritance nil
-;; 	org-agenda-dim-blocked-tasks nil
-;; 	org-agenda-files '("~/documents/agenda")))
 
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3
 	tab-always-indent 'complete))
 
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp))
+  :config
+  ;; add paths to your local installation of project mgmt tools, like lein
+  (setenv "PATH" (concat
+                   "/usr/local/bin" path-separator
+                   (getenv "PATH")))
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  (setq lsp-clojure-server-command '("/opt/homebrew/bin/clojure-lsp"))) ;; Optional: In case `clojure-lsp` is not in your $PATH
+
 (load-theme 'modus-vivendi t)
-(set-face-attribute 'default nil :font "Victor Mono" :weight 'light :height 140)
-(set-face-attribute 'fixed-pitch nil :font "Victor Mono" :weight 'light :height 140)
+(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 180)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 180)
 
 (require 'org-faces)
 
@@ -183,14 +171,19 @@
   (term-mode-hook . puni-disable-puni-mode)
   :bind
   (:map puni-mode-map
+	("C-M-s" . puni-mark-sexp-at-point)
 	("C-M-a" . puni-mark-sexp-around-point)
+	("C-M-d" . puni-mark-list-around-point)
+
 	("C-M-h" . puni-slurp-backward)
 	("C-M-l" . puni-slurp-forward)
+
 	("C-M-b" . puni-barf-backward)
 	("C-M-n" . puni-barf-forward)
-	("C-M-p s" . puni-split)
+
+	("C-M-p j" . puni-split)
+	("C-M-p s" . puni-beginning-of-sexp)
 	("C-M-p e" . puni-end-of-sexp)
-	("C-M-p b" . puni-beginning-of-sexp)
 	("C-M-p c" . puni-wrap-curly)
 	("C-M-p r" . puni-wrap-round)
 	("C-M-p x" . puni-force-delete)))
@@ -209,8 +202,7 @@
   (setq transient-detect-key-conflicts t)
   (setq transient-default-level 5)
   (transient-bind-q-to-quit)
-
-
+  
   ;; Magit transient
   (transient-define-prefix transient-magit-menu ()
     "Magit menu"
@@ -228,6 +220,8 @@
      ["Replace"
       ("%" "Query replace" query-replace)
       ("M-%" "Query replace regexp" query-replace-regexp)]
+     ["Edit"
+      ("p" "Kill paragraph" kill-paragraph)]
      ["Grep"
       ("g" "Grep" grep)
       ("G" "Recursive grep" rgrep)]])
@@ -252,30 +246,14 @@
       ("=" "Balance windows" balance-windows)]])
 
   :bind
-  ("C-c w" . transient-window-management))
-
-;; (use-package tempel
-;;   :bind (("C-c j j" . tempel-complete)
-;; 	 ("C-c j i" . tempel-insert)
-;; 	 ("C-c j h" . tempel-previous)
-;; 	 ("~" . tempel-previous)
-;; 	 ("S-<iso-lefttab>" . tempel-next))
-;;   :commands (tempel-complete)
-;;   :init
-;;   (defun tempel-setup-capf ()
-;;     (setq-local completion-at-point-functions
-;; 		(cons #'tempel-expand
-;; 		      completion-at-point-functions)))
-;;   :hook ((org-mode prog-mode text-mode) . 'tempel-setup-capf))
-
-;; ;; (use-package tempel-collection
-;;   :load-path (expand-file-name "tony/tempel-collection" user-emacs-directory)
-;;   :after tempel)
+  ("C-c w" . transient-window-management)
+  ("C-c s" . transient-search-replace-menu)
+  ("C-c g" . transient-magit-menu))
 
 (use-package vertico
   :init
   (vertico-mode)
-  (setq vertico-count 5
+  (setq vertico-count 10
 	vertico-resize t
 	vertico-cycle t))
 
@@ -295,14 +273,6 @@
   :after vertico
   :init
   (vertico-prescient-mode))
-
-(bind-keys :prefix-map t-map
-	   :prefix "C-c"
-	   ("o a" . org-agenda)
-	   ;; magit
-	   ("m m" . magit)
-	   ;; ("C-c c" . with-editor-finish))
-	   )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
