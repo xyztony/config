@@ -29,6 +29,8 @@
 			   exec-path-from-shell
 			   lsp-mode
 			   magit
+			   marginalia
+			   org-roam
 			   prescient
 			   projectile
 			   projectile-ripgrep
@@ -107,11 +109,28 @@
      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (setq lsp-clojure-server-command '("/opt/homebrew/bin/clojure-lsp"))) ;; Optional: In case `clojure-lsp` is not in your $PATH
 
+(use-package marginalia
+  :bind
+  (:map minibuffer-local-map
+        ("M-n" . marginalia-cycle))
+
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right)
+
+  :init
+  (marginalia-mode))
+
 (load-theme 'modus-vivendi t)
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 180)
 (set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 180)
 
 (require 'org-faces)
+
+(use-package org-roam
+  :ensure t
+  :init
+  (org-roam-db-autosync-mode))
 
 (dolist (face '(window-divider
 		window-divider-first-pixel
@@ -245,9 +264,17 @@
      ["Balance"
       ("=" "Balance windows" balance-windows)]])
 
+  (transient-define-prefix transient-org-roam-menu ()
+    "Org roam menu"
+    [["Files"
+      ("f" "Find file" org-roam-node-find)
+      ("c" "Capture node" org-roam-capture)]])
+
+
   :bind
   ("C-c w" . transient-window-management)
   ("C-c s" . transient-search-replace-menu)
+  ("C-c o" . transient-org-roam-menu)
   ("C-c g" . transient-magit-menu))
 
 (use-package vertico
@@ -255,19 +282,12 @@
   (vertico-mode)
   (setq vertico-count 10
 	vertico-resize t
-	vertico-cycle t))
-
-(use-package vertico-flat
-  :after vertico
-  :ensure nil
-  :init
-  (vertico-flat-mode)
+	vertico-cycle nil)
   :bind
-  (:map vertico-flat-map
+  (:map vertico-map
 	("TAB" . vertico-next)
-	([tab] . vertico-next)
-	([backtab] . vertico-previous)
-	("S-TAB" . vertico-previous)))
+	("[backtab]" . vertico-previous)))
+
 
 (use-package vertico-prescient
   :after vertico
