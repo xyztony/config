@@ -4,6 +4,9 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
+(setq-default initial-buffer-choice "~/Developer")
+(setq-default inhibit-startup-screen nil)
+(setq-default initial-scratch-message nil)
 (setq-default frame-resize-pixelwise t)
 (setq-default startup-screen-inhibit-startup-screen 't)
 (setq-default visible-bell nil)
@@ -122,8 +125,8 @@
   (marginalia-mode))
 
 (load-theme 'modus-vivendi t)
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 180)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 180)
+(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 200)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 200)
 
 (require 'org-faces)
 
