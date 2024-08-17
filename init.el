@@ -54,7 +54,12 @@
   :custom
   (setq cider-show-error-buffer 'only-in-repl
 	cider-clojure-compilation-error-phases nil
-	cider-stacktrace-fill-column 80))
+	cider-repl-display-help-banner nil
+	cider-stacktrace-fill-column 80)
+  :bind
+  (:map cider-mode-map
+	("C-x C-e" . cider-eval-dwim)
+	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)))
 
 (use-package clojure-mode
   :custom
@@ -97,11 +102,8 @@
 
 (use-package lsp-mode
   :ensure t
-  :hook ((clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
   :config
-  ;; add paths to your local installation of project mgmt tools, like lein
+  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
   (setenv "PATH" (concat
                    "/usr/local/bin" path-separator
                    (getenv "PATH")))
@@ -109,8 +111,17 @@
                clojurec-mode
                clojurescript-mode
                clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  (setq lsp-clojure-server-command '("/opt/homebrew/bin/clojure-lsp"))) ;; Optional: In case `clojure-lsp` is not in your $PATH
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  
+  (defun my/maybe-enable-clojure-lsp ()
+    (when (and (derived-mode-p 'clojure-mode)
+               (bound-and-true-p cider-mode))
+      (lsp)))
+
+  :hook ((clojure-mode . my/maybe-enable-clojure-lsp)
+         (clojurec-mode . my/maybe-enable-clojure-lsp)
+         (clojurescript-mode . my/maybe-enable-clojure-lsp)))
+
 
 (use-package marginalia
   :bind
@@ -271,7 +282,9 @@
     "Org roam menu"
     [["Files"
       ("f" "Find file" org-roam-node-find)
-      ("c" "Capture node" org-roam-capture)]])
+      ("c" "Capture node" org-roam-capture)
+      ("tt" "Capture today" org-roam-dailies-capture-today)
+      ("tm" "Capture tomorrow" org-roam-dailies-capture-tomorrow)]])
 
 
   :bind
