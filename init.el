@@ -31,6 +31,7 @@
 			   edit-indirect
 			   exec-path-from-shell
 			   lsp-mode
+			   lsp-origami
 			   magit
 			   marginalia
 			   org-roam
@@ -103,7 +104,8 @@
 (use-package lsp-mode
   :ensure t
   :config
-  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
+  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
+	lsp-keymap-prefix "s-l")
   (setenv "PATH" (concat
                    "/usr/local/bin" path-separator
                    (getenv "PATH")))
@@ -118,10 +120,14 @@
                (bound-and-true-p cider-mode))
       (lsp)))
 
-  :hook ((clojure-mode . my/maybe-enable-clojure-lsp)
-         (clojurec-mode . my/maybe-enable-clojure-lsp)
+  :hook (clojure-mode . my/maybe-enable-clojure-lsp)
+        ((clojurec-mode . my/maybe-enable-clojure-lsp)
          (clojurescript-mode . my/maybe-enable-clojure-lsp)))
 
+(use-package lsp-origami
+  :ensure t
+  :hook
+  ((lsp-after-open-hook . lsp-origami-try-enable)))
 
 (use-package marginalia
   :bind
@@ -172,6 +178,8 @@
   company-minimum-prefix-length 1
   lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
   lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
+  lsp-log-io nil
+  lsp-idle-delay 0.65
   )
 
 ;; Resize Org headings
