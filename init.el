@@ -65,11 +65,7 @@
   :custom
   (setq clojure-indent-style 'always-indent
       clojure-indent-keyword-style 'always-indent
-      clojure-enable-indent-specs nil)
-  :hook
-  (clojure-mode . 'lsp)
-  (clojurec-mode . 'lsp)
-  (clojurescript-mode . 'lsp))
+      clojure-enable-indent-specs nil))
 
 (use-package corfu
   :custom
@@ -112,15 +108,12 @@
                clojurescript-mode
                clojurex-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  
-  (defun my/maybe-enable-clojure-lsp ()
-    (when (and (derived-mode-p 'clojure-mode)
-               (bound-and-true-p cider-mode))
-      (lsp)))
 
-  :hook ((clojure-mode . my/maybe-enable-clojure-lsp)
-         (clojurec-mode . my/maybe-enable-clojure-lsp)
-         (clojurescript-mode . my/maybe-enable-clojure-lsp)))
+  
+  :hook ((clojure-mode . lsp-deferred)
+	 (clojurec-mode . lsp-deferred)
+	 (clojurescript-mode . lsp-deferred))
+  :commands (lsp lsp-deferred))
 
 
 (use-package marginalia
@@ -160,6 +153,7 @@
   org-catch-invisible-edits 'show-and-error
   org-special-ctrl-a/e t
   org-insert-heading-respect-content t
+  org-use-speed-commands t
 
   ;; Org styling, hide markup etc.
   org-hide-emphasis-markers t
