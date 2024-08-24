@@ -105,8 +105,11 @@
   :init
   (corfu-prescient-mode))
 
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize))
+(use-package dired
+  :after dired
+  :bind
+  (:map dired-mode-map
+	("C-c C-n" . dired-create-empty-file)))
 
 (use-package emacs
   :init
