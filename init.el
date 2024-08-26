@@ -149,8 +149,8 @@
   (marginalia-mode))
 
 (load-theme 'modus-vivendi t)
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 200)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 200)
+(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 160)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 160)
 
 (require 'org-faces)
 
