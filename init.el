@@ -1,4 +1,4 @@
-(add-hook 'after-init-hook #'dired-jump)
+;; (add-hook 'after-init-hook #'dired-jump)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -14,6 +14,8 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
+
+
 (setenv "JAVA_HOME"
 	(mapconcat 'identity (list (substitute-in-file-name "$HOME") ".sdkman/candidates/java/current") "/"))
 
@@ -28,8 +30,11 @@
 			   clojure-mode
 			   corfu
 			   corfu-prescient
+			   docker
 			   edit-indirect
 			   exec-path-from-shell
+			   geiser
+			   geiser-chez
 			   lsp-mode
 			   magit
 			   marginalia
@@ -64,7 +69,10 @@
   (:map cider-mode-map
 	("C-x C-e" . cider-eval-dwim)
 	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)
+<<<<<<< HEAD
+=======
 	("C-c M-l" . cider-repl-clear-buffer)
+>>>>>>> origin/main
 	("C-c C-a" . cider-inspect-last-result)))
 
 (use-package clojure-mode
@@ -105,6 +113,10 @@
   :init
   (corfu-prescient-mode))
 
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
 (use-package dired
   :after dired
   :bind
@@ -115,6 +127,14 @@
   :init
   (setq completion-cycle-threshold 3
 	tab-always-indent 'complete))
+
+(use-package geiser
+  :ensure t)
+
+(use-package geiser-chez
+  :ensure t
+  :config
+  (setq scheme-program-name "petite"))
 
 (use-package lsp-mode
   :ensure t
@@ -330,6 +350,13 @@
   :after vertico
   :init
   (vertico-prescient-mode))
+
+(use-package winner-mode
+  :init (winner-mode)
+  :bind
+  (:map winner-mode-map
+	("C-c w u" . winner-undo)
+	("C-c w r" . winner-redo)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
