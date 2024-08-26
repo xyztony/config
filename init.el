@@ -69,10 +69,7 @@
   (:map cider-mode-map
 	("C-x C-e" . cider-eval-dwim)
 	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)
-<<<<<<< HEAD
-=======
 	("C-c M-l" . cider-repl-clear-buffer)
->>>>>>> origin/main
 	("C-c C-a" . cider-inspect-last-result)))
 
 (use-package clojure-mode
