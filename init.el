@@ -136,7 +136,8 @@
 (use-package lsp-mode
   :ensure t
   :config
-  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
+  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
+	lsp-eslint-package-manager "pnpm")
   (setenv "PATH" (concat
                    "/usr/local/bin" path-separator
                    (getenv "PATH")))
