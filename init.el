@@ -1,6 +1,10 @@
 ;; (add-hook 'after-init-hook #'dired-jump)
 ;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
 
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#916668")
+
+(winner-mode)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -32,11 +36,12 @@
 			   docker
 			   edit-indirect
 			   exec-path-from-shell
+			   f
 			   geiser
 			   geiser-chez
-			   lsp-mode
 			   magit
 			   marginalia
+			   markdown-mode
 			   org-roam
 			   prescient
 			   projectile
@@ -46,6 +51,7 @@
 			   vertico-prescient
 			   vterm
 			   wgrep
+			   yasnippet
 			   ))))
   (when (and (not (equal uninstalled-pkgs '()))
 	     (y-or-n-p (format "Install the following packages: %s?" uninstalled-pkgs)))
@@ -133,25 +139,52 @@
   :config
   (setq scheme-program-name "petite"))
 
-(use-package lsp-mode
-  :ensure t
-  :config
-  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
-	lsp-eslint-package-manager "pnpm")
-  (setenv "PATH" (concat
-                   "/usr/local/bin" path-separator
-                   (getenv "PATH")))
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+(use-package lspce
+  :load-path "site-lisp/lspce/"
+  :config (progn
+            (setq lspce-send-changes-idle-time 0.1)
+            (setq lspce-show-log-level-in-modeline t) ;; show log level in mode line
+	    ;; (lspce-set-log-file "/tmp/lspce.log")
+	    (add-hook 'clojure-mode-hook 'lspce-mode)
+
+            ;; modify `lspce-server-programs' to add or change a lsp server, see document
+            ;; of `lspce-lsp-type-function' to understand how to get buffer's lsp type.
+            ;; Bellow is what I use
+            ;; (setq lspce-server-programs `(("rust"  "rust-analyzer" "" lspce-ra-initializationOptions)
+            ;;                               ("python" "pylsp" "" )
+            ;;                               ("C" "clangd" "--all-scopes-completion --clang-tidy --enable-config --header-insertion-decorators=0")
+            ;;                               ("java" "java" lspce-jdtls-cmd-args lspce-jdtls-initializationOptions)
+            ;;                   ))
+	    (setq lspce-server-programs `(("clojure" "clojure-lsp" ""))
+            ))
+  
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :config
+;;   (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
+;; 	lsp-eslint-package-manager "pnpm")
+;;   (setenv "PATH" (concat
+;;                    "/usr/local/bin" path-separator
+;;                    (getenv "PATH")))
+;;   (dolist (m '(clojure-mode
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                clojurex-mode))
+;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
 
   
-  :hook ((clojure-mode . lsp-deferred)
-	 (clojurec-mode . lsp-deferred)
-	 (clojurescript-mode . lsp-deferred))
-  :commands (lsp lsp-deferred))
+;;   :hook ((lsp-mode . lsp-diagnostics-mode)
+;;          (lsp-mode . lsp-enable-which-key-integration)
+;; 	 (clojure-mode . lsp-deferred)
+;; 	 (clojurec-mode . lsp-deferred)
+;; 	 (clojurescript-mode . lsp-deferred)
+;; 	 ((tsx-ts-mode typescript-ts-mode js-ts-mode) . lsp-deferred))
+;;   :commands (lsp lsp-deferred))
+
+
+;; (use-package lsp-completion
+;;   :no-require
+;;   :hook ((lsp-mode . lsp-completion-mode)))
 
 
 (use-package marginalia
@@ -202,8 +235,8 @@
   gc-cons-threshold (* 100 1024 1024)
   read-process-output-max (* 1024 1024)
   company-minimum-prefix-length 1
-  lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-  lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
+  ;; lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
+  ;; lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
   )
 
 ;; Resize Org headings
@@ -328,6 +361,69 @@
   ("C-c o" . transient-org-roam-menu)
   ("C-c g" . transient-magit-menu))
 
+
+(use-package treesit
+      :mode (("\\.tsx\\'" . tsx-ts-mode)
+             ("\\.js\\'"  . typescript-ts-mode)
+             ("\\.mjs\\'" . typescript-ts-mode)
+             ("\\.mts\\'" . typescript-ts-mode)
+             ("\\.cjs\\'" . typescript-ts-mode)
+             ("\\.ts\\'"  . typescript-ts-mode)
+             ("\\.jsx\\'" . tsx-ts-mode)
+             ("\\.json\\'" .  json-ts-mode)
+             ("\\.Dockerfile\\'" . dockerfile-ts-mode)
+             ("\\.prisma\\'" . prisma-ts-mode)
+             ;; More modes defined here...
+             )
+      :preface
+      (defun os/setup-install-grammars ()
+        "Install Tree-sitter grammars if they are absent."
+        (interactive)
+        (dolist (grammar
+                 '((clojure . ("https://github.com/sogaiu/tree-sitter-clojure"))
+		   (css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+                   (bash "https://github.com/tree-sitter/tree-sitter-bash")
+                   (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.4"))
+                   (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.21.4" "src"))
+                   (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.21.0"))
+                   (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+                   (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+                   (cmake "https://github.com/uyha/tree-sitter-cmake")
+                   (c "https://github.com/tree-sitter/tree-sitter-c")
+                   (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.4" "tsx/src"))
+                   (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.4" "typescript/src"))))
+          (add-to-list 'treesit-language-source-alist grammar)
+          ;; Only install `grammar' if we don't already have it
+          ;; installed. However, if you want to *update* a grammar then
+          ;; this obviously prevents that from happening.
+          (unless (treesit-language-available-p (car grammar))
+            (treesit-install-language-grammar (car grammar)))))
+
+      ;; Optional, but recommended. Tree-sitter enabled major modes are
+      ;; distinct from their ordinary counterparts.
+      ;;
+      ;; You can remap major modes with `major-mode-remap-alist'. Note
+      ;; that this does *not* extend to hooks! Make sure you migrate them
+      ;; also
+      (dolist (mapping
+               '((python-mode . python-ts-mode)
+		 (clojure-mode . clojure-ts-mode)
+                 (css-mode . css-ts-mode)
+                 (typescript-mode . typescript-ts-mode)
+                 (js-mode . typescript-ts-mode)
+                 (js2-mode . typescript-ts-mode)
+                 (c-mode . c-ts-mode)
+                 (bash-mode . bash-ts-mode)
+                 (css-mode . css-ts-mode)
+                 (json-mode . json-ts-mode)
+                 (js-json-mode . json-ts-mode)
+                 (sh-mode . bash-ts-mode)
+                 (sh-base-mode . bash-ts-mode)))
+        (add-to-list 'major-mode-remap-alist mapping))
+      :config
+      (os/setup-install-grammars))
+
+
 (use-package vertico
   :init
   (vertico-mode)
@@ -355,8 +451,8 @@
 (use-package wgrep
   :ensure t)
 
-(use-package winner-mode
-  :init (winner-mode))
+(use-package yasnippet
+  :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
