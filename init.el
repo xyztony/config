@@ -186,6 +186,9 @@
 ;;   :no-require
 ;;   :hook ((lsp-mode . lsp-completion-mode)))
 
+(use-package imba-mode
+  :ensure nil
+  :load-path "~/.imba-mode.el")
 
 (use-package marginalia
   :bind
