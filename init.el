@@ -1,4 +1,5 @@
 ;; (add-hook 'after-init-hook #'dired-jump)
+;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -13,8 +14,6 @@
 (setq-default ring-bell-function 'ignore)
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
-
-
 
 (setenv "JAVA_HOME"
 	(mapconcat 'identity (list (substitute-in-file-name "$HOME") ".sdkman/candidates/java/current") "/"))
@@ -46,6 +45,7 @@
 			   vertico
 			   vertico-prescient
 			   vterm
+			   wgrep
 			   ))))
   (when (and (not (equal uninstalled-pkgs '()))
 	     (y-or-n-p (format "Install the following packages: %s?" uninstalled-pkgs)))
@@ -308,7 +308,10 @@
       ("N" "Shrink vertically" shrink-window)
       ("P" "Enlarge vertically" enlarge-window)]
      ["Balance"
-      ("=" "Balance windows" balance-windows)]])
+      ("=" "Balance windows" balance-windows)]
+     ["Winner"
+      ("u" "Undo" winner-undo)
+      ("r" "Redo" winner-undo)]])
 
   (transient-define-prefix transient-org-roam-menu ()
     "Org roam menu"
@@ -349,12 +352,11 @@
   :init
   (vertico-prescient-mode))
 
+(use-package wgrep
+  :ensure t)
+
 (use-package winner-mode
-  :init (winner-mode)
-  :bind
-  (:map winner-mode-map
-	("C-c w u" . winner-undo)
-	("C-c w r" . winner-redo)))
+  :init (winner-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
