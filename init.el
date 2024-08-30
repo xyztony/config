@@ -455,7 +455,10 @@
   :ensure t)
 
 (use-package yasnippet
-  :ensure t)
+  :ensure t
+  :init (yas-global-mode 1)
+  :config
+  (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
