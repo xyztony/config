@@ -129,14 +129,14 @@
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3
-	tab-always-indent 'complete))/
-/
+	tab-always-indent 'complete))
   
 (use-package lsp-mode
   :ensure t
   :config
   (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
-	lsp-eslint-package-manager "pnpm")
+	lsp-eslint-package-manager "pnpm"
+	lsp-keymap-prefix "C-.")
   (setenv "PATH" (concat
                    "/usr/local/bin" path-separator
                    (getenv "PATH")))
@@ -161,10 +161,6 @@
 
 (use-package lsp-java
   :ensure t)
-
-(use-package imba-mode
-  :ensure nil
-  :load-path "~/.imba-mode.el")
 
 (load-theme 'modus-vivendi t)
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 160)
@@ -240,11 +236,11 @@
 	("C-M-a" . puni-mark-sexp-around-point)
 	("C-M-d" . puni-mark-list-around-point)
 
-	("C-M-h" . puni-slurp-backward)
-	("C-M-l" . puni-slurp-forward)
+	("C-M-b" . puni-slurp-backward)
+	("C-M-f" . puni-slurp-forward)
 
-	("C-M-b" . puni-barf-backward)
-	("C-M-n" . puni-barf-forward)
+	("C-M-}" . puni-barf-backward)
+	("C-M-{" . puni-barf-forward)
 
 	("C-M-p j" . puni-split)
 	("C-M-p s" . puni-beginning-of-sexp)
@@ -366,6 +362,7 @@
   (dolist (mapping
            '((python-mode . python-ts-mode)
 	     (clojure-mode . clojure-ts-mode)
+	     (clojure-script-mode . clojure-ts-mode)
              (css-mode . css-ts-mode)
              (typescript-mode . typescript-ts-mode)
              (js-mode . typescript-ts-mode)
