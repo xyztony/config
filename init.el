@@ -47,6 +47,7 @@
 			   projectile
 			   projectile-ripgrep
 			   puni
+			   symbol-overlay
 			   vertico
 			   vertico-prescient
 			   vterm
@@ -129,7 +130,10 @@
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3
-	tab-always-indent 'complete))
+	tab-always-indent 'complete)
+  :bind
+  (("<C-return>" . newline-and-indent)
+   ("C-x C-r" . query-replace)))
   
 (use-package lsp-mode
   :ensure t
@@ -225,6 +229,15 @@
   (:map projectile-mode-map
 	("C-c p" . projectile-command-map)))
 
+(use-package elec-pair
+  :config
+  (electric-pair-mode +1)
+  (setq electric-pair-pairs '((?\" . ?\")
+                              (?\{ . ?\})
+			      (?\< . ?\>)
+                              (?\( . ?\))
+                              (?\[ . ?\]))))
+
 (use-package puni
   :defer t
   :init (puni-global-mode)
@@ -249,6 +262,25 @@
 	("C-M-p r" . puni-wrap-round)
 	("C-M-p x" . puni-force-delete)))
 
+(use-package symbol-overlay
+  :custom-face
+  (symbol-overlay-face-1 ((t (:background "dodger blue" :foreground "black"))))
+  (symbol-overlay-face-2 ((t (:background "hot pink" :foreground "black"))))
+  (symbol-overlay-face-3 ((t (:background "yellow" :foreground "black"))))
+  (symbol-overlay-face-4 ((t (:background "orchid" :foreground "black"))))
+  (symbol-overlay-face-5 ((t (:background "red" :foreground "black"))))
+  (symbol-overlay-face-6 ((t (:background "salmon" :foreground "black"))))
+  (symbol-overlay-face-7 ((t (:background "spring green" :foreground "black"))))
+  (symbol-overlay-face-8 ((t (:background "turquoise" :foreground "black"))))
+  :bind (("M-o" . nil)
+         ("M-o o". symbol-overlay-put)
+	 ("M-o f" . symbol-overlay-jump-next)
+         ("M-o M-o". symbol-overlay-put)
+         ("M-o r" . symbol-overlay-remove-all)
+         ("M-o M-r" . symbol-overlay-remove-all)         
+         ("M-o s" . symbol-overlay-toggle-in-scope)
+         ("M-o M-s" . symbol-overlay-toggle-in-scope)))
+
 (use-package tab-bar
   :config
   (setq tab-bar-new-tab-choice 'directory)
@@ -256,73 +288,11 @@
   (keymap-set tab-prefix-map "w" '(lambda () (interactive) (dired-other-tab "~/documents/nurts/writings")))
   (keymap-set tab-prefix-map "q" '(lambda () (interactive) (dired-other-tab "~/repos"))))
 
-(use-package transient
-  :ensure t
-  :config
-  (setq transient-show-popup 0.15)
-  (setq transient-detect-key-conflicts t)
-  (setq transient-default-level 5)
-  (transient-bind-q-to-quit)
+
+(require 'init-transient)
   
-  ;; Magit transient
-  (transient-define-prefix transient-magit-menu ()
-    "Magit menu"
-    [["Status"
-      ("s" "Status" magit-status)
-      ("g" "Magit" magit)]])
-
-  ;; Search and Replace transient
-  (transient-define-prefix transient-search-replace-menu ()
-    "Search and Replace menu"
-    [["Search"
-      ("s" "Search forward" isearch-forward)
-      ("r" "Search backward" isearch-backward)
-      ("o" "Occur" occur)]
-     ["Replace"
-      ("%" "Query replace" query-replace)
-      ("M-%" "Query replace regexp" query-replace-regexp)]
-     ["Edit"
-      ("p" "Kill paragraph" kill-paragraph)]
-     ["Grep"
-      ("g" "Grep" grep)
-      ("G" "Recursive grep" rgrep)]])
-
-  (transient-define-prefix transient-window-management ()
-    "Window management menu"
-    [["Navigation"
-      ("n" "Next window" other-window)
-      ("p" "Previous window" (lambda () (interactive) (other-window -1)))]
-     ["Split"
-      ("-" "Split below" split-window-below)
-      ("/" "Split right" split-window-right)]
-     ["Delete"
-      ("q" "Delete window" delete-window)
-      ("d" "Delete other windows" delete-other-windows)]
-     ["Resize"
-      ("B" "Shrink horizontally" shrink-window-horizontally)
-      ("F" "Enlarge horizontally" enlarge-window-horizontally)
-      ("N" "Shrink vertically" shrink-window)
-      ("P" "Enlarge vertically" enlarge-window)]
-     ["Balance"
-      ("=" "Balance windows" balance-windows)]
-     ["Winner"
-      ("u" "Undo" winner-undo)
-      ("r" "Redo" winner-undo)]])
-
-  (transient-define-prefix transient-org-roam-menu ()
-    "Org roam menu"
-    [["Files"
-      ("f" "Find file" org-roam-node-find)
-      ("c" "Capture node" org-roam-capture)
-      ("tt" "Capture today" org-roam-dailies-capture-today)
-      ("tm" "Capture tomorrow" org-roam-dailies-capture-tomorrow)]])
 
 
-  :bind
-  ("C-c w" . transient-window-management)
-  ("C-c s" . transient-search-replace-menu)
-  ("C-c o" . transient-org-roam-menu)
-  ("C-c g" . transient-magit-menu))
 
 
 (use-package treesit
@@ -344,17 +314,17 @@
     (interactive)
     (dolist (grammar
              '((clojure . ("https://github.com/sogaiu/tree-sitter-clojure"))
-	       (css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+	       (css . ("https://github.com/tree-sitter/tree-sitter-css"))
                (bash "https://github.com/tree-sitter/tree-sitter-bash")
-               (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.4"))
-               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.21.4" "src"))
-               (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.21.0"))
+               (html . ("https://github.com/tree-sitter/tree-sitter-html"))
+               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "src"))
+               (json . ("https://github.com/tree-sitter/tree-sitter-json"))
                (markdown "https://github.com/ikatyang/tree-sitter-markdown")
                (elisp "https://github.com/Wilfred/tree-sitter-elisp")
                (cmake "https://github.com/uyha/tree-sitter-cmake")
                (c "https://github.com/tree-sitter/tree-sitter-c")
-               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.4" "tsx/src"))
-               (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.4" "typescript/src"))))
+               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "tsx/src"))
+               (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src"))))
       (add-to-list 'treesit-language-source-alist grammar)
       (unless (treesit-language-available-p (car grammar))
         (treesit-install-language-grammar (car grammar)))))
@@ -410,7 +380,11 @@
   :ensure t
   :init (yas-global-mode 1)
   :config
-  (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet"))
+  (add-to-list 'load-path "~/.emacs.d/snippets"))
+
+(global-auto-revert-mode 1)
+
+(setq auto-revert-verbose nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -421,7 +395,7 @@
    '("5a00018936fa1df1cd9d54bee02c8a64eafac941453ab48394e2ec2c498b834a" "f00a605fb19cb258ad7e0d99c007f226f24d767d01bf31f3828ce6688cbdeb22" "6128465c3d56c2630732d98a3d1c2438c76a2f296f3c795ebda534d62bb8a0e3" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "74e2ed63173b47d6dc9a82a9a8a6a9048d89760df18bc7033c5f91ff4d083e37" "2ce76d65a813fae8cfee5c207f46f2a256bac69dacbb096051a7a8651aa252b0" "06ed754b259cb54c30c658502f843937ff19f8b53597ac28577ec33bb084fa52" "e266d44fa3b75406394b979a3addc9b7f202348099cfde69e74ee6432f781336" "e8567ee21a39c68dbf20e40d29a0f6c1c05681935a41e206f142ab83126153ca" "c95813797eb70f520f9245b349ff087600e2bd211a681c7a5602d039c91a6428" "11cc65061e0a5410d6489af42f1d0f0478dbd181a9660f81a692ddc5f948bf34" "9cd57dd6d61cdf4f6aef3102c4cc2cfc04f5884d4f40b2c90a866c9b6267f2b3" default))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(lsp-java dap-mode vterm marginalia meow projectile-ripgrep edit-indirect projectile flutter dart-mode exec-path-from-shell markdown-mode evil-org prescient magit vertico-prescient kaolin-themes))
+   '(symbol-overlay lsp-java dap-mode vterm marginalia meow projectile-ripgrep edit-indirect projectile flutter dart-mode exec-path-from-shell markdown-mode evil-org prescient magit vertico-prescient kaolin-themes))
  '(safe-local-variable-values
    '((eval progn
 	   (make-variable-buffer-local 'cider-jack-in-nrepl-middlewares)
