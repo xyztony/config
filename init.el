@@ -1,28 +1,8 @@
-;; (add-hook 'after-init-hook #'dired-jump)
-;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
-
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#916668")
-
-(winner-mode)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-
-(setq-default initial-buffer-choice "~/Developer")
-(setq-default inhibit-startup-screen nil)
-(setq-default initial-scratch-message nil)
-(setq-default frame-resize-pixelwise t)
-(setq-default startup-screen-inhibit-startup-screen 't)
-(setq-default visible-bell nil)
-(setq-default ring-bell-function 'ignore)
-(setq-default display-line-numbers 'relative)
-(setq-default highlight-nonselected-windows 't)
-
-(setenv "JAVA_HOME"
-	(mapconcat 'identity (list (substitute-in-file-name "$HOME") ".sdkman/candidates/java/current") "/"))
+(setq custom-file "~/.emacs.d/emacs-custom.el")
+(load custom-file)
 
 (require 'package)
+
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -59,351 +39,33 @@
     (package-refresh-contents)
     (mapc 'package-install uninstalled-pkgs)))
 
-
-(global-set-key (kbd "C-c C-l") 'load-file)
-
-(use-package cider
-  :ensure t
-  :init
-  :config
-  (cider-enable-flex-completion)
-  :custom
-  (setq cider-show-error-buffer 'only-in-repl
-	cider-clojure-compilation-error-phases nil
-	cider-repl-display-help-banner nil
-	cider-stacktrace-fill-column 80)
-  :bind
-  (:map cider-mode-map
-	("C-x C-e" . cider-eval-dwim)
-	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)
-	("C-c M-l" . cider-repl-clear-buffer)
-	("C-c C-a" . cider-inspect-last-result)))
-
-(use-package clojure-mode
-  :custom
-  (setq clojure-indent-style 'always-indent
-      clojure-indent-keyword-style 'always-indent
-      clojure-enable-indent-specs nil))
-
-(defun clerk-show ()
-  (interactive)
-  (when-let
-      ((filename
-        (buffer-file-name)))
-    (save-buffer)
-    (cider-interactive-eval
-     (concat "(nextjournal.clerk/show! \"" filename "\")"))))
-
-(define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
-
-(use-package corfu
-  :custom
-  (corfu-cycle t)
-  (corfu-auto nil)
-  :bind
-  (:map corfu-map
-	("TAB" . corfu-next)
-	([tab] . corfu-next)
-	("S-TAB" . corfu-previous)
-	([backtab] . corfu-previous))
-  :init
-  (global-corfu-mode)
-  :hook
-  (cider-repl-mode . corfu-mode)
-  (cider-mode . corfu-mode))
-
-(use-package corfu-prescient
-  :after corfu
-  :init
-  (corfu-prescient-mode))
-
-(use-package docker
-  :ensure t
-  :bind ("C-c d" . docker))
-
-(use-package dired
-  :after dired
-  :bind
-  (:map dired-mode-map
-	("C-c C-n" . dired-create-empty-file)))
-
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3
-	tab-always-indent 'complete)
+	tab-always-indent 'complete
+	auto-revert-verbose nil)
+  :config
+  (global-auto-revert-mode 1)
+  (setenv "JAVA_HOME"
+	  (mapconcat 'identity
+		     (list (substitute-in-file-name "$HOME")
+			   ".sdkman/candidates/java/current")
+		     "/"))
   :bind
   (("<C-return>" . newline-and-indent)
-   ("C-x C-r" . query-replace)))
-  
-(use-package lsp-mode
-  :ensure t
-  :config
-  (setq lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp")
-	lsp-eslint-package-manager "pnpm"
-	lsp-keymap-prefix "C-.")
-  (setenv "PATH" (concat
-                   "/usr/local/bin" path-separator
-                   (getenv "PATH")))
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  :hook ((lsp-mode . lsp-diagnostics-mode)
-         (lsp-mode . lsp-enable-which-key-integration)
-	 (java-mode . lsp-deferred)
-	 (clojure-mode . lsp-deferred)
-	 (clojurec-mode . lsp-deferred)
-	 (clojurescript-mode . lsp-deferred)
-	 ((tsx-ts-mode typescript-ts-mode js-ts-mode) . lsp-deferred))
-  :commands (lsp lsp-deferred))
+   ("C-x C-r" . query-replace)
+   ("C-c C-l" . load-file)))
 
-
-(use-package lsp-completion
-  :no-require
-  :hook ((lsp-mode . lsp-completion-mode)))
-
-(use-package lsp-java
-  :ensure t)
-
-(load-theme 'modus-vivendi t)
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 160)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 160)
-
-(require 'org-faces)
-
-(use-package org-roam
-  :ensure t
-  :init
-  (org-roam-db-autosync-mode))
-
-(dolist (face '(window-divider
-		window-divider-first-pixel
-		window-divider-last-pixel))
-  (face-spec-reset-face face)
-  (set-face-foreground face (face-attribute 'default :background)))
-(set-face-background 'fringe (face-attribute 'default :background))
-
-(setq
-  ;; Edit settings
-  org-auto-align-tags nil
-  org-tags-column 0
-  org-catch-invisible-edits 'show-and-error
-  org-special-ctrl-a/e t
-  org-insert-heading-respect-content t
-  org-use-speed-commands t
-
-  ;; Org styling, hide markup etc.
-  org-hide-emphasis-markers t
-  org-pretty-entities t
-  org-ellipsis "…"
-
-  ;; LSP
-  gc-cons-threshold (* 100 1024 1024)
-  read-process-output-max (* 1024 1024)
-  company-minimum-prefix-length 1
-  lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-  lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
-  )
-
-;; Resize Org headings
-(dolist (face '((org-level-1 . 1.4)
-		(org-level-2 . 1.2)
-		(org-level-3 . 1.1)
-		(org-level-4 . 1.0)
-		(org-level-5 . 1.1)
-		(org-level-6 . 1.1)
-		(org-level-7 . 1.1)
-		(org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Victor Mono" :weight 'medium :height (cdr face)))
-
-(use-package prescient
-  :config
-  (setq prescient-filter-method '(regexp fuzzy prefix)))
-
-(use-package projectile
-  :init (projectile-mode +1)
-  :config
-  (setq dired-hide-details-hide-information-lines nil)
-  :bind
-  (:map projectile-mode-map
-	("C-c p" . projectile-command-map)))
-
-(use-package elec-pair
-  :config
-  (electric-pair-mode +1)
-  (setq electric-pair-pairs '((?\" . ?\")
-                              (?\{ . ?\})
-			      (?\< . ?\>)
-                              (?\( . ?\))
-                              (?\[ . ?\]))))
-
-(use-package puni
-  :defer t
-  :init (puni-global-mode)
-  :hook ((prog-mode sgml-mode nxml-mode tex-mode eval-expression-minibuffer-setup) . puni-mode)
-  (term-mode-hook . puni-disable-puni-mode)
-  :bind
-  (:map puni-mode-map
-	("C-M-s" . puni-mark-sexp-at-point)
-	("C-M-a" . puni-mark-sexp-around-point)
-	("C-M-d" . puni-mark-list-around-point)
-
-	("C-M-b" . puni-slurp-backward)
-	("C-M-f" . puni-slurp-forward)
-
-	("C-M-}" . puni-barf-backward)
-	("C-M-{" . puni-barf-forward)
-
-	("C-M-p j" . puni-split)
-	("C-M-p s" . puni-beginning-of-sexp)
-	("C-M-p e" . puni-end-of-sexp)
-	("C-M-p c" . puni-wrap-curly)
-	("C-M-p r" . puni-wrap-round)
-	("C-M-p x" . puni-force-delete)))
-
-(use-package symbol-overlay
-  :custom-face
-  (symbol-overlay-face-1 ((t (:background "dodger blue" :foreground "black"))))
-  (symbol-overlay-face-2 ((t (:background "hot pink" :foreground "black"))))
-  (symbol-overlay-face-3 ((t (:background "yellow" :foreground "black"))))
-  (symbol-overlay-face-4 ((t (:background "orchid" :foreground "black"))))
-  (symbol-overlay-face-5 ((t (:background "red" :foreground "black"))))
-  (symbol-overlay-face-6 ((t (:background "salmon" :foreground "black"))))
-  (symbol-overlay-face-7 ((t (:background "spring green" :foreground "black"))))
-  (symbol-overlay-face-8 ((t (:background "turquoise" :foreground "black"))))
-  :bind (("M-o" . nil)
-         ("M-o o". symbol-overlay-put)
-	 ("M-o f" . symbol-overlay-jump-next)
-         ("M-o M-o". symbol-overlay-put)
-         ("M-o r" . symbol-overlay-remove-all)
-         ("M-o M-r" . symbol-overlay-remove-all)         
-         ("M-o s" . symbol-overlay-toggle-in-scope)
-         ("M-o M-s" . symbol-overlay-toggle-in-scope)))
-
-(use-package tab-bar
-  :config
-  (setq tab-bar-new-tab-choice 'directory)
-  (keymap-set tab-prefix-map "e" '(lambda () (interactive) (find-file-other-tab (expand-file-name "init.el" user-emacs-directory))))
-  (keymap-set tab-prefix-map "w" '(lambda () (interactive) (dired-other-tab "~/documents/nurts/writings")))
-  (keymap-set tab-prefix-map "q" '(lambda () (interactive) (dired-other-tab "~/repos"))))
-
-
+(require 'init-clojure)
+(require 'init-corfu)
+(require 'init-docker)
+(require 'init-lisp-stuff)
+(require 'init-lsp)
+(require 'init-nav)
+(require 'init-symbol)
+(require 'init-tabs)
 (require 'init-transient)
-  
-
-
-
-
-(use-package treesit
-  :mode (("\\.clj\\'" . clojure-ts-mode)
-	 ("\\.tsx\\'" . tsx-ts-mode)
-         ("\\.js\\'"  . typescript-ts-mode)
-         ("\\.mjs\\'" . typescript-ts-mode)
-         ("\\.mts\\'" . typescript-ts-mode)
-         ("\\.cjs\\'" . typescript-ts-mode)
-         ("\\.ts\\'"  . typescript-ts-mode)
-         ("\\.jsx\\'" . tsx-ts-mode)
-         ("\\.json\\'" .  json-ts-mode)
-         ("\\.Dockerfile\\'" . dockerfile-ts-mode)
-         )
-  :hook ((clojure-ts-mode . cider-mode))
-  :preface
-  (defun os/setup-install-grammars ()
-    "Install Tree-sitter grammars if they are absent."
-    (interactive)
-    (dolist (grammar
-             '((clojure . ("https://github.com/sogaiu/tree-sitter-clojure"))
-	       (css . ("https://github.com/tree-sitter/tree-sitter-css"))
-               (bash "https://github.com/tree-sitter/tree-sitter-bash")
-               (html . ("https://github.com/tree-sitter/tree-sitter-html"))
-               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "src"))
-               (json . ("https://github.com/tree-sitter/tree-sitter-json"))
-               (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-               (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-               (cmake "https://github.com/uyha/tree-sitter-cmake")
-               (c "https://github.com/tree-sitter/tree-sitter-c")
-               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "tsx/src"))
-               (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src"))))
-      (add-to-list 'treesit-language-source-alist grammar)
-      (unless (treesit-language-available-p (car grammar))
-        (treesit-install-language-grammar (car grammar)))))
-
-  (dolist (mapping
-           '((python-mode . python-ts-mode)
-	     (clojure-mode . clojure-ts-mode)
-	     (clojure-script-mode . clojure-ts-mode)
-             (css-mode . css-ts-mode)
-             (typescript-mode . typescript-ts-mode)
-             (js-mode . typescript-ts-mode)
-             (js2-mode . typescript-ts-mode)
-             (c-mode . c-ts-mode)
-             (bash-mode . bash-ts-mode)
-             (css-mode . css-ts-mode)
-             (json-mode . json-ts-mode)
-             (js-json-mode . json-ts-mode)
-             (sh-mode . bash-ts-mode)
-             (sh-base-mode . bash-ts-mode)))
-    (add-to-list 'major-mode-remap-alist mapping))
-  :config
-  (os/setup-install-grammars))
-
-
-(use-package vertico
-  :init
-  (vertico-mode)
-  (setq vertico-count 10
-	vertico-resize t
-	vertico-cycle nil))
-
-(use-package vertico-flat
-  :after vertico
-  :ensure nil
-  :init
-  (vertico-flat-mode)
-  :bind
-  (:map vertico-flat-map
-	("TAB" . vertico-next)
-	([tab] . vertico-next)
-	([backtab] . vertico-previous)
-	("S-TAB" . vertico-previous)))
-
-(use-package vertico-prescient
-  :after vertico
-  :init
-  (vertico-prescient-mode))
-
-(use-package wgrep
-  :ensure t)
-
-(use-package yasnippet
-  :ensure t
-  :init (yas-global-mode 1)
-  :config
-  (add-to-list 'load-path "~/.emacs.d/snippets"))
-
-(global-auto-revert-mode 1)
-
-(setq auto-revert-verbose nil)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("5a00018936fa1df1cd9d54bee02c8a64eafac941453ab48394e2ec2c498b834a" "f00a605fb19cb258ad7e0d99c007f226f24d767d01bf31f3828ce6688cbdeb22" "6128465c3d56c2630732d98a3d1c2438c76a2f296f3c795ebda534d62bb8a0e3" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "74e2ed63173b47d6dc9a82a9a8a6a9048d89760df18bc7033c5f91ff4d083e37" "2ce76d65a813fae8cfee5c207f46f2a256bac69dacbb096051a7a8651aa252b0" "06ed754b259cb54c30c658502f843937ff19f8b53597ac28577ec33bb084fa52" "e266d44fa3b75406394b979a3addc9b7f202348099cfde69e74ee6432f781336" "e8567ee21a39c68dbf20e40d29a0f6c1c05681935a41e206f142ab83126153ca" "c95813797eb70f520f9245b349ff087600e2bd211a681c7a5602d039c91a6428" "11cc65061e0a5410d6489af42f1d0f0478dbd181a9660f81a692ddc5f948bf34" "9cd57dd6d61cdf4f6aef3102c4cc2cfc04f5884d4f40b2c90a866c9b6267f2b3" default))
- '(org-agenda-files nil)
- '(package-selected-packages
-   '(symbol-overlay lsp-java dap-mode vterm marginalia meow projectile-ripgrep edit-indirect projectile flutter dart-mode exec-path-from-shell markdown-mode evil-org prescient magit vertico-prescient kaolin-themes))
- '(safe-local-variable-values
-   '((eval progn
-	   (make-variable-buffer-local 'cider-jack-in-nrepl-middlewares)
-	   (add-to-list 'cider-jack-in-nrepl-middlewares "shadow.cljs.devtools.server.nrepl/middleware")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'magit-diff-edit-hunk-commit 'disabled nil)
+(require 'init-treesit)
+(require 'init-vertico)
+(require 'init-ui)
+(require 'init-yas)
