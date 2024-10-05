@@ -99,7 +99,8 @@
   "Denote menu"
   [["Files"
     ("c" "Capture node" denote)
-    ("s" "Search denote files" search-denote-directory)]])
+    ("s" "Search denote files" search-denote-directory)
+    ("d" "Open denote directory" open-denote-directory-in-projectile-dired)]])
 
 (transient-define-prefix transient-treesit-menu ()
   "Tree-sitter folding menu"
