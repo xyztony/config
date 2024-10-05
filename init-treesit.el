@@ -53,6 +53,11 @@
   (os/setup-install-grammars))
 
 (use-package treesit-fold
-  :load-path "treesit-fold")
+  :load-path "treesit-fold"
+  :config
+  (global-treesit-fold-indicators-mode 1))
+
+(use-package treesit-fold-indicators
+   :load-path "treesit-fold")
 
 (provide 'init-treesit)
