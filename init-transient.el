@@ -88,7 +88,8 @@
       ("ku" "Close Up" (lambda () (interactive) (close-all-windows-direction 'above)))
       ("kd" "Close Down" (lambda () (interactive) (close-all-windows-direction 'below)))
       ("kl" "Close Left" (lambda () (interactive) (close-all-windows-direction 'left)))
-      ("kr" "Close Right" (lambda () (interactive) (close-all-windows-direction 'right)))]
+      ("kr" "Close Right" (lambda () (interactive) (close-all-windows-direction 'right)))
+      ("kw" "Close & Kill" kill-buffer-and-window)]
      ["Resize"
       ("B" "Shrink horizontally" shrink-window-horizontally)
       ("F" "Enlarge horizontally" enlarge-window-horizontally)

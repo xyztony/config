@@ -38,26 +38,26 @@
 (set-face-background 'fringe (face-attribute 'default :background))
 
 (setq
-  ;; Edit settings
-  org-auto-align-tags nil
-  org-tags-column 0
-  org-catch-invisible-edits 'show-and-error
-  org-special-ctrl-a/e t
-  org-insert-heading-respect-content t
-  org-use-speed-commands t
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+ org-use-speed-commands t
 
-  ;; Org styling, hide markup etc.
-  org-hide-emphasis-markers t
-  org-pretty-entities t
-  org-ellipsis "…"
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
 
-  ;; LSP
-  gc-cons-threshold (* 100 1024 1024)
-  read-process-output-max (* 1024 1024)
-  company-minimum-prefix-length 1
-  lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-  lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
-  )
+ ;; LSP
+ gc-cons-threshold (* 100 1024 1024)
+ read-process-output-max (* 1024 1024)
+ company-minimum-prefix-length 1
+ lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
+ lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
+ )
 
 ;; Resize Org headings
 (dolist (face '((org-level-1 . 1.4)
