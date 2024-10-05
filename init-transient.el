@@ -12,14 +12,24 @@
   ("C-c w" . transient-window-management)
   ("C-c e" . transient-search-replace-menu)
   ("C-c o" . transient-denote-menu)
-  ("C-c g" . transient-magit-menu))
+  ("C-c g" . transient-magit-menu)
+  ("C-c t" . transient-treesit-menu))
 
 ;; Magit transient
 (transient-define-prefix transient-magit-menu ()
   "Magit menu"
-  [["Status"
-    ("s" "Status" magit-status)
-    ("g" "Magit" magit)]])
+  [["Branches"
+    ("b" "Branch" magit-branch)
+    ("c" "Checkout" magit-checkout)
+    ("s" "Spin-off" magit-branch-spinoff)
+    ("S" "Spin-out" magit-branch-spinout)]
+   ["Changes"
+    ("C" "Commit" magit-commit)
+    ("P" "Push" magit-push)
+    ("F" "Pull" magit-pull)]
+   ["Other"
+    ("l" "Log" magit-log)
+    ("d" "Diff" magit-diff)]])
 
 ;; Editing utility transient
 ;;    puni, search, replace, etc.
@@ -91,5 +101,13 @@
     ("c" "Capture node" denote)
     ("s" "Search denote files" search-denote-directory)]])
 
+(transient-define-prefix transient-treesit-menu ()
+  "Tree-sitter folding menu"
+  [["Folding"
+    ("t" "Toggle fold" treesit-fold-toggle)
+    ("o" "Open all folds" treesit-fold-open-all)
+    ("c" "Close all folds" treesit-fold-close-all)]
+   ["Indicators"
+    ("i" "Toggle indicators" treesit-fold-indicators-mode)]])
 
 (provide 'init-transient)
