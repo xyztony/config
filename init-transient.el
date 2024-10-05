@@ -10,8 +10,8 @@
   
   :bind
   ("C-c w" . transient-window-management)
-  ("C-c s" . transient-search-replace-menu)
-  ("C-c o" . transient-org-roam-menu)
+  ("C-c e" . transient-search-replace-menu)
+  ("C-c o" . transient-denote-menu)
   ("C-c g" . transient-magit-menu))
 
 ;; Magit transient
@@ -21,22 +21,47 @@
     ("s" "Status" magit-status)
     ("g" "Magit" magit)]])
 
-;; Search and Replace transient
-  (transient-define-prefix transient-search-replace-menu ()
-    "Search and Replace menu"
-    [["Search"
-      ("s" "Search forward" isearch-forward)
-      ("r" "Search backward" isearch-backward)
-      ("o" "Occur" occur)]
-     ["Replace"
-      ("%" "Query replace" query-replace)
-      ("M-%" "Query replace regexp" query-replace-regexp)]
-     ["Edit"
-      ("p" "Kill paragraph" kill-paragraph)]
-     ["Grep"
-      ("g" "Grep" grep)
-      ("G" "Recursive grep" rgrep)]])
+;; Editing utility transient
+;;    puni, search, replace, etc.
+(transient-define-prefix transient-search-replace-menu ()
+  "Search and Replace menu"
+  [["Search"
+    ("o" "Occur" occur)]
+   ["Replace"
+    ("rs" "Search ripgrep" projectile-ripgrep)
+    ("rr" "Replace" projectile-replace)]
 
+   ["Edit"
+    ("pk" "Kill paragraph" kill-paragraph)
+    ("pm" "Mark paragraph" mark-paragraph)]
+
+   ["Undo"
+    ("uv" "vundo" vundo)]
+   
+   ["Grep"
+    ("g" "Grep" grep)
+    ("G" "Recursive grep" rgrep)]
+
+   ["Mark"
+    ("s" "Mark sexp at point" puni-mark-sexp-at-point)
+    ("a" "Mark sexp around point" puni-mark-sexp-around-point)
+    ("d" "Mark list around point" puni-mark-list-around-point)]
+   
+   ["Modify"
+    ("x" "Squeeze" puni-squeeze)
+    ("z" "Splice" puni-splice)]
+   ["Slurp/Barf"
+    ("b" "Slurp backward" puni-slurp-backward)
+    ("f" "Slurp forward" puni-slurp-forward)
+    ("}" "Barf backward" puni-barf-backward)
+    ("{" "Barf forward" puni-barf-forward)]
+   ["Other"
+    ("j" "Split" puni-split)
+    ("S" "Beginning of sexp" puni-beginning-of-sexp)
+    ("e" "End of sexp" puni-end-of-sexp)
+    ("c" "Wrap curly" puni-wrap-curly)
+    ("(" "Wrap round" puni-wrap-round)
+    ("X" "Force delete" puni-force-delete)]])
 
 (transient-define-prefix transient-window-management ()
     "Window management menu"
@@ -60,13 +85,11 @@
       ("u" "Undo" winner-undo)
       ("r" "Redo" winner-undo)]])
 
-(transient-define-prefix transient-org-roam-menu ()
-    "Org roam menu"
-    [["Files"
-      ("f" "Find file" org-roam-node-find)
-      ("c" "Capture node" org-roam-capture)
-      ("tt" "Capture today" org-roam-dailies-capture-today)
-      ("tm" "Capture tomorrow" org-roam-dailies-capture-tomorrow)]])
+(transient-define-prefix transient-denote-menu ()
+  "Denote menu"
+  [["Files"
+    ("c" "Capture node" denote)
+    ("s" "Search denote files" search-denote-directory)]])
 
 
 (provide 'init-transient)

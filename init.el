@@ -15,6 +15,7 @@
 			   corfu
 			   corfu-prescient
 			   dap-mode
+			   denote
 			   docker
 			   edit-indirect
 			   exec-path-from-shell
@@ -30,6 +31,7 @@
 			   symbol-overlay
 			   vertico
 			   vertico-prescient
+			   vundo
 			   vterm
 			   wgrep
 			   yasnippet
@@ -54,10 +56,12 @@
   :bind
   (("<C-return>" . newline-and-indent)
    ("C-x C-r" . query-replace)
-   ("C-c C-l" . load-file)))
+   ("C-c C-l" . load-file)
+   ("M-h" . mark-paragraph)))
 
 (require 'init-clojure)
 (require 'init-corfu)
+(require 'init-denote)
 (require 'init-docker)
 (require 'init-lisp-stuff)
 (require 'init-lsp)
@@ -67,5 +71,6 @@
 (require 'init-transient)
 (require 'init-treesit)
 (require 'init-vertico)
+(require 'init-vundo)
 (require 'init-ui)
 (require 'init-yas)

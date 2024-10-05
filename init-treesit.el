@@ -37,6 +37,7 @@
 	     (clojure-mode . clojure-ts-mode)
 	     (clojure-script-mode . clojure-ts-mode)
              (css-mode . css-ts-mode)
+	     (emacs-lisp-mode . elisp-ts-mode)
              (typescript-mode . typescript-ts-mode)
              (js-mode . typescript-ts-mode)
              (js2-mode . typescript-ts-mode)
@@ -50,5 +51,8 @@
     (add-to-list 'major-mode-remap-alist mapping))
   :config
   (os/setup-install-grammars))
+
+(use-package treesit-fold
+  :load-path "treesit-fold")
 
 (provide 'init-treesit)
