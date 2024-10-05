@@ -71,6 +71,12 @@
   (set-face-attribute (car face) nil :font "Victor Mono" :weight 'medium :height (cdr face)))
 
 
+(defun close-all-windows-direction (direction)
+  "Close windows in the specified DIRECTION until no more windows exist"
+  (let ((win (window-in-direction direction)))
+    (when win
+      (delete-window win)
+      (close-all-windows-direction direction))))
 
 (global-set-key (kbd "<f11>") 'toggle-frame-tab-bar)
 (global-set-key (kbd "<f12>") 'toggle-frame-fullscreen)

@@ -1,6 +1,3 @@
-(setq custom-file "~/.emacs.d/emacs-custom.el")
-(load custom-file)
-
 (require 'package)
 
 (add-to-list 'package-archives
@@ -23,7 +20,6 @@
 			   lsp-java
 			   lsp-mode
 			   magit
-			   org-roam
 			   prescient
 			   projectile
 			   projectile-ripgrep
@@ -45,7 +41,10 @@
   :init
   (setq completion-cycle-threshold 3
 	tab-always-indent 'complete
-	auto-revert-verbose nil)
+	auto-revert-verbose nil
+	custom-file "~/.emacs.d/emacs-custom.el")
+  (load custom-file)
+  
   :config
   (global-auto-revert-mode 1)
   (setenv "JAVA_HOME"
@@ -53,11 +52,13 @@
 		     (list (substitute-in-file-name "$HOME")
 			   ".sdkman/candidates/java/current")
 		     "/"))
+  
   :bind
   (("<C-return>" . newline-and-indent)
    ("C-x C-r" . query-replace)
    ("C-c C-l" . load-file)
-   ("M-h" . mark-paragraph)))
+   ("M-h" . mark-paragraph)
+   ("C-c C-/" . vundo)))
 
 (require 'init-clojure)
 (require 'init-corfu)

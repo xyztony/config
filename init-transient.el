@@ -84,6 +84,11 @@
      ["Delete"
       ("q" "Delete window" delete-window)
       ("d" "Delete other windows" delete-other-windows)]
+     ["Close Direction"
+      ("ku" "Close Up" (lambda () (interactive) (close-all-windows-direction 'above)))
+      ("kd" "Close Down" (lambda () (interactive) (close-all-windows-direction 'below)))
+      ("kl" "Close Left" (lambda () (interactive) (close-all-windows-direction 'left)))
+      ("kr" "Close Right" (lambda () (interactive) (close-all-windows-direction 'right)))]
      ["Resize"
       ("B" "Shrink horizontally" shrink-window-horizontally)
       ("F" "Enlarge horizontally" enlarge-window-horizontally)
