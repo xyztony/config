@@ -1,7 +1,17 @@
 (require 'package)
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
+
+
+(setenv "JAVA_HOME"
+	  (mapconcat 'identity
+		     (list (substitute-in-file-name "$HOME")
+			   ".sdkman/candidates/java/current")
+		     "/"))
+
 (package-initialize)
 (let ((uninstalled-pkgs (seq-filter
 			 (lambda (x)
@@ -47,11 +57,7 @@
   
   :config
   (global-auto-revert-mode 1)
-  (setenv "JAVA_HOME"
-	  (mapconcat 'identity
-		     (list (substitute-in-file-name "$HOME")
-			   ".sdkman/candidates/java/current")
-		     "/"))
+  
   
   :bind
   (("<C-return>" . newline-and-indent)
