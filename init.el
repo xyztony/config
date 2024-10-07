@@ -1,5 +1,5 @@
 (require 'package)
-
+(setq user-emacs-directory "~/.config/custard")
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (add-to-list 'package-archives
@@ -52,7 +52,7 @@
   (setq completion-cycle-threshold 3
 	tab-always-indent 'complete
 	auto-revert-verbose nil
-	custom-file "~/.emacs.d/emacs-custom.el")
+	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (load custom-file)
   
   :config
