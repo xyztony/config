@@ -19,7 +19,11 @@
 	 (clojurec-mode . lsp-deferred)
 	 (clojurescript-mode . lsp-deferred)
 	 ((tsx-ts-mode typescript-ts-mode js-ts-mode) . lsp-deferred))
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :bind
+  (:map lsp-mode-map
+	("s-l f" . lsp-find-definition)
+	("s-l d" . lsp-find-references)))
 
 (use-package lsp-completion
   :no-require
