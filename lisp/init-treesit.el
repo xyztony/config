@@ -58,6 +58,24 @@
   (global-treesit-fold-indicators-mode 1))
 
 (use-package treesit-fold-indicators
-   :load-path "treesit-fold")
+  :load-path "treesit-fold")
+
+(require 'treesit)
+
+(defun my/goto-top-object ()
+  "Move point to the beginning of the topmost object."
+  (interactive)
+  (let* ((p (point))
+	 (cursor (tsc-make-cursor (treesit-node-at p (treesit-language-at p))))
+	 (node (tsc-current-node cursor)))
+    (while (or
+	    (equal (tsc-node-type (tsc-get-parent node)) 'object)
+	    (equal (tsc-node-type (tsc-get-parent node)) 'pair))
+      (message "Current node: %s" (tsc-node-text node))
+      (setq node (tsc-get-parent node)))
+    (goto-char (tsc-node-start-position node))))
+
+
+
 
 (provide 'init-treesit)

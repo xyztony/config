@@ -7,10 +7,10 @@
 
 
 (setenv "JAVA_HOME"
-	  (mapconcat 'identity
-		     (list (substitute-in-file-name "$HOME")
-			   ".sdkman/candidates/java/current")
-		     "/"))
+	(mapconcat 'identity
+		   (list (substitute-in-file-name "$HOME")
+			 ".sdkman/candidates/java/current")
+		   "/"))
 
 (package-initialize)
 (let ((uninstalled-pkgs (seq-filter
@@ -53,11 +53,11 @@
 	tab-always-indent 'complete
 	auto-revert-verbose nil
 	custom-file "~/.emacs.d/emacs-custom.el")
+  (exec-path-from-shell-initialize)
   (load custom-file)
   
   :config
   (global-auto-revert-mode 1)
-  
   
   :bind
   (("<C-return>" . newline-and-indent)
@@ -70,8 +70,9 @@
 (require 'init-corfu)
 (require 'init-denote)
 (require 'init-docker)
+(require 'init-eglot)
 (require 'init-lisp-stuff)
-(require 'init-lsp)
+;; (require 'init-lsp)
 (require 'init-nav)
 (require 'init-symbol)
 (require 'init-tabs)
