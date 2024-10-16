@@ -30,6 +30,7 @@
 			   lsp-java
 			   lsp-mode
 			   magit
+			   popper
 			   prescient
 			   projectile
 			   projectile-ripgrep
@@ -54,6 +55,7 @@
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (load custom-file)
+  (exec-path-from-shell-initialize)  
   
   :config
   (global-auto-revert-mode 1)
@@ -70,8 +72,10 @@
 (require 'init-denote)
 (require 'init-docker)
 (require 'init-eglot)
+(require 'init-eshell)
 (require 'init-lisp-stuff)
 ;; (require 'init-lsp)
+(require 'init-magit)
 (require 'init-nav)
 (require 'init-symbol)
 (require 'init-tabs)
