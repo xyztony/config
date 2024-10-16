@@ -3,7 +3,6 @@
   :init
   :config
   (cider-enable-flex-completion)
-  :custom
   (setq cider-show-error-buffer 'only-in-repl
 	cider-clojure-compilation-error-phases nil
 	cider-repl-display-help-banner nil

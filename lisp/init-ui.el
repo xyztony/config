@@ -21,14 +21,9 @@
 
 (load-theme 'modus-vivendi t)
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 160)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 160)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 6)
 
 (require 'org-faces)
-
-(use-package org-roam
-  :ensure t
-  :init
-  (org-roam-db-autosync-mode))
 
 (dolist (face '(window-divider
 		window-divider-first-pixel
@@ -55,8 +50,8 @@
  gc-cons-threshold (* 100 1024 1024)
  read-process-output-max (* 1024 1024)
  company-minimum-prefix-length 1
- lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
- lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
+ lsp-enable-indentation nil 
+ lsp-enable-completion-at-point nil 
  )
 
 ;; Resize Org headings
@@ -68,7 +63,7 @@
 		(org-level-6 . 1.1)
 		(org-level-7 . 1.1)
 		(org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Victor Mono" :weight 'medium :height (cdr face)))
+  (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face)))
 
 
 (defun close-all-windows-direction (direction)
