@@ -13,7 +13,8 @@
   ("C-c e" . transient-search-replace-menu)
   ("C-c o" . transient-denote-menu)
   ("C-c g" . transient-magit-menu)
-  ("C-c t" . transient-treesit-menu))
+  ("C-c t" . transient-treesit-menu)
+  ("C-c r" . transient-cljr-menu))
 
 ;; Magit transient
 (transient-define-prefix transient-magit-menu ()
@@ -107,6 +108,42 @@
     ("o" "Open denote directory" open-denote-directory-in-projectile-dired)
     ("c" "Capture node" denote)
     ("s" "Search denote files" search-denote-directory)]])
+
+(transient-define-prefix transient-cljr-menu ()
+  "Clojure Refactor Menu"
+  [["Add"
+    ("ad" "Add declaration for current top-level form" cljr-add-declaration)
+    ("ai" "Add import to namespace declaration, then jump back" cljr-add-import-to-ns)
+    ("ar" "Add require to namespace declaration, then jump back" cljr-add-require-to-ns)]
+   ["C(onvert/cycle/clean)"
+    ("ci" "Cycle if/if-not" clojure-cycle-if)
+    ("cn" "Clean namespace form" cljr-clean-ns)
+    ("cp" "Cycle privacy of defns/defs" clojure-cycle-privacy)
+    ("ct" "Cycle thread" cljr-cycle-thread)]
+   ["F"
+    ("fe" "Create function from example stub" cljr-create-fn-from-example)
+    ("fu" "Find usages" cljr-find-usages)]
+   ["H"
+    ("hd" "Hotload dependency" cljr-hotload-dependency)]
+   ["I"
+    ("il" "Introduce let" cljr-introduce-let)
+    ("is" "Inline symbol" cljr-inline-symbol)]
+   ["Move"
+    ("mf" "Move 1+ forms to another ns" cljr-move-form)
+    ("ml" "Move to let" cljr-move-to-let)]
+   ["Rn/rm"
+    ("rf" "Rename file or dir" cljr-rename-file-or-dir)
+    ("rl" "Remove let" cljr-remove-let)
+    ("rs" "Rename symbol" cljr-rename-symbol)
+    ("rr" "Reify to defrecord" cljr-reify-to-defrecord)]
+   ["Thread"
+    ("tf" "Wrap ->" clojure-thread-first-all)
+    ("th" "Thread" clojure-thread)
+    ("tl" "Wrap ->>" clojure-thread-last-all)]
+   ["U(nwind)"
+    ("ua" "Fully unwind" clojure-unwind-all)
+    ("up" "Update project dependencies" cljr-update-project-dependency)
+    ("uw" "Unwind a threaded expression" clojure-unwind)]])
 
 (transient-define-prefix transient-treesit-menu ()
   "Tree-sitter folding menu"

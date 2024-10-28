@@ -1,3 +1,5 @@
+(require 'clj-refactor)
+
 (use-package cider
   :ensure t
   :init
@@ -14,11 +16,20 @@
 	("C-c M-l" . cider-repl-clear-buffer)
 	("C-c C-a" . cider-inspect-last-result)))
 
+
+(defun my-clojure-mode-hook ()
+    (clj-refactor-mode 1)
+    (yas-minor-mode 1) ; for adding require/use/import statements
+    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+
 (use-package clojure-mode
   :custom
   (setq clojure-indent-style 'always-indent
       clojure-indent-keyword-style 'always-indent
-      clojure-enable-indent-specs nil))
+      clojure-enable-indent-specs nil)
+  :hook
+  ((clojure-mode . my-clojure-mode-hook)))
 
 (defun clerk-show ()
   (interactive)

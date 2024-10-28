@@ -8,6 +8,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(pixel-scroll-precision-mode 1)
 
 (setq-default initial-buffer-choice "~/Developer")
 (setq-default inhibit-startup-screen nil)
@@ -19,9 +20,11 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
+(setq my-font-size 160)
+
 (load-theme 'modus-vivendi t)
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height 160)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height 6)
+(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size)
 
 (require 'org-faces)
 

@@ -17,6 +17,7 @@
 			 (lambda (x)
 			   (not (package-installed-p x)))
 			 '(cider
+			   clj-refactor
 			   clojure-mode
 			   clojure-ts-mode
 			   corfu
@@ -27,6 +28,7 @@
 			   edit-indirect
 			   exec-path-from-shell
 			   f
+			   js2-mode
 			   lsp-java
 			   lsp-mode
 			   magit
@@ -36,6 +38,7 @@
 			   projectile-ripgrep
 			   puni
 			   symbol-overlay
+			   typescript-mode
 			   vertico
 			   vertico-prescient
 			   vundo
@@ -71,9 +74,10 @@
 (require 'init-corfu)
 (require 'init-denote)
 (require 'init-docker)
+(require 'init-eglot)
 (require 'init-eshell)
 (require 'init-lisp-stuff)
-(require 'init-lsp)
+;; (require 'init-lsp)
 (require 'init-magit)
 (require 'init-nav)
 (require 'init-symbol)

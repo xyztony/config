@@ -18,13 +18,13 @@
     (dolist (grammar
              '((clojure . ("https://github.com/sogaiu/tree-sitter-clojure"))
 	       (css . ("https://github.com/tree-sitter/tree-sitter-css"))
+	       (dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
                (bash "https://github.com/tree-sitter/tree-sitter-bash")
 	       (html . ("https://github.com/tree-sitter/tree-sitter-html"))
                (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "src"))
                (json . ("https://github.com/tree-sitter/tree-sitter-json"))
                (markdown "https://github.com/ikatyang/tree-sitter-markdown")
                (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-               (cmake "https://github.com/uyha/tree-sitter-cmake")
                (c "https://github.com/tree-sitter/tree-sitter-c")
                (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "tsx/src"))
                (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src"))))
@@ -33,8 +33,7 @@
         (treesit-install-language-grammar (car grammar)))))
 
   (dolist (mapping
-           '((python-mode . python-ts-mode)
-	     (clojure-mode . clojure-ts-mode)
+           '((clojure-mode . clojure-ts-mode)
 	     (clojure-script-mode . clojure-ts-mode)
              (css-mode . css-ts-mode)
 	     ;; (emacs-lisp-mode . elisp-ts-mode)
