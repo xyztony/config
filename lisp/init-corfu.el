@@ -11,8 +11,8 @@
   :init
   (global-corfu-mode)
   :hook
-  (cider-repl-mode . corfu-mode)
-  (cider-mode . corfu-mode))
+  ((cider-repl-mode . corfu-mode)
+   (cider-mode . corfu-mode)))
 
 (use-package corfu-prescient
   :after corfu

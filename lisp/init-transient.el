@@ -14,7 +14,9 @@
   ("C-c o" . transient-denote-menu)
   ("C-c g" . transient-magit-menu)
   ("C-c t" . transient-treesit-menu)
-  ("C-c r" . transient-cljr-menu))
+  ("C-c r" . transient-cljr-menu)
+  ("C-c lm" . transient-gptel-menu))
+
 
 ;; Magit transient
 (transient-define-prefix transient-magit-menu ()
@@ -112,38 +114,38 @@
 (transient-define-prefix transient-cljr-menu ()
   "Clojure Refactor Menu"
   [["Add"
-    ("ad" "Add declaration for current top-level form" cljr-add-declaration)
-    ("ai" "Add import to namespace declaration, then jump back" cljr-add-import-to-ns)
-    ("ar" "Add require to namespace declaration, then jump back" cljr-add-require-to-ns)]
+    ("ad" "cljr-add-declaration" cljr-add-declaration)
+    ("ai" "cljr-add-import-to-ns" cljr-add-import-to-ns)
+    ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)]
    ["C(onvert/cycle/clean)"
-    ("ci" "Cycle if/if-not" clojure-cycle-if)
-    ("cn" "Clean namespace form" cljr-clean-ns)
-    ("cp" "Cycle privacy of defns/defs" clojure-cycle-privacy)
-    ("ct" "Cycle thread" cljr-cycle-thread)]
+    ("ci" "clojure-cycle-if" clojure-cycle-if)
+    ("cn" "cljr-clean-ns" cljr-clean-ns)
+    ("cp" "clojure-cycle-privacy" clojure-cycle-privacy)
+    ("ct" "cljr-cycle-thread" cljr-cycle-thread)]
    ["F"
-    ("fe" "Create function from example stub" cljr-create-fn-from-example)
-    ("fu" "Find usages" cljr-find-usages)]
+    ("fe" "cljr-create-fn-from-example" cljr-create-fn-from-example)
+    ("fu" "cljr-find-usages" cljr-find-usages)]
    ["H"
-    ("hd" "Hotload dependency" cljr-hotload-dependency)]
+    ("hd" "cljr-hotload-dependency" cljr-hotload-dependency)]
    ["I"
-    ("il" "Introduce let" cljr-introduce-let)
-    ("is" "Inline symbol" cljr-inline-symbol)]
+    ("il" "cljr-introduce-let" cljr-introduce-let)
+    ("is" "cljr-inline-symbol" cljr-inline-symbol)]
    ["Move"
-    ("mf" "Move 1+ forms to another ns" cljr-move-form)
-    ("ml" "Move to let" cljr-move-to-let)]
+    ("mf" "cljr-move-form" cljr-move-form)
+    ("ml" "cljr-move-to-let" cljr-move-to-let)]
    ["Rn/rm"
-    ("rf" "Rename file or dir" cljr-rename-file-or-dir)
-    ("rl" "Remove let" cljr-remove-let)
-    ("rs" "Rename symbol" cljr-rename-symbol)
-    ("rr" "Reify to defrecord" cljr-reify-to-defrecord)]
+    ("rf" "cljr-rename-file-or-dir" cljr-rename-file-or-dir)
+    ("rl" "cljr-remove-let" cljr-remove-let)
+    ("rs" "cljr-rename-symbol" cljr-rename-symbol)
+    ("rr" "cljr-reify-to-defrecord" cljr-reify-to-defrecord)]
    ["Thread"
-    ("tf" "Wrap ->" clojure-thread-first-all)
-    ("th" "Thread" clojure-thread)
-    ("tl" "Wrap ->>" clojure-thread-last-all)]
+    ("tf" "clojure-thread-first-all" clojure-thread-first-all)
+    ("th" "clojure-thread" clojure-thread)
+    ("tl" "clojure-thread-last-all" clojure-thread-last-all)]
    ["U(nwind)"
-    ("ua" "Fully unwind" clojure-unwind-all)
-    ("up" "Update project dependencies" cljr-update-project-dependency)
-    ("uw" "Unwind a threaded expression" clojure-unwind)]])
+    ("ua" "clojure-unwind-all" clojure-unwind-all)
+    ("up" "cljr-update-project-dependency" cljr-update-project-dependency)
+    ("uw" "clojure-unwind" clojure-unwind)]])
 
 (transient-define-prefix transient-treesit-menu ()
   "Tree-sitter folding menu"
@@ -153,5 +155,14 @@
     ("c" "Close all folds" treesit-fold-close-all)]
    ["Indicators"
     ("i" "Toggle indicators" treesit-fold-indicators-mode)]])
+
+(transient-define-prefix transient-gptel-menu ()
+  "GPT-EL menu"
+  [["gptel"
+    ("m" "Gptel menu" gptel-menu)
+    ("ss" "Send" gptel-send)
+    ("sp" "Prompt" gptel-system-prompt)
+    ("g" "Start chat session" gptel)
+    ("r" "Rewrite" gptel-rewrite-menu)]])
 
 (provide 'init-transient)

@@ -1,5 +1,6 @@
 (require 'package)
-(setq user-emacs-directory "~/.config/custard")
+;; (setq user-emacs-directory "~/.config/custard")
+(setq user-emacs-directory "~/.emacs.d")
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (add-to-list 'package-archives
@@ -16,7 +17,8 @@
 (let ((uninstalled-pkgs (seq-filter
 			 (lambda (x)
 			   (not (package-installed-p x)))
-			 '(cider
+			 '(bash-completion
+			   cider
 			   clj-refactor
 			   clojure-mode
 			   clojure-ts-mode
@@ -24,11 +26,12 @@
 			   corfu-prescient
 			   dap-mode
 			   denote
+			   dumb-jump
 			   docker
 			   edit-indirect
 			   exec-path-from-shell
 			   f
-			   js2-mode
+			   gptel
 			   lsp-java
 			   lsp-mode
 			   magit
@@ -53,12 +56,21 @@
 
 (use-package emacs
   :init
-  (setq completion-cycle-threshold 3
-	tab-always-indent 'complete
+  (setq completion-cycle-threshold 2
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (load custom-file)
-  (exec-path-from-shell-initialize)  
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envs '("ANTHROPIC_API_KEY"
+				    "AWS_ACCESS_KEY"
+				    "AWS_SECRET_ACCESS_KEY"
+				    "LINEAR_API_KEY"
+				    "DUCKDB_HOME"
+				    "NVM_DIR"))
+
+  :custom
+  (tab-always-indent 'complete)
+  (read-extended-command-predicate #'command-completion-default-include-p)
   
   :config
   (global-auto-revert-mode 1)
@@ -70,12 +82,15 @@
    ("M-h" . mark-paragraph)
    ("C-c C-/" . vundo)))
 
+(require 'init-bash)
 (require 'init-clojure)
 (require 'init-corfu)
 (require 'init-denote)
 (require 'init-docker)
-(require 'init-eglot)
+;; (require 'init-dumb-jump)
+;; (require 'init-eglot)
 (require 'init-eshell)
+(require 'init-gptel)
 (require 'init-lisp-stuff)
 ;; (require 'init-lsp)
 (require 'init-magit)

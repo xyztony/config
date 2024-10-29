@@ -54,8 +54,7 @@
  read-process-output-max (* 1024 1024)
  company-minimum-prefix-length 1
  lsp-enable-indentation nil 
- lsp-enable-completion-at-point nil 
- )
+ lsp-enable-completion-at-point nil)
 
 ;; Resize Org headings
 (dolist (face '((org-level-1 . 1.4)
