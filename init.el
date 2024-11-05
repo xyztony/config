@@ -13,6 +13,8 @@
 			   ".sdkman/candidates/java/current")
 		     "/"))
 
+(setq-default indent-tabs-mode nil)
+
 (package-initialize)
 (let ((uninstalled-pkgs (seq-filter
 			 (lambda (x)
@@ -59,6 +61,7 @@
   (setq completion-cycle-threshold 2
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  
   (load custom-file)
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("ANTHROPIC_API_KEY"

@@ -7,7 +7,7 @@
 (use-package prescient
   :config
   (setq prescient-filter-method '(fuzzy regexp)
-	completion-styles '(flex orderless basic)))
+	completion-styles '(prescient flex orderless basic)))
 
 (use-package projectile
   :init (projectile-mode +1)

@@ -5,22 +5,26 @@
   :init
   :config
   (cider-enable-flex-completion)
-  (setq cider-show-error-buffer 'only-in-repl
-	cider-clojure-compilation-error-phases nil
+  (setq cider-clojure-compilation-error-phases nil
 	cider-repl-display-help-banner nil
 	cider-stacktrace-fill-column 80
-	cider-use-overlays t)
+        cider-use-overlays t
+        cider-show-error-buffer nil
+        cider-auto-jump-to-error nil)
   :bind
   (:map cider-mode-map
 	("C-x C-e" . cider-eval-dwim)
 	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)
-	("C-c C-a" . cider-inspect-last-result)
+        ("C-c C-a" . cider-inspect-last-result)
 	("C-c f d" . cider-find-dwim)
 	("C-c f n" . cider-find-ns)
 	("C-c f k" . cider-find-key))
   (:map cider-repl-mode-map
-	("C-c M-l" . cider-repl-clear-buffer)))
-
+	("C-c M-l" . cider-repl-clear-buffer)
+        ("C-c M-l" . cider-repl-clear-buffer)
+	("C-c C-a" . cider-inspect-last-result)
+        ("C-c X" . cider-selector)
+        ("M-RET" . clerk-show)))
 
 (defun my-clojure-mode-hook ()
     (clj-refactor-mode 1)
@@ -48,6 +52,6 @@
     (cider-interactive-eval
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
 
-(define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
+;; (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 
 (provide 'init-clojure)

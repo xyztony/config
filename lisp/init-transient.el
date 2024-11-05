@@ -38,24 +38,23 @@
 ;;    puni, search, replace, etc.
 (transient-define-prefix transient-search-replace-menu ()
   "Search and Replace menu"
+  ;; :transient-suffix     'transient--do-stay
+  ;; :transient-non-suffix 'transient--do-warn
   [["Search"
     ("o" "Occur" occur)]
    ["Replace"
     ("rs" "Search ripgrep" projectile-ripgrep)
-    ("rr" "Replace" projectile-replace)]
-
+    ("rr" "Replace" projectile-replace)
+    ("rh" "Query replace" query-replace)]
    ["Edit"
     ("pk" "Kill paragraph" kill-paragraph)
     ("pm" "Mark paragraph" mark-paragraph)]
-
    ["Undo"
     ("uv" "vundo" vundo)]
-   
    ["Grep"
     ("g" "Grep" grep)
-    ("G" "Recursive grep" rgrep)]
-
-   ["Mark"
+    ("G" "Recursive grep" rgrep)]]
+  [["Mark"
     ("s" "Mark sexp at point" puni-mark-sexp-at-point)
     ("a" "Mark sexp around point" puni-mark-sexp-around-point)
     ("d" "Mark list around point" puni-mark-list-around-point)]
@@ -109,7 +108,12 @@
   [["Files"
     ("o" "Open denote directory" open-denote-directory-in-projectile-dired)
     ("c" "Capture node" denote)
-    ("s" "Search denote files" search-denote-directory)]])
+    ("s" "Search denote files" search-denote-directory)
+    ("rr" "rename file" denote-rename-file)]
+   ["Links"
+    ("ll" "insert" denote-link :if-mode org-mode)
+    ("lb" "backlinks" denote-backlinks :if-mode org-mode)
+    ("lf" "find links" denote-find-link :if-mode org-mode)]])
 
 (transient-define-prefix transient-cljr-menu ()
   "Clojure Refactor Menu"

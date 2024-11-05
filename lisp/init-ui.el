@@ -22,6 +22,9 @@
 
 (setq my-font-size 160)
 
+(setopt display-fill-column-indicator-column 120)
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
 (load-theme 'modus-vivendi t)
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size)
