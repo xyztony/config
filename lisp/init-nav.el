@@ -4,10 +4,7 @@
   (:map dired-mode-map
 	("C-c C-n" . dired-create-empty-file)))
 
-(use-package prescient
-  :config
-  (setq prescient-filter-method '(fuzzy regexp)
-	completion-styles '(prescient flex orderless basic)))
+
 
 (use-package projectile
   :init (projectile-mode +1)

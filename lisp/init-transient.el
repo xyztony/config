@@ -1,4 +1,5 @@
 (require 'transient)
+(require 'init-clojure)
 
 (use-package transient
   :ensure t
@@ -96,7 +97,9 @@
       ("B" "Shrink horizontally" shrink-window-horizontally)
       ("F" "Enlarge horizontally" enlarge-window-horizontally)
       ("N" "Shrink vertically" shrink-window)
-      ("P" "Enlarge vertically" enlarge-window)]
+      ("P" "Enlarge vertically" enlarge-window)
+      ("ma" "maximize" maximize-window)
+      ("mi" "minimize" minimize-window)]
      ["Balance"
       ("=" "Balance windows" balance-windows)]
      ["Winner"
@@ -120,7 +123,8 @@
   [["Add"
     ("ad" "cljr-add-declaration" cljr-add-declaration)
     ("ai" "cljr-add-import-to-ns" cljr-add-import-to-ns)
-    ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)]
+    ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)
+    ("al" "add-debug-bindings" add-debug-bindings)]
    ["C(onvert/cycle/clean)"
     ("ci" "clojure-cycle-if" clojure-cycle-if)
     ("cn" "cljr-clean-ns" cljr-clean-ns)

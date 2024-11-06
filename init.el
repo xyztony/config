@@ -1,6 +1,11 @@
 (require 'package)
-;; (setq user-emacs-directory "~/.config/custard")
-(setq user-emacs-directory "~/.emacs.d")
+(setq work-dir "~/.config/custard")
+(setq home-dir "~/.emacs.d")
+(setq user-emacs-directory
+      (if (string-match-p "ard" (system-name))
+          work-dir
+        home-dir))
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (add-to-list 'package-archives
@@ -85,7 +90,7 @@
    ("M-h" . mark-paragraph)
    ("C-c C-/" . vundo)))
 
-(require 'init-bash)
+;; (require 'init-bash)
 (require 'init-clojure)
 (require 'init-corfu)
 (require 'init-denote)

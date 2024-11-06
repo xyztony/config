@@ -20,7 +20,7 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
-(setq my-font-size 160)
+(setq my-font-size 190)
 
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
