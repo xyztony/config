@@ -103,6 +103,7 @@
 ;; (require 'init-lsp)
 (require 'init-magit)
 (require 'init-nav)
+(require 'init-org)
 (require 'init-symbol)
 (require 'init-tabs)
 (require 'init-transient)

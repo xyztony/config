@@ -4,8 +4,6 @@
   (:map dired-mode-map
 	("C-c C-n" . dired-create-empty-file)))
 
-
-
 (use-package projectile
   :init (projectile-mode +1)
   :config
