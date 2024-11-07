@@ -13,10 +13,10 @@
 
 
 (setenv "JAVA_HOME"
-	  (mapconcat 'identity
-		     (list (substitute-in-file-name "$HOME")
-			   ".sdkman/candidates/java/current")
-		     "/"))
+	(mapconcat 'identity
+		   (list (substitute-in-file-name "$HOME")
+                         ".sdkman/candidates/java/current")
+		   "/"))
 
 (setq-default indent-tabs-mode nil)
 

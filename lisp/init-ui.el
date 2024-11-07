@@ -71,15 +71,38 @@
   (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face)))
 
 
-(defun close-all-windows-direction (direction)
+(defun my/close-all-windows-direction (direction)
   "Close windows in the specified DIRECTION until no more windows exist"
   (let ((win (window-in-direction direction)))
     (when win
       (delete-window win)
-      (close-all-windows-direction direction))))
+      (my/close-all-windows-direction direction))))
+
+(defun my/split-and-show-other ()
+  "Split window and show other buffer."
+  (interactive)
+  (let ((other-buf (other-buffer (current-buffer) t)))
+    (if other-buf
+        (progn
+          (select-window (split-window-sensibly))
+          (switch-to-buffer other-buf))
+      (split-window-sensibly))))
+
+(defun my/split-and-show-other (&optional split-direction)
+  (interactive)
+  (let* ((other-buf (other-buffer (current-buffer) t))
+         (split-fn (cond ((eq split-direction 'horizontal) #'split-window-below)
+                        ((eq split-direction 'vertical) #'split-window-right)
+                        (t #'split-window-sensibly))))
+    (when other-buf
+      (select-window (funcall split-fn))
+      (switch-to-buffer other-buf))))
+
+(global-set-key (kbd "C-x 4") (lambda () (interactive) (my/split-and-show-other nil)))
+(global-set-key (kbd "C-x 3") (lambda () (interactive) (my/split-and-show-other 'vertical)))
+(global-set-key (kbd "C-x 2") (lambda () (interactive) (my/split-and-show-other 'horizontal)))
 
 (global-set-key (kbd "<f11>") 'toggle-frame-tab-bar)
 (global-set-key (kbd "<f12>") 'toggle-frame-fullscreen)
-
 
 (provide 'init-ui)

@@ -88,10 +88,10 @@
       ("q" "Delete window" delete-window)
       ("d" "Delete other windows" delete-other-windows)]
      ["Close Direction"
-      ("kp" "Close Up" (lambda () (interactive) (close-all-windows-direction 'above)))
-      ("kn" "Close Down" (lambda () (interactive) (close-all-windows-direction 'below)))
-      ("kb" "Close Left" (lambda () (interactive) (close-all-windows-direction 'left)))
-      ("kf" "Close Right" (lambda () (interactive) (close-all-windows-direction 'right)))
+      ("kp" "Close Up" (lambda () (interactive) (my/close-all-windows-direction 'above)))
+      ("kn" "Close Down" (lambda () (interactive) (my/close-all-windows-direction 'below)))
+      ("kb" "Close Left" (lambda () (interactive) (my/close-all-windows-direction 'left)))
+      ("kf" "Close Right" (lambda () (interactive) (my/close-all-windows-direction 'right)))
       ("kw" "Close & Kill" kill-buffer-and-window)]
      ["Resize"
       ("B" "Shrink horizontally" shrink-window-horizontally)
