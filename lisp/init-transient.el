@@ -44,8 +44,6 @@
   [["Search"
     ("o" "Occur" occur)]
    ["Replace"
-    ("rs" "Search ripgrep" projectile-ripgrep)
-    ("rr" "Replace" projectile-replace)
     ("rh" "Query replace" query-replace)]
    ["Edit"
     ("pk" "Kill paragraph" kill-paragraph)
@@ -109,7 +107,7 @@
 (transient-define-prefix transient-denote-menu ()
   "Denote menu"
   [["Files"
-    ("o" "Open denote directory" open-denote-directory-in-projectile-dired)
+    ("o" "Open denote directory" open-denote-directory-in-dired)
     ("c" "Capture node" denote)
     ("s" "Search denote files" search-denote-directory)
     ("rr" "rename file" denote-rename-file)]

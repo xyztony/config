@@ -3,7 +3,7 @@
   (electric-pair-mode +1)
   (setq electric-pair-pairs '((?\" . ?\")
                               (?\{ . ?\})
-			      (?\< . ?\>)
+			      ;; (?\< . ?\>)
                               (?\( . ?\))
                               (?\[ . ?\]))))
 

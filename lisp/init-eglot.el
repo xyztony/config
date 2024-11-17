@@ -27,5 +27,4 @@
      :foldingRangeProvider))
   (eglot-stay-out-of '(yasnippet)))
 
-
 (provide 'init-eglot)

@@ -2,13 +2,17 @@
 ;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
 
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#916668")
+;; (set-face-background 'hl-line "#916668")
 
 (winner-mode)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(column-number-mode 1)
 (pixel-scroll-precision-mode 1)
+
+(setq enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode 1)
 
 (setq-default initial-buffer-choice "~/Developer")
 (setq-default inhibit-startup-screen nil)
@@ -25,7 +29,16 @@
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-(load-theme 'modus-vivendi t)
+;; (load-theme 'modus-vivendi t)
+(use-package almost-mono-themes
+  :ensure t
+  :config
+  ;; (load-theme 'almost-mono-black t)
+  ;; (load-theme 'almost-mono-gray t)
+  (load-theme 'almost-mono-cream t t)
+  ;;(load-theme 'almost-mono-white t t)
+  )
+
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size)
 
@@ -37,39 +50,6 @@
   (face-spec-reset-face face)
   (set-face-foreground face (face-attribute 'default :background)))
 (set-face-background 'fringe (face-attribute 'default :background))
-
-(setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
- org-use-speed-commands t
-
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
-
- ;; LSP
- gc-cons-threshold (* 100 1024 1024)
- read-process-output-max (* 1024 1024)
- company-minimum-prefix-length 1
- lsp-enable-indentation nil 
- lsp-enable-completion-at-point nil)
-
-;; Resize Org headings
-(dolist (face '((org-level-1 . 1.4)
-		(org-level-2 . 1.2)
-		(org-level-3 . 1.1)
-		(org-level-4 . 1.0)
-		(org-level-5 . 1.1)
-		(org-level-6 . 1.1)
-		(org-level-7 . 1.1)
-		(org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face)))
-
 
 (defun my/close-all-windows-direction (direction)
   "Close windows in the specified DIRECTION until no more windows exist"

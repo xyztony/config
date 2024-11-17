@@ -2,6 +2,6 @@
   :ensure t
   :init (yas-global-mode 1)
   :config
-  (add-to-list 'load-path "~/.emacs.d/snippets"))
+  (add-to-list 'load-path (expand-file-name "snippets" user-emacs-directory)))
 
 (provide 'init-yas)

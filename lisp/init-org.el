@@ -1,7 +1,51 @@
 ;; inspired by https://github.com/alaq/workflowy.el/
 (use-package org
   :hook
-  ((org-mode . visual-line-mode)))
+  ((org-mode . visual-line-mode))
+  :config
+  (setq
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+   org-use-speed-commands t
+
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis "…"
+
+   org-return-follows-link t
+   org-src-window-setup 'current-window
+   org-time-stamp-custom-formats (cons "<%Y-%m-%d>" "<%Y-%m-%d %a %H:%M>")
+   org-time-stamp-formats (cons "<%Y-%m-%d %H:%M>" "<%Y-%m-%d>")
+   org-html-doctype "html5")
+  (dolist (face '((org-level-1 . 1.4)
+		  (org-level-2 . 1.2)
+		  (org-level-3 . 1.1)
+		  (org-level-4 . 1.0)
+		  (org-level-5 . 1.1)
+		  (org-level-6 . 1.1)
+		  (org-level-7 . 1.1)
+		  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face))))
+
+(defun my/screenshot-filename ()
+  (let* ((buf-name (file-name-base (or (buffer-file-name) "screenshot")))
+         (timestamp (format-time-string "%Y-%m-%d_%H-%M-%S"))
+         (filename (concat buf-name "_" timestamp ".png")))
+    ;; Use this with org-attach-screenshot-command
+    (setq org-attach-screenshot-command 
+          (concat "screencapture -T5 " 
+                  (expand-file-name filename org-attach-screenshot-dir)))))
+
+(use-package org-attach-screenshot
+  :ensure t
+  :config
+  (setq org-attach-screenshot-command-line "screencapture -T5 %f")
+  (define-key org-mode-map (kbd "C-c s c") 'org-attach-screenshot))
 
 ;;;###autoload
 (define-minor-mode org-zoom-mode
