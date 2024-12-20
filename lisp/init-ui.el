@@ -29,14 +29,13 @@
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-
+(load-theme 'almost-mono-cream t t)
+;; (load-theme 'modus-vivendi t)
 (use-package almost-mono-themes
   :ensure t)
-(load-theme 'almost-mono-cream t)
-;; (load-theme 'modus-vivendi t)
 
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size)
+(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'normal)
+(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'light)
 
 (require 'org-faces)
 

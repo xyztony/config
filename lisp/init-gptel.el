@@ -63,10 +63,15 @@ and their content as the directive text."
 
 (use-package gptel
   :custom
-  (gptel-model 'claude-3-5-sonnet-20241022)
+  (gptel-model 'gemini-pro)
     
   :config
-  (my/load-gptel-directives-from-org)  
+  (my/load-gptel-directives-from-org)
+  (when-let ((key (getenv "GEMINI_API_KEY")))
+    (setq gptel-backend
+          (gptel-make-gemini "Gemini"
+            :stream t 
+            :key key)))
   (setq gptel-track-media t
         gptel-default-mode 'org-mode)
   (when-let ((file (expand-file-name my/gptel-directives-file user-emacs-directory)))
@@ -99,6 +104,8 @@ and their content as the directive text."
     (gptel-make-anthropic "Claude"
       :stream t 
       :key key))
+
+  
 
   (when-let ((key (getenv "XAI_API_KEY")))
       (gptel-make-openai "xAI"
