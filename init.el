@@ -31,7 +31,9 @@
   (setq exec-path-from-shell-variables '("ANTHROPIC_API_KEY"
                                          "AWS_ACCESS_KEY"
                                          "AWS_SECRET_ACCESS_KEY"
+                                         "CEREBRAS_API_KEY"
                                          "DUCKDB_HOME"
+                                         "KAGI_BASE"
                                          "LINEAR_API_KEY"
                                          "NVM_DIR"
                                          "XAI_API_KEY"
@@ -51,12 +53,16 @@
 (require 'init-denote)
 (require 'init-docker)
 ;; (require 'init-eglot)
+(require 'init-elfeed)
 (require 'init-eshell)
+(require 'init-eww)
+(require 'init-flycheck)
 (require 'init-gptel)
 (require 'init-lisp-stuff)
 (require 'init-magit)
 (require 'init-nav)
 (require 'init-org)
+(require 'init-prolog)
 (require 'init-transient)
 (require 'init-treesit)
 (require 'init-vertico)

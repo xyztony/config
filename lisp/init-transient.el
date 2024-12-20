@@ -1,5 +1,6 @@
 (require 'transient)
 (require 'init-clojure)
+(require 'init-gptel)
 
 (use-package transient
   :ensure t
@@ -10,6 +11,7 @@
   (transient-bind-q-to-quit)
   
   :bind
+  ("C-c m" . transient-misc-menu)
   ("C-c w" . transient-window-management)
   ("C-c e" . transient-search-replace-menu)
   ("C-c o" . transient-denote-menu)
@@ -18,6 +20,12 @@
   ("C-c r" . transient-cljr-menu)
   ("C-c lm" . transient-gptel-menu))
 
+(transient-define-prefix transient-misc-menu ()
+  "Magit menu"
+  [["Other"
+    ("b" "eww" eww)
+    ("e" "elfeed" elfeed)
+    ("o" "Olivetti" olivetti-mode)]])
 
 ;; Magit transient
 (transient-define-prefix transient-magit-menu ()
@@ -166,6 +174,7 @@
   "GPT-EL menu"
   [["gptel"
     ("m" "Gptel menu" gptel-menu)
+    ("l" "Load session" my/gptel-load-session)
     ("ss" "Send" gptel-send)
     ("sp" "Prompt" gptel-system-prompt)
     ("g" "Start chat session" gptel)

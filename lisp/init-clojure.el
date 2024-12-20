@@ -70,7 +70,8 @@
 ;;         (message "Copied debug bindings to kill-ring"))))
 
 (defun add-debug-bindings ()
-  "Create (def *var var) for all variables in let block or defn args, including destructured :as bindings, and copy to kill-ring."
+  "Create (def *var var) for all variables in let block or defn args,
+including destructured :as bindings, and copy to kill-ring."
   (interactive)
   (save-excursion
     (let (vars)
@@ -133,3 +134,4 @@
 ;; (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 
 (provide 'init-clojure)
+

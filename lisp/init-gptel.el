@@ -3,6 +3,24 @@
   :type 'string
   :group 'gptel)
 
+(defun my/gptel-save-buffer ()
+  "Save the current GPTEL buffer with the default directory set to ~/Documents/notes."
+  (interactive)
+  (let ((default-directory "~/Documents/notes/gptel/"))
+    (call-interactively #'save-buffer)))
+
+(defun my/gptel-load-session ()
+  "Load a gptel session from ~/Documents/notes directory."
+  (interactive)
+  (let ((default-directory "~/Documents/notes/gptel/"))
+    (let* ((files (directory-files default-directory t ".+\\.org$"))
+           (file (completing-read "Select session file: " files nil t)))
+      (when file
+        (find-file file)
+        (gptel-mode)))))
+
+
+
 (defun my/load-gptel-directives-from-org ()
   "Load gptel directives from an org file and merge with existing directives.
 The org file should have level 1 headings as directive names
@@ -67,6 +85,16 @@ and their content as the directive text."
               llama3.1:latest
               llama3.2-vision:latest))
 
+  (when-let ((key (getenv "CEREBRAS_API_KEY")))
+    (gptel-make-openai "Cerebras"
+      :host "api.cerebras.ai"
+      :endpoint "/v1/chat/completions"
+      :stream nil
+      :key key
+      :models '(llama3.1-70b
+                llama3.1-8b
+                llama3.3-70b)))
+
   (when-let ((key (getenv "ANTHROPIC_API_KEY")))
     (gptel-make-anthropic "Claude"
       :stream t 
@@ -78,10 +106,13 @@ and their content as the directive text."
         :key key
         :endpoint "/v1/chat/completions"
         :stream t
-        :models '(grok-beta)))
+        :models '(grok-beta
+                  grok-2-1212
+                  grok-2-vision-1212)))
 
   :bind (:map gptel-mode-map
               ("C-c C-g" . gptel-menu)
-              ("C-c C-d" . my/load-gptel-directives-from-org)))
+              ("C-c C-d" . my/load-gptel-directives-from-org)
+              ("C-x C-s" . my/gptel-save-buffer)))
 
 (provide 'init-gptel)

@@ -24,20 +24,16 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
-(setq my-font-size 140)
+(setq my-font-size 180)
 
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-;; (load-theme 'modus-vivendi t)
+
 (use-package almost-mono-themes
-  :ensure t
-  :config
-  ;; (load-theme 'almost-mono-black t)
-  ;; (load-theme 'almost-mono-gray t)
-  (load-theme 'almost-mono-cream t t)
-  ;;(load-theme 'almost-mono-white t t)
-  )
+  :ensure t)
+(load-theme 'almost-mono-cream t)
+;; (load-theme 'modus-vivendi t)
 
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size)
