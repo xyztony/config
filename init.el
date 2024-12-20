@@ -34,6 +34,7 @@
                                          "CEREBRAS_API_KEY"
                                          "DUCKDB_HOME"
                                          "KAGI_BASE"
+                                         "GEMINI_API_KEY"
                                          "LINEAR_API_KEY"
                                          "NVM_DIR"
                                          "XAI_API_KEY"
@@ -52,8 +53,8 @@
 (require 'init-corfu)
 (require 'init-denote)
 (require 'init-docker)
-;; (require 'init-eglot)
 (require 'init-elfeed)
+(require 'init-eglot)
 (require 'init-eshell)
 (require 'init-eww)
 (require 'init-flycheck)
