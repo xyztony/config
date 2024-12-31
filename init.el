@@ -58,6 +58,7 @@
 (require 'init-eshell)
 (require 'init-eww)
 (require 'init-flycheck)
+(require 'init-fsharp)
 (require 'init-gptel)
 (require 'init-lisp-stuff)
 (require 'init-magit)
