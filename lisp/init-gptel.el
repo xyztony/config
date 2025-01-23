@@ -85,8 +85,7 @@ and their content as the directive text."
   (gptel-make-ollama "Ollama" 
     :host "localhost:11434"
     :stream t
-    :models '(qwen2.5-coder:14b
-              qwen2.5-coder:32b
+    :models '(deepseek-r1:14b
               llama3.1:latest
               llama3.2-vision:latest))
 

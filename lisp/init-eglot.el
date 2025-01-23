@@ -29,8 +29,10 @@
   ;; nim's langserver freezes with eglot 😔
   ;; (add-to-list 'eglot-server-programs
   ;;              '((nim-mode) "~/.nimble/bin/nimlangserver"))
+  
   (add-to-list 'eglot-server-programs
-               '((typescript-mode typescript-ts-mode) "typescript-language-server" "--stdio"
+               '((swift-mode . ("xcrun" "sourcekit-lsp"))
+                 (typescript-mode typescript-ts-mode) "typescript-language-server" "--stdio"
                  :initializationOptions
                  (:preferences
             (:disableSuggestions                                    :json-false

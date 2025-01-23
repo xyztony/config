@@ -9,8 +9,7 @@
         shr-use-fonts nil
         shr-width 90)
   :bind
-  (
-   :map eww-mode-map
+  (:map eww-mode-map
    ("v" . nil) ; override `eww-view-source' idc
    ("O" . eww-browse-with-external-browser)
    ("t" . my-remove-tracking)

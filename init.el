@@ -65,6 +65,7 @@
 (require 'init-nav)
 (require 'init-org)
 (require 'init-prolog)
+(require 'init-swift)
 (require 'init-transient)
 (require 'init-treesit)
 (require 'init-vertico)
