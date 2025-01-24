@@ -42,7 +42,15 @@
   :bind
   (:map clojure-mode-map
         ("M-a" . clojure-backward-logical-sexp)
-        ("M-e" . clojure-forward-logical-sexp)))
+        ("M-e" . clojure-forward-logical-sexp)
+        ("C-c C-r n" . clojure-cycle-not)
+        ("C-c C-r w" . clojure-cycle-when)
+        ("C-c C-r i" . clojure-cycle-if)
+
+        ("C-c C-r ;" . clojure-toggle-ignore-surrounding-form)
+
+        
+        ))
 
 (use-package clj-refactor
   :hook (clojure-mode . clj-refactor-mode))
@@ -134,4 +142,3 @@ including destructured :as bindings, and copy to kill-ring."
 ;; (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 
 (provide 'init-clojure)
-

@@ -63,7 +63,7 @@ and their content as the directive text."
 
 (use-package gptel
   :custom
-  (gptel-model 'gemini-pro)
+  (gptel-model 'gemini-2.0-flash-exp)
     
   :config
   (my/load-gptel-directives-from-org)
@@ -71,7 +71,12 @@ and their content as the directive text."
     (setq gptel-backend
           (gptel-make-gemini "Gemini"
             :stream t 
-            :key key)))
+            :key key
+            :models '(gemini-2.0-flash-thinking-exp-1219
+                      gemini-exp-1206
+                      gemini-2.0-flash-exp
+                      gemini-1.5-flash
+                      gemini-1.5-pro))))
   (setq gptel-track-media t
         gptel-default-mode 'org-mode)
   (when-let ((file (expand-file-name my/gptel-directives-file user-emacs-directory)))

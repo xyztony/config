@@ -10,7 +10,7 @@
          ("\\.json\\'" .  json-ts-mode)
          ("\\.pl\\'" . prolog-ts-mode)
          ("\\.Dockerfile\\'" . dockerfile-ts-mode))
-  :hook ((clojure-ts-mode . cider-mode)
+  :hook ((clojure-ts-mode . '(cider-mode clojure-mode))
 	 (emacs-lisp-mode . (lambda () (treesit-parser-create 'elisp))))
   :preface
   (defun os/setup-install-grammars ()
@@ -53,12 +53,11 @@
   :config
   (os/setup-install-grammars))
 
-;; (use-package treesit-fold
-;;   :load-path "treesit-fold"
-;;   :config
-;;   (global-treesit-fold-indicators-mode 1))
+(use-package treesit-fold
+  :load-path "treesit-fold")
 
-;; (use-package treesit-fold-indicators
-;;    :load-path "treesit-fold")
+
+(use-package treesit-fold-indicators
+   :load-path "treesit-fold")
 
 (provide 'init-treesit)

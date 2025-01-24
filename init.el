@@ -3,7 +3,7 @@
 (setq work-dir "~/.config/custard")
 (setq home-dir "~/.emacs.d")
 (setq user-emacs-directory
-      (if (string-match-p "ard" (system-name))
+      (if (string-match-p "Mac.home" (system-name))
           work-dir
         home-dir))
 
@@ -42,18 +42,22 @@
   (exec-path-from-shell-initialize)
   :config
   (global-auto-revert-mode 1)
+  (unbind-key "s-p")
   :bind
   (("<C-return>" . newline-and-indent)
    ("C-x C-r" . query-replace)
    ("C-c C-l" . load-file)
    ("M-h" . mark-paragraph)
-   ("C-c C-/" . vundo)))
+   ("C-a" . my/beginning-of-line)
+   ("C-c C-/" . vundo)
+   ("s-b" . switch-to-buffer)
+   ("s-p" . project-find-file)))
 
 (require 'init-clojure)
 (require 'init-corfu)
 (require 'init-denote)
 (require 'init-docker)
-(require 'init-elfeed)
+;; (require 'init-elfeed)
 (require 'init-eglot)
 (require 'init-eshell)
 (require 'init-eww)

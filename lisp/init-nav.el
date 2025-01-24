@@ -16,4 +16,11 @@
 (use-package wgrep
   :ensure t)
 
+
+(defun my/beginning-of-line ()
+  (interactive)
+  (if (= 0 (current-column))
+      (back-to-indentation)
+    (beginning-of-line)))
+
 (provide 'init-nav)
