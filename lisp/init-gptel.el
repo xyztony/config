@@ -19,8 +19,6 @@
         (find-file file)
         (gptel-mode)))))
 
-
-
 (defun my/load-gptel-directives-from-org ()
   "Load gptel directives from an org file and merge with existing directives.
 The org file should have level 1 headings as directive names
@@ -63,20 +61,25 @@ and their content as the directive text."
 
 (use-package gptel
   :custom
-  (gptel-model 'gemini-2.0-flash-exp)
+  (if (string-match-p "ard" (system-name))
+      (gptel-model 'claude-3-5-sonnet-20241022)
+      (gptel-model 'gemini-2.0-flash-exp))
     
   :config
   (my/load-gptel-directives-from-org)
-  (when-let ((key (getenv "GEMINI_API_KEY")))
-    (setq gptel-backend
-          (gptel-make-gemini "Gemini"
+
+  (if (string-match-p "ard" (system-name))
+      (when-let ((key (getenv "GEMINI_API_KEY")))
+        (setq gptel-backend
+              (gptel-make-gemini "Gemini"
             :stream t 
             :key key
             :models '(gemini-2.0-flash-thinking-exp-1219
                       gemini-exp-1206
                       gemini-2.0-flash-exp
                       gemini-1.5-flash
-                      gemini-1.5-pro))))
+                      gemini-1.5-pro)))))
+
   (setq gptel-track-media t
         gptel-default-mode 'org-mode)
   (when-let ((file (expand-file-name my/gptel-directives-file user-emacs-directory)))
@@ -86,11 +89,12 @@ and their content as the directive text."
      '(change)
      (lambda (_event)
        (my/load-gptel-directives-from-org))))
-    
+
   (gptel-make-ollama "Ollama" 
     :host "localhost:11434"
     :stream t
-    :models '(deepseek-r1:14b
+    :models '(deepseek-r1:32b
+              deepseek-r1:14b
               llama3.1:latest
               llama3.2-vision:latest))
 
@@ -107,9 +111,7 @@ and their content as the directive text."
   (when-let ((key (getenv "ANTHROPIC_API_KEY")))
     (gptel-make-anthropic "Claude"
       :stream t 
-      :key key))
-
-  
+      :key key))  
 
   (when-let ((key (getenv "XAI_API_KEY")))
       (gptel-make-openai "xAI"

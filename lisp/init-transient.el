@@ -177,7 +177,6 @@
     ("l" "Load session" my/gptel-load-session)
     ("ss" "Send" gptel-send)
     ("sp" "Prompt" gptel-system-prompt)
-    ("g" "Start chat session" gptel)
-    ("r" "Rewrite" gptel-rewrite-menu)]])
+    ("g" "Start chat session" gptel)]])
 
 (provide 'init-transient)
