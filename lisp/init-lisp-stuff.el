@@ -26,6 +26,8 @@
 	("C-M-f" . puni-slurp-forward)
 
 	("C-M-}" . puni-barf-backward)
-	("C-M-{" . puni-barf-forward)))
+	("C-M-{" . puni-barf-forward)
+
+        ("C-=" . puni-expand-region)))
 
 (provide 'init-lisp-stuff)

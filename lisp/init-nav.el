@@ -1,3 +1,6 @@
+(use-package ace-window
+  :bind ("M-o" . ace-window))
+
 (use-package avy
   :bind
   (:map global-map
@@ -16,8 +19,15 @@
 (use-package wgrep
   :ensure t)
 
+(use-package multiple-cursors
+  :bind
+  (:map global-map
+        ("C->" . mc/mark-next-like-this)
+        ("C-<" . mc/mark-previous-like-this)
+        ("C-c C-<" . mc/mark-all-like-this)))
 
 (defun my/beginning-of-line ()
+  "Swap between beginning of line, and first char of line."
   (interactive)
   (if (= 0 (current-column))
       (back-to-indentation)
