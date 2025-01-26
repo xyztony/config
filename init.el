@@ -64,6 +64,7 @@
 (require 'init-flycheck)
 (require 'init-fsharp)
 (require 'init-gptel)
+(require 'init-julia)
 (require 'init-lisp-stuff)
 (require 'init-magit)
 (require 'init-nav)

@@ -1,5 +1,6 @@
 (use-package treesit
   :mode (("\\.clj\\'" . clojure-ts-mode)
+         ("\\.jl\\'" . julia-ts-mode)
 	 ("\\.tsx\\'" . tsx-ts-mode)
          ("\\.js\\'"  . typescript-ts-mode)
          ("\\.mjs\\'" . typescript-ts-mode)
@@ -10,7 +11,7 @@
          ("\\.json\\'" .  json-ts-mode)
          ("\\.pl\\'" . prolog-ts-mode)
          ("\\.Dockerfile\\'" . dockerfile-ts-mode))
-  :hook ((clojure-ts-mode . '(cider-mode clojure-mode))
+  :hook ((clojure-ts-mode . (lambda () (clojure-mode) (cider-mode)))
 	 (emacs-lisp-mode . (lambda () (treesit-parser-create 'elisp))))
   :preface
   (defun os/setup-install-grammars ()
@@ -24,6 +25,7 @@
                (html . ("https://github.com/tree-sitter/tree-sitter-html"))
                (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "src"))
                (json . ("https://github.com/tree-sitter/tree-sitter-json"))
+               (julia . ("https://github.com/tree-sitter/tree-sitter-julia"))
                (markdown . ("https://github.com/ikatyang/tree-sitter-markdown"))
                (elisp . ("https://github.com/Wilfred/tree-sitter-elisp"))
                (c . ("https://github.com/tree-sitter/tree-sitter-c"))
