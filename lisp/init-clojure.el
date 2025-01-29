@@ -15,6 +15,7 @@
   (:map cider-mode-map
 	("C-x C-e" . cider-eval-dwim)
 	("C-x C-r" . cider-pprint-eval-last-sexp-to-repl)
+        ("C-x C-p" . cider-eval-print-last-sexp)
         ("C-c C-a" . cider-inspect-last-result)
 	("C-c f d" . cider-find-dwim)
 	("C-c f n" . cider-find-ns)
