@@ -29,12 +29,13 @@
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-(load-theme 'humanoid-dark t)
+
 ;; (load-theme 'modus-vivendi t)
 (use-package almost-mono-themes
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
+(load-theme 'humanoid-dark t)
 
 (set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'normal)
 (set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'light)

@@ -20,12 +20,20 @@
   ("C-c r" . transient-cljr-menu)
   ("C-c lm" . transient-gptel-menu))
 
+(defconst misc-menu
+  (let ((base ["Other"
+               ("b" "eww" eww)
+               ("o" "Olivetti" olivetti-mode)])
+        (extras (when (not (string-match-p "ard" (system-name)))
+                  [("e" "elfeed" elfeed)])))
+    (if (not (null extras))
+        (vector (vconcat base
+                         extras))
+      (vector base))))
+
 (transient-define-prefix transient-misc-menu ()
   "Magit menu"
-  [["Other"
-    ("b" "eww" eww)
-    ("e" "elfeed" elfeed)
-    ("o" "Olivetti" olivetti-mode)]])
+  misc-menu)
 
 ;; Magit transient
 (transient-define-prefix transient-magit-menu ()
@@ -42,6 +50,8 @@
    ["Other"
     ("l" "Log" magit-log)
     ("d" "Diff" magit-diff)]])
+
+
 
 ;; Editing utility transient
 ;;    puni, search, replace, etc.

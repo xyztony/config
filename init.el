@@ -3,7 +3,8 @@
 (setq work-dir "~/.config/custard")
 (setq home-dir "~/.emacs.d")
 (setq user-emacs-directory
-      (if (string-match-p "Mac.home" (system-name))
+      (if (or (string-match-p "ard" (system-name))
+              (string-match-p "Mac.home" (system-name)))
           work-dir
         home-dir))
 
@@ -26,7 +27,7 @@
   (setq completion-cycle-threshold 2
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (load custom-file)
+  ;; (load custom-file)
   ;; exports from my ~/.zshenv
   (setq exec-path-from-shell-variables '("ANTHROPIC_API_KEY"
                                          "AWS_ACCESS_KEY"

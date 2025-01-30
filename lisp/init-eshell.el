@@ -1,3 +1,5 @@
+(use-package popper
+  :ensure t)
 (require 'popper)
 (require 'popper-echo)
 (popper-echo-mode +1)

@@ -1,3 +1,7 @@
+(use-package clj-refactor
+  :ensure t
+  :hook (clojure-mode . clj-refactor-mode))
+
 (require 'clj-refactor)
 
 (use-package cider
@@ -53,8 +57,6 @@
         
         ))
 
-(use-package clj-refactor
-  :hook (clojure-mode . clj-refactor-mode))
 
 (defun clerk-show ()
   (interactive)
