@@ -51,8 +51,6 @@
     ("l" "Log" magit-log)
     ("d" "Diff" magit-diff)]])
 
-
-
 ;; Editing utility transient
 ;;    puni, search, replace, etc.
 (transient-define-prefix transient-search-replace-menu ()

@@ -29,6 +29,7 @@
    (dired-toggle-marks)
    (dired-mark-files-regexp "^#.*#$")
    (dired-mark-files-regexp "^\\.#")
+   (dired-hide-details-mode)
    (dired-do-kill-lines)))
 
 (provide 'init-denote)
