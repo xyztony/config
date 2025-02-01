@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: deps.edn dependency
+# key: dep
+# --
+${1:lib-name/lib-name} {:mvn/version "${2:0.0.0}"$0}
