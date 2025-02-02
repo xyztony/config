@@ -108,6 +108,7 @@
       ("kf" "Close Right" (lambda () (interactive) (my/close-all-windows-direction 'right)))
       ("kw" "Close & Kill" kill-buffer-and-window)]
      ["Resize"
+      ("r" "rotate layout" rotate-layout)
       ("B" "Shrink horizontally" shrink-window-horizontally)
       ("F" "Enlarge horizontally" enlarge-window-horizontally)
       ("N" "Shrink vertically" shrink-window)
