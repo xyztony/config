@@ -60,6 +60,7 @@
 (require 'init-docker)
 (require 'init-elfeed)
 (require 'init-eglot)
+(require 'init-envrc)
 (require 'init-eshell)
 (require 'init-eww)
 (require 'init-flycheck)
