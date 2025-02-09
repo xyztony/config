@@ -55,9 +55,43 @@
   :config
   (os/setup-install-grammars))
 
+(defun treesit-get-containing-list (node)
+  "Get the containing list_lit node starting from NODE."
+  (if (equal (treesit-node-type node) "list_lit")
+      node
+    (let ((parent (treesit-node-parent node)))
+      (when parent
+        (if (equal (treesit-node-type parent) "list_lit")
+            parent
+          (treesit-get-containing-list parent))))))
+
+(defun treesit-clojure-let-binding-names ()
+  "Return a list of binding names from the Clojure let form at point."
+  (interactive)
+  (let* ((node (treesit-node-at (point)))
+        (list-node (treesit-get-containing-list node))
+        (first-child (when list-node 
+                      (treesit-node-child list-node 1)))
+        (is-let (and first-child
+                     (equal (treesit-node-type first-child) "sym_lit")
+                     (equal (treesit-node-text first-child) "let")))
+        (bindings-vec (when is-let 
+                       (treesit-node-child list-node 2)))
+        (binding-names
+         (when (and bindings-vec 
+                    (equal (treesit-node-type bindings-vec) "vec_lit"))
+           (let (names)
+             (dolist (child (treesit-node-children bindings-vec))
+               (when (equal (treesit-node-type child) "sym_lit")
+                 (push (treesit-node-text child) names)))
+             (nreverse names)))))
+    (when binding-names
+      (let ((names-string (mapconcat #'identity binding-names " ")))
+        (kill-new names-string)
+        (message "Copied to kill-ring: [%s]" names-string)))))
+
 (use-package treesit-fold
   :load-path "treesit-fold")
-
 
 (use-package treesit-fold-indicators
    :load-path "treesit-fold")
