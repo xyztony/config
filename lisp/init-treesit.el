@@ -90,6 +90,51 @@
         (kill-new names-string)
         (message "Copied to kill-ring: [%s]" names-string)))))
 
+(defun treesit-list-clojure-functions ()
+  "List all function definitions (defn) in current buffer or form.
+Results are displayed in a new buffer."
+  (interactive)
+  (let* ((query-string "(list_lit 
+                         (sym_lit) @defn-sym 
+                         (sym_lit) @fn-name
+                         [
+                          (vec_lit) @args
+                          (list_lit) @body
+                         ] 
+                         (#equal @defn-sym \"defn\"))")
+         (query (treesit-query-compile 'clojure query-string))
+         (root-node (treesit-buffer-root-node 'clojure))
+         (matches (treesit-query-capture root-node query))
+         (current-buffer (current-buffer))
+         (functions (seq-uniq
+                     (seq-filter (lambda (match)
+                                   (equal (car match) 'fn-name))
+                                 matches)
+                     (lambda (a b)
+                       (equal (treesit-node-text (cdr a))
+                              (treesit-node-text (cdr b))))))
+         (buf (get-buffer-create "*Clojure Functions*")))
+    (with-current-buffer buf
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (dolist (fn functions)
+          (let* ((node (cdr fn))
+                 ;; todo almost working
+                 (marker (with-current-buffer current-buffer
+                           (set-marker (make-marker) 
+                                       (treesit-node-start node))))
+                 (name (treesit-node-text node)))
+            (insert-text-button name
+                                'action (lambda (_)
+                                          (goto-char marker))
+                                'follow-link t
+                                'help-echo "Go to")
+            (insert "\n")))
+        (goto-char (point-min))
+        (special-mode)))
+    (display-buffer buf)
+    (popper-toggle-type buf)))
+
 (use-package treesit-fold
   :load-path "treesit-fold")
 
