@@ -9,8 +9,7 @@
          ("\\.ts\\'"  . typescript-ts-mode)
          ("\\.jsx\\'" . tsx-ts-mode)
          ("\\.json\\'" .  json-ts-mode)
-         ("\\.pl\\'" . prolog-ts-mode)
-         ("\\.Dockerfile\\'" . dockerfile-ts-mode))
+         ("\\.pl\\'" . prolog-ts-mode))
   :hook ((clojure-ts-mode . (lambda () (clojure-mode) (cider-mode)))
 	 (emacs-lisp-mode . (lambda () (treesit-parser-create 'elisp))))
   :preface
@@ -20,7 +19,6 @@
     (dolist (grammar
              '((clojure . ("https://github.com/sogaiu/tree-sitter-clojure"))
                (css . ("https://github.com/tree-sitter/tree-sitter-css"))
-               (dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
                (bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
                (html . ("https://github.com/tree-sitter/tree-sitter-html"))
                (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "src"))
