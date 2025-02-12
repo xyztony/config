@@ -1,14 +1,26 @@
+;;; init --- ...
+;;; Commentary:
+;;; setup path, directory, etc
 (require 'package)
 
-(setq work-dir "~/.config/custard")
-(setq home-dir "~/.emacs.d")
+(setq enable-local-eval nil)
+
+(defconst work-dir "~/.config/custard")
+(defconst home-dir "~/.emacs.d")
+(defun work-machine-p ()
+  (or (string-match-p "ard" (system-name))
+      (string-match-p "Mac.home" (system-name))))
+
 (setq user-emacs-directory
-      (if (or (string-match-p "ard" (system-name))
-              (string-match-p "Mac.home" (system-name)))
+      (if (work-machine-p)
           work-dir
         home-dir))
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(defun add-to-load-path (dir)
+  (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
+
+(add-to-load-path "lisp")
+(add-to-load-path "gptel")
 
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
