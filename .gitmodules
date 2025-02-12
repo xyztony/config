@@ -1,0 +1,3 @@
+[submodule "gptel"]
+	path = gptel
+	url = https://github.com/karthink/gptel.git
