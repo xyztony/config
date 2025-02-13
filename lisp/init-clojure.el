@@ -37,11 +37,16 @@
     ;; This choice of keybinding leaves cider-macroexpand-1 unbound
     (cljr-add-keybindings-with-prefix "C-c C-m"))
 
+(use-package flycheck-clj-kondo
+  :ensure t)
+
 (use-package clojure-mode
   :custom
   (setq clojure-indent-style 'always-indent
       clojure-indent-keyword-style 'always-indent
       clojure-enable-indent-specs nil)
+  :config
+  (require 'flycheck-clj-kondo)
   :hook
   ((clojure-mode . my-clojure-mode-hook))
   :bind
@@ -52,10 +57,8 @@
         ("C-c C-r w" . clojure-cycle-when)
         ("C-c C-r i" . clojure-cycle-if)
 
-        ("C-c C-r ;" . clojure-toggle-ignore-surrounding-form)
+        ("C-c C-r ;" . clojure-toggle-ignore-surrounding-form)))
 
-        
-        ))
 
 
 (defun clerk-show ()
