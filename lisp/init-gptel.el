@@ -182,7 +182,7 @@ Returns a string containing diffs or nil if no context buffers have changes."
    :description "Get diffs for modified buffers in the current gptel context that are under version control"
    :args nil
    :category "emacs")
-  
+
   (if (work-machine-p)
       (when-let ((key (getenv "GEMINI_API_KEY")))
         (setq gptel-backend
