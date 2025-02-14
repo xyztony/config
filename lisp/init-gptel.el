@@ -133,53 +133,28 @@ Returns information about the symbol's type and its definition."
   (gptel-make-tool
    :name "get_buffer_diffs"
    :function (lambda ()
-               "Return diffs for modified buffers in the current gptel context that are under version control.
-Returns a string containing diffs or nil if no context buffers have changes."
-               (let ((thread-result nil)
-                     (thread-done nil))
-                 (make-thread
-                  (lambda ()
-                    (condition-case err
-                        (let ((diffs nil))
-                          (message "Starting diff thread...")
-                          (dolist (ctx gptel-context--alist)
-                            (when-let* ((buf (if (bufferp (car ctx))
-                                                 (car ctx)
-                                               (get-buffer (car ctx))))
-                                        (file-name (buffer-file-name buf)))
-                              (message "Processing buffer: %s" (buffer-name buf))
-                              (with-current-buffer buf
-                                (when (and (buffer-modified-p)
-                                           (vc-backend file-name))
-                                  (let ((diff-buf (generate-new-buffer "*tmp-diff*")))
-                                    (when (zerop (vc-call-backend
-                                                  (vc-backend file-name)
-                                                  'diff file-name
-                                                  nil nil nil diff-buf))
-                                      (with-current-buffer diff-buf
-                                        (push (format "=== Diff for %s ===\n%s"
-                                                      file-name
-                                                      (buffer-string))
-                                              diffs)))
-                                    (kill-buffer diff-buf))))))
-                          (setq thread-result
-                                (if diffs
-                                    (string-join (nreverse diffs) "\n\n")
-                                  "No modified buffers with diffs found in gptel context."))
-                          (message "Diff thread completed successfully"))
-                      (error
-                       (setq thread-result (format "Error in diff thread: %S" err))))
-                    (setq thread-done t))
-                  "gptel-diff-thread")
-                 (let ((timeout 5) 
-                       (wait-time 0.1))
-                   (while (and (not thread-done)
-                               (< 0 timeout))
-                     (sleep-for wait-time)
-                     (setq timeout (- timeout wait-time))))
-                 (or thread-result
-                     "Timeout while getting diffs")))
-   :description "Get diffs for modified buffers in the current gptel context that are under version control"
+               "Return diffs for modified buffers in the current gptel context."
+               (let ((result ""))
+                 (dolist (item gptel-context--alist)
+                   (let ((buf (if (bufferp item)
+                                  item 
+                                (if (bufferp (car item))
+                                    (car item)
+                                  (car (car item))))))
+                     (when (buffer-file-name buf)
+                       (with-current-buffer buf
+                         (when (buffer-modified-p)
+                           (setq result
+                                 (concat result
+                                         (format "\n=== Buffer: %s ===\n" (buffer-name))
+                                         (with-temp-buffer
+                                           (let ((magit-diff-buffer-file-args '("--no-ext-diff")))
+                                             (magit-git-insert "diff-files" "--" (buffer-file-name buf)))
+                                           (buffer-string)))))))))
+                 (if (string-empty-p result)
+                     "No modified buffers found in context"
+                   result)))
+   :description "Get diffs for modified buffers in the current gptel context"
    :args nil
    :category "emacs")
 
