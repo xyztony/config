@@ -91,35 +91,38 @@
     ("X" "Force delete" puni-force-delete)]])
 
 (transient-define-prefix transient-window-management ()
-    "Window management menu"
-    [["Navigation"
-      ("n" "Next window" other-window)
-      ("p" "Previous window" (lambda () (interactive) (other-window -1)))]
-     ["Split"
-      ("-" "Split below" split-window-below)
-      ("/" "Split right" split-window-right)]
-     ["Delete"
-      ("q" "Delete window" delete-window)
-      ("d" "Delete other windows" delete-other-windows)]
-     ["Close Direction"
-      ("kp" "Close Up" (lambda () (interactive) (my/close-all-windows-direction 'above)))
-      ("kn" "Close Down" (lambda () (interactive) (my/close-all-windows-direction 'below)))
-      ("kb" "Close Left" (lambda () (interactive) (my/close-all-windows-direction 'left)))
-      ("kf" "Close Right" (lambda () (interactive) (my/close-all-windows-direction 'right)))
-      ("kw" "Close & Kill" kill-buffer-and-window)]
-     ["Resize"
-      ("r" "rotate layout" rotate-layout)
-      ("B" "Shrink horizontally" shrink-window-horizontally)
-      ("F" "Enlarge horizontally" enlarge-window-horizontally)
-      ("N" "Shrink vertically" shrink-window)
-      ("P" "Enlarge vertically" enlarge-window)
-      ("ma" "maximize" maximize-window)
-      ("mi" "minimize" minimize-window)]
-     ["Balance"
-      ("=" "Balance windows" balance-windows)]
-     ["Winner"
-      ("u" "Undo" winner-undo)
-      ("r" "Redo" winner-undo)]])
+  "Window management menu"
+  :transient-non-suffix 'transient--do-quit
+  [["Navigation"
+    ("n" "Next window" other-window :transient t)
+    ("p" "Previous window"
+     (lambda () (interactive) (other-window -1))
+     :transient t)]
+   ["Split"
+    ("-" "Split below" split-window-below)
+    ("/" "Split right" split-window-right)]
+   ["Delete"
+    ("q" "Delete window" delete-window)
+    ("d" "Delete other windows" delete-other-windows)]
+   ["Close Direction"
+    ("kp" "Close Up" (lambda () (interactive) (my/close-all-windows-direction 'above)))
+    ("kn" "Close Down" (lambda () (interactive) (my/close-all-windows-direction 'below)))
+    ("kb" "Close Left" (lambda () (interactive) (my/close-all-windows-direction 'left)))
+    ("kf" "Close Right" (lambda () (interactive) (my/close-all-windows-direction 'right)))
+    ("kw" "Close & Kill" kill-buffer-and-window)]
+   ["Resize"
+    ("l" "rotate layout" rotate-layout)
+    ("B" "Shrink horizontally" shrink-window-horizontally :transient t)
+    ("F" "Enlarge horizontally" enlarge-window-horizontally :transient t)
+    ("N" "Shrink vertically" shrink-window :transient t)
+    ("P" "Enlarge vertically" enlarge-window :transient t)
+    ("ma" "maximize" maximize-window)
+    ("mi" "minimize" minimize-window)]
+   ["Balance"
+    ("=" "Balance windows" balance-windows)]
+   ["Winner"
+    ("u" "Undo" winner-undo)
+    ("r" "Redo" winner-undo)]])
 
 (transient-define-prefix transient-denote-menu ()
   "Denote menu"
