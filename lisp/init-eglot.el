@@ -12,17 +12,18 @@
            typescript-ts-mode
            typescript-mode)
           . eglot-ensure)
-         ((cider-mode eglot-managed-mode) . eglot-disable-in-cider))
+         ;; ((cider-mode eglot-managed-mode) . eglot-disable-in-cider)
+         )
   :preface
   
-  (defun eglot-disable-in-cider ()
-    (when (eglot-managed-p)
-      (if (bound-and-true-p cider-mode)
-          (progn
-            (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
-            (remove-hook 'xref-backend-functions 'eglot-xref-backend t))
-        (add-hook 'completion-at-point-functions 'eglot-completion-at-point nil t)
-        (add-hook 'xref-backend-functions 'eglot-xref-backend nil t))))
+  ;; (defun eglot-disable-in-cider ()
+  ;;   (when (eglot-managed-p)
+  ;;     (if (bound-and-true-p cider-mode)
+  ;;         (progn
+  ;;           (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
+  ;;           (remove-hook 'xref-backend-functions 'eglot-xref-backend t))
+  ;;       (add-hook 'completion-at-point-functions 'eglot-completion-at-point nil t)
+  ;;       (add-hook 'xref-backend-functions 'eglot-xref-backend nil t))))
   
   :config
   (add-to-list 'eglot-server-programs
