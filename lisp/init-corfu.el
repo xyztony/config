@@ -44,5 +44,4 @@
 	("S-TAB" . corfu-previous)
 	([backtab] . corfu-previous)))
 
-
 (provide 'init-corfu)

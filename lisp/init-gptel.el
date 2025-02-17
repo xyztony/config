@@ -192,7 +192,7 @@ Returns information about the symbol's type and its definition."
     :stream t
     :models '(deepseek-r1:32b
               deepseek-r1:14b
-              llama3.1:latest
+              llama3.2:latest
               llama3.2-vision:latest))
 
   (when-let ((key (getenv "CEREBRAS_API_KEY")))

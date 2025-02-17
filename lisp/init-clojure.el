@@ -1,12 +1,13 @@
 (use-package clj-refactor
   :ensure t
+  :vc (:url "https://github.com/clojure-emacs/clj-refactor.el"
+            :rev :newest)
   :hook (clojure-mode . clj-refactor-mode))
-
-(require 'clj-refactor)
 
 (use-package cider
   :ensure t
   :init
+  (require 'clj-refactor)
   :config
   (cider-enable-flex-completion)
   (setq cider-clojure-compilation-error-phases nil
@@ -56,10 +57,7 @@
         ("C-c C-r n" . clojure-cycle-not)
         ("C-c C-r w" . clojure-cycle-when)
         ("C-c C-r i" . clojure-cycle-if)
-
         ("C-c C-r ;" . clojure-toggle-ignore-surrounding-form)))
-
-
 
 (defun clerk-show ()
   (interactive)
