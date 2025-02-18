@@ -7,8 +7,7 @@
 
 (use-package eglot
   :ensure t
-  :hook (((;; clojure-mode clojurec-mode clojurescript-mode
-           java-mode
+  :hook (((java-mode
            fsharp-mode
            typescript-ts-mode
            typescript-mode)
@@ -26,10 +25,6 @@
         (add-hook 'xref-backend-functions 'eglot-xref-backend nil t))))
   
   :config
-  ;; nim's langserver freezes with eglot 😔
-  ;; (add-to-list 'eglot-server-programs
-  ;;              '((nim-mode) "~/.nimble/bin/nimlangserver"))
-  
   (add-to-list 'eglot-server-programs
                '((swift-mode . ("xcrun" "sourcekit-lsp"))
                  (typescript-mode typescript-ts-mode) "typescript-language-server" "--stdio"
@@ -80,7 +75,6 @@
      :documentRangeFormattingProvider
      :documentOnTypeFormattingProvider
      :colorProvider
-     :foldingRangeProvider))
-  (eglot-stay-out-of '(yasnippet)))
+     :foldingRangeProvider)))
 
 (provide 'init-eglot)

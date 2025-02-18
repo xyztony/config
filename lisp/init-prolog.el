@@ -62,8 +62,6 @@
                                 ("\\.m$" . mercury-mode))
                               auto-mode-alist))
 
-
-
 (use-package ediprolog
   :ensure t
   :config
@@ -81,7 +79,6 @@
         ("C-c C-p" . insert-prog)
         ("C-c C-<return>" . insert-eq)
         
-
         ("C-c ." . add-period-eol)
         ("C-c ," . add-comma-eol)
         ("C-c C-;" . comment-line)))

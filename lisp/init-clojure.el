@@ -6,8 +6,6 @@
 
 (use-package cider
   :ensure t
-  :init
-  (require 'clj-refactor)
   :config
   (cider-enable-flex-completion)
   (setq cider-clojure-compilation-error-phases nil
@@ -67,19 +65,6 @@
     (save-buffer)
     (cider-interactive-eval
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
-
-;; (defun add-debug-bindings ()
-;;   "Create (def *var var) for all variables in let block and copy to kill-ring."
-;;   (interactive)
-;;   (save-excursion
-;;     (let* ((bindings (cljr--get-let-bindings))
-;;              (vars (mapcar 'car bindings))
-;;              (defs (mapconcat (lambda (var)
-;;                                 (format "(def *%s %s)" var var))
-;;                               vars
-;;                               "\n")))
-;;         (kill-new defs)
-;;         (message "Copied debug bindings to kill-ring"))))
 
 (defun add-debug-bindings ()
   "Create (def *var var) for all variables in let block or defn args,
@@ -142,7 +127,5 @@ including destructured :as bindings, and copy to kill-ring."
    (t
     (message "No symbols found in: %S" bindings)
     nil)))
-
-;; (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 
 (provide 'init-clojure)
