@@ -24,21 +24,39 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
-(setq my-font-size 180)
+
+(defun my/set-fonts (font-size)
+  (set-face-attribute 'default nil
+                        :font "Agave Nerd Font Mono"
+                        :height font-size
+                        :weight 'normal)
+    (set-face-attribute 'fixed-pitch nil
+                        :font "Agave Nerd Font Mono"
+                        :height font-size
+                        :weight 'light))
+
+(defun my/set-font-size ()
+  (interactive)
+  (let ((size
+         (* 10 (string-to-number
+                (completing-read "font size >> "
+                                 (mapcar #'number-to-string
+                                         (number-sequence 10 30)))))))
+    (my/set-fonts size)))
+
+(defconst my-font-size 180)
+(my/set-fonts my-font-size)
 
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-
-;; (load-theme 'modus-vivendi t)
+;; (load-theme 'modus-vivendi-tritanopia t)
 (use-package almost-mono-themes
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
-(load-theme 'humanoid-dark t)
-
-(set-face-attribute 'default nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'normal)
-(set-face-attribute 'fixed-pitch nil :font "Agave Nerd Font Mono" :height my-font-size :weight 'light)
+;; (load-theme 'humanoid-dark t)
+(load-theme 'almost-mono-cream)
 
 (require 'org-faces)
 
