@@ -1,3 +1,4 @@
+
 ;; (add-hook 'after-init-hook #'dired-jump)
 ;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
 
@@ -50,13 +51,13 @@
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-;; (load-theme 'modus-vivendi-tritanopia t)
+(load-theme 'modus-vivendi-tritanopia t)
 (use-package almost-mono-themes
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
 ;; (load-theme 'humanoid-dark t)
-(load-theme 'almost-mono-cream)
+;; (load-theme 'almost-mono-cream)
 
 (require 'org-faces)
 
