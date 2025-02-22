@@ -55,6 +55,7 @@
         compilation-mode))
 (global-set-key (kbd "C-`") 'popper-toggle)
 (global-set-key (kbd "M-`") 'popper-cycle)
+(global-set-key (kbd "M-~") 'popper-cycle-backwards)
 (global-set-key (kbd "C-M-`") 'popper-toggle-type)
 (global-set-key (kbd "C-M-k") 'popper-kill-latest-popup)
 (popper-mode +1)
