@@ -22,6 +22,8 @@
 (add-to-load-path "lisp")
 (add-to-load-path "gptel")
 
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 
@@ -33,6 +35,9 @@
 		   "/"))
 
 (setq-default indent-tabs-mode nil)
+
+(setq mac-option-key-is-meta t
+      mac-option-modifier 'meta)
 
 (use-package emacs
   :init
@@ -62,6 +67,7 @@
    ("C-c C-l" . load-file)
    ("C-j" . join-line)
    ("M-h" . mark-paragraph)
+   ("M-s M-s" . ispell-word)
    ("C-a" . my/beginning-of-line)
    ("C-c C-/" . vundo)
    ("s-b" . switch-to-buffer)
