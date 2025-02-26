@@ -1,4 +1,3 @@
-
 ;; (add-hook 'after-init-hook #'dired-jump)
 ;; (add-hook 'after-change-major-mode-hook 'hack-local-variables)
 
@@ -59,6 +58,18 @@
 ;; (load-theme 'humanoid-dark t)
 ;; (load-theme 'almost-mono-cream)
 
+(use-package moody
+  :vc (:url "https://github.com/tarsius/moody"
+            :rev :newest)
+  :config
+  (setq moody-mode-line-height 20
+        moody-slant-function #'moody-slant-apple-rgb)
+  (set-face-attribute 'mode-line nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :box nil)
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+  
 (require 'org-faces)
 
 (dolist (face '(window-divider
@@ -75,16 +86,6 @@
       (delete-window win)
       (my/close-all-windows-direction direction))))
 
-(defun my/split-and-show-other ()
-  "Split window and show other buffer."
-  (interactive)
-  (let ((other-buf (other-buffer (current-buffer) t)))
-    (if other-buf
-        (progn
-          (select-window (split-window-sensibly))
-          (switch-to-buffer other-buf))
-      (split-window-sensibly))))
-
 (defun my/split-and-show-other (&optional split-direction)
   (interactive)
   (let* ((other-buf (other-buffer (current-buffer) t))
@@ -95,7 +96,6 @@
       (select-window (funcall split-fn))
       (switch-to-buffer other-buf))))
 
-(global-set-key (kbd "C-x 4") (lambda () (interactive) (my/split-and-show-other nil)))
 (global-set-key (kbd "C-x 3") (lambda () (interactive) (my/split-and-show-other 'vertical)))
 (global-set-key (kbd "C-x 2") (lambda () (interactive) (my/split-and-show-other 'horizontal)))
 
