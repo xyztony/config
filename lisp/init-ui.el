@@ -57,17 +57,18 @@
 ;; (load-theme 'humanoid-dark t)
 ;; (load-theme 'almost-mono-cream)
 
-(use-package moody
-  :vc (:url "https://github.com/tarsius/moody"
-            :rev :newest)
+(use-package nano-modeline
+  :vc (:url "https://github.com/rougier/nano-modeline" :rev :newest)
+  :init
+  (setq-default mode-line-format nil)
   :config
-  (setq moody-mode-line-height 20
-        moody-slant-function #'moody-slant-apple-rgb)
-  (set-face-attribute 'mode-line nil :box nil)
-  (set-face-attribute 'mode-line-inactive nil :box nil)
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+  (setq nano-modeline-position 'nano-modeline-footer
+        nano-modeline-padding '(0.0 . 0.0))
+  (nano-modeline-prog-mode t)
+  :hook
+  (prog-mode . nano-modeline-prog-mode))
+
+
   
 (require 'org-faces)
 
