@@ -1,4 +1,4 @@
-(defun my/corfu-eshell-mode-hook ()
+(defun ant/corfu-eshell-mode-hook ()
   (lambda ()
     (setq-local corfu-auto nil)
     (corfu-mode)))
@@ -35,7 +35,7 @@
   ((after-init . corfu-mode)
    (cider-repl-mode . corfu-mode)
    (cider-mode . corfu-mode)
-   (eshell-mode . my/corfu-eshell-mode-hook))
+   (eshell-mode . ant/corfu-eshell-mode-hook))
   
   :bind
   (:map corfu-map

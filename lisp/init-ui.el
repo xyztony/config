@@ -24,8 +24,7 @@
 (setq-default display-line-numbers 'relative)
 (setq-default highlight-nonselected-windows 't)
 
-
-(defun my/set-fonts (font-size)
+(defun ant/set-fonts (font-size)
   (set-face-attribute 'default nil
                         :font "Agave Nerd Font Mono"
                         :height font-size
@@ -35,17 +34,17 @@
                         :height font-size
                         :weight 'light))
 
-(defun my/set-font-size ()
+(defun ant/set-font-size ()
   (interactive)
   (let ((size
          (* 10 (string-to-number
                 (completing-read "font size >> "
                                  (mapcar #'number-to-string
                                          (number-sequence 10 30)))))))
-    (my/set-fonts size)))
+    (ant/set-fonts size)))
 
 (defconst my-font-size 180)
-(my/set-fonts my-font-size)
+(ant/set-fonts my-font-size)
 
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
@@ -79,14 +78,14 @@
   (set-face-foreground face (face-attribute 'default :background)))
 (set-face-background 'fringe (face-attribute 'default :background))
 
-(defun my/close-all-windows-direction (direction)
+(defun ant/close-all-windows-direction (direction)
   "Close windows in the specified DIRECTION until no more windows exist"
   (let ((win (window-in-direction direction)))
     (when win
       (delete-window win)
-      (my/close-all-windows-direction direction))))
+      (ant/close-all-windows-direction direction))))
 
-(defun my/split-and-show-other (&optional split-direction)
+(defun ant/split-and-show-other (&optional split-direction)
   (interactive)
   (let* ((other-buf (other-buffer (current-buffer) t))
          (split-fn (cond ((eq split-direction 'horizontal) #'split-window-below)
@@ -96,8 +95,8 @@
       (select-window (funcall split-fn))
       (switch-to-buffer other-buf))))
 
-(global-set-key (kbd "C-x 3") (lambda () (interactive) (my/split-and-show-other 'vertical)))
-(global-set-key (kbd "C-x 2") (lambda () (interactive) (my/split-and-show-other 'horizontal)))
+(global-set-key (kbd "C-x 3") (lambda () (interactive) (ant/split-and-show-other 'vertical)))
+(global-set-key (kbd "C-x 2") (lambda () (interactive) (ant/split-and-show-other 'horizontal)))
 
 (global-set-key (kbd "<f11>") 'toggle-frame-tab-bar)
 (global-set-key (kbd "<f12>") 'toggle-frame-fullscreen)

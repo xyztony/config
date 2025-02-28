@@ -32,7 +32,7 @@
 		  (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face))))
 
-(defun my/screenshot-filename ()
+(defun ant/screenshot-filename ()
   (let* ((buf-name (file-name-base (or (buffer-file-name) "screenshot")))
          (timestamp (format-time-string "%Y-%m-%d_%H-%M-%S"))
          (filename (concat buf-name "_" timestamp ".png")))

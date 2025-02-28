@@ -1,4 +1,4 @@
-(defcustom my/gptel-directives-file "gptel-custom/gptel-directives.org"
+(defcustom ant/gptel-directives-file "gptel-custom/gptel-directives.org"
   "Path to the gptel directives org file, relative to =user-emacs-directory'."
   :type 'string
   :group 'gptel)
@@ -10,14 +10,14 @@
   (gptel-model 'claude-3-7-sonnet-20250219)
   
   :config
-  (defun my/gptel-save-buffer ()
+  (defun ant/gptel-save-buffer ()
     "Save the current GPTEL buffer with the default directory
 set to ~/Documents/notes."
     (interactive)
     (let ((default-directory "~/Documents/notes/gptel/"))
       (call-interactively #'save-buffer)))
 
-  (defun my/gptel-load-session ()
+  (defun ant/gptel-load-session ()
     "Load a gptel session from ~/Documents/notes directory."
     (interactive)
     (let ((default-directory "~/Documents/notes/gptel/"))
@@ -27,12 +27,12 @@ set to ~/Documents/notes."
           (find-file file)
           (gptel-mode)))))
 
-  (defun my/load-gptel-directives-from-org ()
+  (defun ant/load-gptel-directives-from-org ()
     "Load gptel directives from an org file and merge with existing directives.
 The org file should have level 1 headings as directive names
 and their content as the directive text."
     (interactive)
-    (let* ((directives-file (expand-file-name my/gptel-directives-file user-emacs-directory))
+    (let* ((directives-file (expand-file-name ant/gptel-directives-file user-emacs-directory))
            (directives-table (make-hash-table :test 'eq)))
       
       ;; Load existing directives into the hash table
@@ -67,7 +67,7 @@ and their content as the directive text."
           (message "Loaded %d new gptel directives (%d total)"
                    new-count (hash-table-count directives-table))))))
   
-  (my/load-gptel-directives-from-org)
+  (ant/load-gptel-directives-from-org)
 
   ;; https://github.com/karthink/gptel/blob/master/README.org#defining-gptel-tools
   (gptel-make-tool
@@ -177,13 +177,13 @@ Returns information about the symbol's type and its definition."
         gptel-default-mode 'org-mode
         gptel-use-tools t)
   
-  (when-let ((file (expand-file-name my/gptel-directives-file user-emacs-directory)))
+  (when-let ((file (expand-file-name ant/gptel-directives-file user-emacs-directory)))
     (require 'filenotify)
     (file-notify-add-watch
      file
      '(change)
      (lambda (_event)
-       (my/load-gptel-directives-from-org))))
+       (ant/load-gptel-directives-from-org))))
 
   (gptel-make-ollama "Ollama" 
     :host "localhost:11434"
@@ -205,7 +205,7 @@ Returns information about the symbol's type and its definition."
   
   :bind (:map gptel-mode-map
               ("C-c C-g" . gptel-menu)
-              ("C-c C-d" . my/load-gptel-directives-from-org)
-              ("C-x C-s" . my/gptel-save-buffer)))
+              ("C-c C-d" . ant/load-gptel-directives-from-org)
+              ("C-x C-s" . ant/gptel-save-buffer)))
 
 (provide 'init-gptel)

@@ -105,10 +105,10 @@
     ("q" "Delete window" delete-window)
     ("d" "Delete other windows" delete-other-windows)]
    ["Close Direction"
-    ("kp" "Close Up" (lambda () (interactive) (my/close-all-windows-direction 'above)))
-    ("kn" "Close Down" (lambda () (interactive) (my/close-all-windows-direction 'below)))
-    ("kb" "Close Left" (lambda () (interactive) (my/close-all-windows-direction 'left)))
-    ("kf" "Close Right" (lambda () (interactive) (my/close-all-windows-direction 'right)))
+    ("kp" "Close Up" (lambda () (interactive) (ant/close-all-windows-direction 'above)))
+    ("kn" "Close Down" (lambda () (interactive) (ant/close-all-windows-direction 'below)))
+    ("kb" "Close Left" (lambda () (interactive) (ant/close-all-windows-direction 'left)))
+    ("kf" "Close Right" (lambda () (interactive) (ant/close-all-windows-direction 'right)))
     ("kw" "Close & Kill" kill-buffer-and-window)]
    ["Resize"
     ("l" "rotate layout" rotate-layout)
@@ -186,7 +186,7 @@
   "GPT-EL menu"
   [["gptel"
     ("m" "Gptel menu" gptel-menu)
-    ("l" "Load session" my/gptel-load-session)
+    ("l" "Load session" ant/gptel-load-session)
     ("ss" "Send" gptel-send)
     ("sp" "Prompt" gptel-system-prompt)
     ("g" "Start chat session" gptel)]])

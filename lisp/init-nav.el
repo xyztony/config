@@ -19,7 +19,7 @@
 (use-package wgrep
   :ensure t)
 
-(defun my/mc-mark-word-and-similar ()
+(defun ant/mc-mark-word-and-similar ()
     "Mark word at point and similar words after it."
     (interactive)
     (let ((word (thing-at-point 'word t)))
@@ -34,7 +34,7 @@
         ("C-c C->" . mc/mark-all-like-this)
         ("C-C C-C" . mc/edit-lines)
         ("C-c C-d" . mc/mark-next-like-this)
-        ("C-c C-w" . my/mc-mark-word-and-similar)))
+        ("C-c C-w" . ant/mc-mark-word-and-similar)))
 
 (use-package popper
   :ensure t)
@@ -60,7 +60,7 @@
 (global-set-key (kbd "C-M-k") 'popper-kill-latest-popup)
 (popper-mode +1)
 
-(defun my/beginning-of-line ()
+(defun ant/beginning-of-line ()
   "Swap between beginning of line, and first char of line."
   (interactive)
   (if (= 0 (current-column))

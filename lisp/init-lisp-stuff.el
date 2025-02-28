@@ -14,7 +14,7 @@
   :hook ((prog-mode sgml-mode nxml-mode tex-mode eval-expression-minibuffer-setup) . puni-mode)
   (term-mode-hook . puni-disable-puni-mode)
   :config
-  (defun my/puni-raise-and-replace-sexp ()
+  (defun ant/puni-raise-and-replace-sexp ()
     "Raise sexp at point, entirely replacing wherever it was previously contained"
     (interactive)
     (puni-mark-sexp-around-point)
@@ -23,7 +23,7 @@
       (delete-region (region-beginning) (region-end))
       (insert sexp)))
 
-  (defun my/duplicate-region-after ()
+  (defun ant/duplicate-region-after ()
     "Duplicate the current region, insert on a new line after."
     (interactive)
     (save-excursion
@@ -34,7 +34,7 @@
         (newline-and-indent)
         (insert sexp-str))))
 
-  (defun my/puni-grab-next-sexp-here ()
+  (defun ant/puni-grab-next-sexp-here ()
     "Grab the next s-expression and bring it to current position with newline."
     (interactive)
     (let ((orig-point (point)))
@@ -50,7 +50,7 @@
           (goto-char orig-point)
           (newline-and-indent)))))
 
-  (defun my/puni-mark-and-indent-sexp ()
+  (defun ant/puni-mark-and-indent-sexp ()
     "Mark sexp around point using puni and indent the region."
     (interactive)
     (let ((orig-point (point)))
@@ -66,10 +66,10 @@
         ("C-M-x" . puni-squeeze)
 	("C-M-z" . puni-splice)
 
-        ("C-M-d" . my/duplicate-region-after)
-        ("C-M-e" . my/puni-mark-and-indent-sexp)
-        ("C-M-r" . my/puni-raise-and-replace-sexp)
-        ("C-M-g" . my/puni-grab-next-sexp-here)
+        ("C-M-d" . ant/duplicate-region-after)
+        ("C-M-e" . ant/puni-mark-and-indent-sexp)
+        ("C-M-r" . ant/puni-raise-and-replace-sexp)
+        ("C-M-g" . ant/puni-grab-next-sexp-here)
 	
         ("C-M-b" . puni-slurp-backward)
 	("C-M-f" . puni-slurp-forward)

@@ -68,7 +68,7 @@
    ("C-j" . join-line)
    ("M-h" . mark-paragraph)
    ("M-s M-s" . ispell-word)
-   ("C-a" . my/beginning-of-line)
+   ("C-a" . ant/beginning-of-line)
    ("C-c C-/" . vundo)
    ("s-b" . switch-to-buffer)
    ("s-p" . project-find-file)))
