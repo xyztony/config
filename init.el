@@ -36,12 +36,12 @@
 
 (setq-default indent-tabs-mode nil)
 
-(setq mac-option-key-is-meta t
-      mac-option-modifier 'meta)
-
 (use-package emacs
   :init
-  (setq completion-cycle-threshold 2
+  (setq mac-option-key-is-meta t
+        mac-option-modifier 'meta
+        create-lockfiles nil
+        completion-cycle-threshold 2
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (when (not (work-machine-p))

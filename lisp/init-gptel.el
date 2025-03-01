@@ -129,35 +129,7 @@ Returns information about the symbol's type and its definition."
                        :type "string"
                        :description "The name of the Emacs Lisp symbol, face, or function to look up"))
    :category "emacs")
-
-  (gptel-make-tool
-   :name "get_buffer_diffs"
-   :function (lambda ()
-               "Return diffs for modified buffers in the current gptel context."
-               (let ((result ""))
-                 (dolist (item gptel-context--alist)
-                   (let ((buf (if (bufferp item)
-                                  item 
-                                (if (bufferp (car item))
-                                    (car item)
-                                  (car (car item))))))
-                     (when (buffer-file-name buf)
-                       (with-current-buffer buf
-                         (when (buffer-modified-p)
-                           (setq result
-                                 (concat result
-                                         (format "\n=== Buffer: %s ===\n" (buffer-name))
-                                         (with-temp-buffer
-                                           (let ((magit-diff-buffer-file-args '("--no-ext-diff")))
-                                             (magit-git-insert "diff-files" "--" (buffer-file-name buf)))
-                                           (buffer-string)))))))))
-                 (if (string-empty-p result)
-                     "No modified buffers found in context"
-                   result)))
-   :description "Get diffs for modified buffers in the current gptel context"
-   :args nil
-   :category "emacs")
-
+    
   (if (work-machine-p)
       (when-let ((key (getenv "GEMINI_API_KEY")))
         (setq gptel-backend
