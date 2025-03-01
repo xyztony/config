@@ -66,15 +66,15 @@
   (interactive)
   (let* ((node (treesit-node-at (point)))
         (list-node (treesit-get-containing-list node))
-        (first-child (when list-node 
+        (first-child (when list-node
                       (treesit-node-child list-node 1)))
         (is-let (and first-child
                      (equal (treesit-node-type first-child) "sym_lit")
                      (equal (treesit-node-text first-child) "let")))
-        (bindings-vec (when is-let 
+        (bindings-vec (when is-let
                        (treesit-node-child list-node 2)))
         (binding-names
-         (when (and bindings-vec 
+         (when (and bindings-vec
                     (equal (treesit-node-type bindings-vec) "vec_lit"))
            (let (names)
              (dolist (child (treesit-node-children bindings-vec))
@@ -90,18 +90,19 @@
   "List all function definitions (defn) in current buffer or form.
 Results are displayed in a new buffer."
   (interactive)
-  (let* ((query-string "(list_lit 
-                         (sym_lit) @defn-sym 
+  (let* ((source-buffer (current-buffer))
+         (query-string "(list_lit
+                         (sym_lit) @defn-sym
                          (sym_lit) @fn-name
                          [
                           (vec_lit) @args
                           (list_lit) @body
-                         ] 
+                         ]
                          (#equal @defn-sym \"defn\"))")
          (query (treesit-query-compile 'clojure query-string))
          (root-node (treesit-buffer-root-node 'clojure))
          (matches (treesit-query-capture root-node query))
-         (current-buffer (current-buffer))
+         
          (functions (seq-uniq
                      (seq-filter (lambda (match)
                                    (equal (car match) 'fn-name))
@@ -109,27 +110,44 @@ Results are displayed in a new buffer."
                      (lambda (a b)
                        (equal (treesit-node-text (cdr a))
                               (treesit-node-text (cdr b))))))
-         (buf (get-buffer-create "*Clojure Functions*")))
-    (with-current-buffer buf
+         
+         (result-buffer (get-buffer-create "*Clojure Functions*"))
+         
+         (markers (mapcar (lambda (fn)
+                            (let* ((node (cdr fn))
+                                   (pos (treesit-node-start node))
+                                   (marker (make-marker)))
+                              (with-current-buffer source-buffer
+                                (set-marker marker pos))
+                              (cons (treesit-node-text node) marker)))
+                          functions)))
+    (with-current-buffer result-buffer
       (let ((inhibit-read-only t))
         (erase-buffer)
-        (dolist (fn functions)
-          (let* ((node (cdr fn))
-                 ;; todo almost working
-                 (marker (with-current-buffer current-buffer
-                           (set-marker (make-marker) 
-                                       (treesit-node-start node))))
-                 (name (treesit-node-text node)))
-            (insert-text-button name
-                                'action (lambda (_)
-                                          (goto-char marker))
-                                'follow-link t
-                                'help-echo "Go to")
+        (dolist (item markers)
+          (let ((name (car item))
+                (marker (cdr item)))
+            (insert-text-button 
+             name
+             'action (lambda (btn)
+                       (let ((marker-pos (button-get btn 'marker-pos))
+                             (marker-buffer (button-get btn 'marker-buffer)))
+                         (when (and marker-pos
+                                    marker-buffer
+                                    (buffer-live-p marker-buffer))
+                           (pop-to-buffer marker-buffer)
+                           (goto-char marker-pos))))
+             'marker-pos (marker-position marker)
+             'marker-buffer (marker-buffer marker)
+             'follow-link t
+             'help-echo "Go to function definition")
             (insert "\n")))
         (goto-char (point-min))
         (special-mode)))
-    (display-buffer buf)
-    (popper-toggle-type buf)))
+    
+    (display-buffer result-buffer)
+    (when (fboundp 'popper-toggle-type)
+      (popper-toggle-type result-buffer))))
 
 (use-package treesit-fold
   :load-path "treesit-fold")
