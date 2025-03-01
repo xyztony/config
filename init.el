@@ -72,7 +72,9 @@
    ("C-a" . ant/beginning-of-line)
    ("C-c C-/" . vundo)
    ("s-b" . switch-to-buffer)
-   ("s-p" . project-find-file)))
+   ("s-p" . project-find-file)
+   ("s-f" . affe-find)
+   ("s-g" . affe-grep)))
 
 (require 'init-clojure)
 (require 'init-corfu)

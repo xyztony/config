@@ -49,11 +49,17 @@
 (setopt display-fill-column-indicator-column 120)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-(load-theme 'modus-vivendi-tritanopia t)
+(use-package creamsody-theme
+  :vc (:url "https://github.com/emacsfodder/emacs-theme-creamsody"
+            :rev :newest)
+  :ensure t)
+
 (use-package almost-mono-themes
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
+(load-theme 'creamsody-pitchblack t)
+;; (load-theme 'modus-vivendi-tritanopia t)
 ;; (load-theme 'humanoid-dark t)
 ;; (load-theme 'almost-mono-cream)
 
@@ -67,8 +73,6 @@
   (nano-modeline-prog-mode t)
   :hook
   (prog-mode . nano-modeline-prog-mode))
-
-
   
 (require 'org-faces)
 
