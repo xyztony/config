@@ -83,7 +83,6 @@
 (require 'init-eshell)
 (require 'init-eww)
 (require 'init-flycheck)
-(require 'init-fsharp)
 (require 'init-gptel)
 (require 'init-julia)
 (require 'init-lisp-stuff)

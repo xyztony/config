@@ -2,9 +2,6 @@
   :ensure t
   :hook (((js2-mode typescript-mode tsx-ts-mode typescript-ts-mode js2-jsx-mode) . prettier-js-mode)))
 
-(use-package nim-mode
-  :ensure t)
-
 (use-package eglot
   :ensure t
   :hook (((java-mode
@@ -27,8 +24,7 @@
   
   :config
   (add-to-list 'eglot-server-programs
-               '((swift-mode . ("xcrun" "sourcekit-lsp"))
-                 (typescript-mode typescript-ts-mode) "typescript-language-server" "--stdio"
+               '((typescript-mode typescript-ts-mode) "typescript-language-server" "--stdio"
                  :initializationOptions
                  (:preferences
             (:disableSuggestions                                    :json-false
