@@ -44,7 +44,8 @@
   (setq completion-cycle-threshold 2
 	auto-revert-verbose nil
 	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  ;; (load custom-file)
+  (when (not (work-machine-p))
+    (load custom-file))
   ;; exports from my ~/.zshenv
   (setq exec-path-from-shell-variables '("ANTHROPIC_API_KEY"
                                          "AWS_ACCESS_KEY"
@@ -96,5 +97,6 @@
 (require 'init-treesit)
 (require 'init-ui)
 (require 'init-vertico)
+(require 'init-vterm)
 (require 'init-vundo)
 (require 'init-weblorg)

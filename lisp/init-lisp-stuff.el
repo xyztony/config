@@ -3,17 +3,16 @@
   (electric-pair-mode +1)
   (setq electric-pair-pairs '((?\" . ?\")
                               (?\{ . ?\})
-			      ;; (?\< . ?\>)
-                              ;; (?\\\* . ?\\*\\)
-                              (?\( . ?\))
+			      (?\( . ?\))
                               (?\[ . ?\]))))
 
 (use-package puni
   :defer t
   :init (puni-global-mode)
-  :hook ((prog-mode sgml-mode nxml-mode tex-mode eval-expression-minibuffer-setup) . puni-mode)
+  :hook
+  ((prog-mode sgml-mode nxml-mode tex-mode eval-expression-minibuffer-setup) . puni-mode)
   (term-mode-hook . puni-disable-puni-mode)
-  :config
+  :preface
   (defun ant/puni-raise-and-replace-sexp ()
     "Raise sexp at point, entirely replacing wherever it was previously contained"
     (interactive)
