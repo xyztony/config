@@ -1,4 +1,5 @@
 (use-package vertico
+  :ensure t
   :init
   (vertico-mode)
   (setq vertico-count 10
@@ -26,7 +27,7 @@
   :vc (:url "https://github.com/minad/affe" :rev :newest)
   :config
   (consult-customize affe-grep :preview-key "M-.")
-  
+    
   (defun ant/with-vertico-standard-mode (orig-fun &rest args)
     (let ((was-flat-mode-on (bound-and-true-p vertico-flat-mode)))
       (when was-flat-mode-on
