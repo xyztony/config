@@ -13,6 +13,9 @@
   :bind
   (:map org-mode-map
         ("C-c d l" . denote-link)
+        ("C-c d r" . denote-rename-file)
+        ("C-c d a l" . denote-add-links)
+        ("C-c d <return>" . denote-template)
         ("C-c d b" . denote-find-backlink)))
 
 (defmacro with-denote-dir (&rest body)
