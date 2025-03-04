@@ -1,11 +1,19 @@
+(require 'init-utils)
+
 (use-package denote
   :ensure t
   
   :config
+  (advice-add 'denote-find-backlink :around #'ant/with-vertico-standard-mode)
+  (advice-add 'denote-link :around #'ant/with-vertico-standard-mode)
   (setq denote-templates `(("thoughts" .
 			    ,(concat "* Some thoughts on ..."
 				     "\n\n"
-				     "- ...")))))
+				     "- ..."))))
+  :bind
+  (:map org-mode-map
+        ("C-c d l" . denote-link)
+        ("C-c d b" . denote-find-backlink)))
 
 (defmacro with-denote-dir (&rest body)
   "Execute BODY with the current project directory set to `denote-directory', then reset it."

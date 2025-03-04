@@ -32,6 +32,19 @@
 		  (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face))))
 
+(use-package org-modern
+  :vc (:url "https://github.com/minad/org-modern" :rev "main")
+  :config
+  (set-face-background 'fringe (face-attribute 'default :background))
+  (setq
+   org-auto-align-tags nil
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+   org-hide-emphasis-markers t
+   org-pretty-entities t)
+  :hook
+  (org-mode . org-modern-mode))
+
 (defun ant/screenshot-filename ()
   (let* ((buf-name (file-name-base (or (buffer-file-name) "screenshot")))
          (timestamp (format-time-string "%Y-%m-%d_%H-%M-%S"))
