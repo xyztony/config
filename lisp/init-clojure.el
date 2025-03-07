@@ -11,6 +11,7 @@
   (setq cider-clojure-compilation-error-phases nil
 	cider-repl-display-help-banner nil
 	cider-stacktrace-fill-column 80
+        cider-save-file-on-load t
         cider-use-overlays t
         cider-show-error-buffer nil
         cider-auto-jump-to-error nil)

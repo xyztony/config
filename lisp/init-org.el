@@ -1,4 +1,3 @@
-;; inspired by https://github.com/alaq/workflowy.el/
 (use-package org
   :hook
   ((org-mode . visual-line-mode))
@@ -21,21 +20,26 @@
    org-src-window-setup 'current-window
    org-time-stamp-custom-formats (cons "<%Y-%m-%d>" "<%Y-%m-%d %a %H:%M>")
    org-time-stamp-formats (cons "<%Y-%m-%d %H:%M>" "<%Y-%m-%d>")
-   org-html-doctype "html5")
+   org-html-doctype "html5"
+   org-tag-alist '(("~pending~" . ?p)
+                   ("~research" . ?R)
+                   ("~stash" .    ?S))
+   org-agenda-files '("~/Documents/notes/"))
   ;; org-agenda
-  (when (work-machine-p)
+  (if (work-machine-p)
+      (setq
+       org-tag-alist
+       (append org-tag-alist 
+               '(("@reports" .  ?r)
+                 ("@dash" .     ?d)))
+       org-agenda-custom-commands
+       '(("w" "Work"
+          ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--work-inbox.org"))
+                            (org-agenda-overriding-header "Current Tasks")))))))
     (setq
-     org-tag-alist
-     ' (
-       ("@reports" .  ?r)
-       ("@dash" .     ?d)
-       ("~pending~" . ?p)
-       ("~research" . ?R)
-       ("~stash" .    ?S))
-     
      org-agenda-custom-commands
      '(("w" "Work"
-        ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--work-inbox.org"))
+        ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--inbox.org"))
                           (org-agenda-overriding-header "Current Tasks"))))))))
   (dolist (face '((org-level-1 . 1.4)
 		  (org-level-2 . 1.2)
@@ -75,6 +79,13 @@
   (setq org-attach-screenshot-command-line "screencapture -T5 %f")
   (define-key org-mode-map (kbd "C-c s c") 'org-attach-screenshot))
 
+
+;; inspired by https://github.com/alaq/workflowy.el/
+(require 'ring)
+
+(defun format-outline-header-path (suffix)
+  (concat "%b/" (org-format-outline-path suffix)))
+
 ;;;###autoload
 (define-minor-mode org-zoom-mode
   "Zoom's features in an emacs minor mode for org-mode."
@@ -83,17 +94,16 @@
   ;; (add-hook 'org-mode-hook 'set-olivetti)
   (add-hook 'org-mode-hook 'org-indent-mode)
   ;; (add-hook 'org-mode-hook #'org-bullet-mode)
-  (define-key org-mode-map (kbd "C-<")
-              'org-go-up-one-level)
-  (define-key org-mode-map (kbd "C->")
-              'org-go-down-one-level)
-  (define-key org-mode-map (kbd "C-M-<") 'org-go-to-file-root)
-  (define-key org-mode-map (kbd "C-M->") 'org-go-to-last-node)
-  (define-key org-mode-map (kbd "C-c f") 'org-set-favorite-node)
-  (define-key org-mode-map (kbd "C-c F") 'org-jump-to-favorite-node)
-  (define-key org-mode-map (kbd "C-c C-f") 'org-clear-favorite-node)
-  (define-key org-mode-map (kbd "C-c b") 'org-return-from-favorite)
-  (setq header-line-format (concat "%b/" (org-format-outline-path(org-get-outline-path)))))
+  (define-key org-mode-map (kbd "C-<")     'org-go-up-one-level)
+  (define-key org-mode-map (kbd "C->")     'org-go-down-one-level)
+  (define-key org-mode-map (kbd "C-M-<")   'org-go-to-file-root)
+  (define-key org-mode-map (kbd "C-M->")   'org-go-to-last-node)
+  (define-key org-mode-map (kbd "C-c f")   'org-set-favorite-node)
+  (define-key org-mode-map (kbd "C-c C-f")   'org-jump-to-favorite-node)
+  (define-key org-mode-map (kbd "C-c F") 'org-clear-favorite-node)
+  (define-key org-mode-map (kbd "C-c b")   'org-return-from-favorite)
+  (setq header-line-format
+        (format-outline-header-path (org-get-outline-path))))
 
 (defvar org-node-history-ring nil
   "Ring buffer storing visited node positions.")
@@ -116,9 +126,9 @@
 (defun org-go-up-one-level ()
   "Navigate to parent node, maintaining zoom view."
   (interactive)
-  (beginning-of-buffer)
+  (goto-char (point-min))
   (widen)
-  (setq header-line-format (concat "%b/" (org-format-outline-path (org-get-outline-path))))
+  (setq header-line-format (format-outline-header-path (org-get-outline-path)))
   (save-excursion
     (org-up-element)
     (org-narrow-to-subtree))
@@ -130,13 +140,14 @@
   (org-remember-node-position)
   (org-narrow-to-subtree)
   (org-fold-show-children)
-  (setq header-line-format (concat "%b/" (org-format-outline-path (org-get-outline-path t)))))
+  (setq header-line-format (format-outline-header-path (org-get-outline-path t))))
 
 (defun org-go-to-file-root ()
-  "Go to the root level of the Org file while keeping the cursor on the current node."
+  "Go to the root level of the Org file while keeping the cursor on the
+current node."
   (interactive)
   (widen)
-  (setq header-line-format (concat "%b/"))
+  (setq header-line-format "%b")
   (recenter))
 
 (defun org-go-to-last-node ()
@@ -147,7 +158,7 @@
       (widen)
       (goto-char (marker-position marker))
       (org-narrow-to-subtree)
-      (org-show-entry)
+      (org-fold-show-entry)
       (recenter))))
 
 (defvar org-global-favorite-node nil
@@ -201,7 +212,7 @@ Otherwise, jump to buffer-local favorite."
           (widen)
           (goto-char (marker-position target))
           (org-narrow-to-subtree)
-          (org-show-entry)
+          (org-fold-show-entry)
           (recenter))
       (message "No %s favorite node set" (if arg "global" "buffer-local")))))
 
