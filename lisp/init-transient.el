@@ -126,7 +126,10 @@
 
 (transient-define-prefix transient-denote-menu ()
   "Denote menu"
-  [["Files"
+  [["Agenda/org"
+    ("a" "Agenda" org-agenda)
+    ("t" "TODO List" org-todo-list)]
+   ["Files"
     ("o" "Open denote directory" open-denote-directory-in-dired)
     ("c" "Capture node" denote)
     ("s" "Search denote files" search-denote-directory)

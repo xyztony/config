@@ -16,6 +16,8 @@
           work-dir
         home-dir))
 
+(setq org-agenda-files '("~/Documents/notes/"))
+
 (defun add-to-load-path (dir)
   (add-to-list 'load-path (expand-file-name dir user-emacs-directory)))
 

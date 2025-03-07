@@ -22,6 +22,21 @@
    org-time-stamp-custom-formats (cons "<%Y-%m-%d>" "<%Y-%m-%d %a %H:%M>")
    org-time-stamp-formats (cons "<%Y-%m-%d %H:%M>" "<%Y-%m-%d>")
    org-html-doctype "html5")
+  ;; org-agenda
+  (when (work-machine-p)
+    (setq
+     org-tag-alist
+     ' (
+       ("@reports" .  ?r)
+       ("@dash" .     ?d)
+       ("~pending~" . ?p)
+       ("~research" . ?R)
+       ("~stash" .    ?S))
+     
+     org-agenda-custom-commands
+     '(("w" "Work"
+        ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--work-inbox.org"))
+                          (org-agenda-overriding-header "Current Tasks"))))))))
   (dolist (face '((org-level-1 . 1.4)
 		  (org-level-2 . 1.2)
 		  (org-level-3 . 1.1)

@@ -42,8 +42,8 @@
 (use-package clojure-mode
   :custom
   (setq clojure-indent-style 'always-indent
-      clojure-indent-keyword-style 'always-indent
-      clojure-enable-indent-specs nil)
+        clojure-indent-keyword-style 'always-indent
+        clojure-enable-indent-specs nil)
   :config
   (require 'flycheck-clj-kondo)
   :hook
