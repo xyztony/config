@@ -12,7 +12,8 @@
 				     "- ..."))))
   :bind
   (:map org-mode-map
-        ("C-c d l" . denote-link)
+        ("C-c d l l" . denote-link)
+        ("C-c d l h" . denote-org-extras-link-to-heading)
         ("C-c d r" . denote-rename-file)
         ("C-c d a l" . denote-add-links)
         ("C-c d <return>" . denote-template)

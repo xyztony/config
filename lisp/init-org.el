@@ -27,8 +27,12 @@
    org-html-doctype "html5"
    org-tag-alist '(("~pending~" . ?p)
                    ("~research" . ?R)
-                   ("~stash" .    ?S))
-   org-agenda-files '("~/Documents/notes/"))
+                   ("~stash" .    ?S)
+                   ("~clj" .      ?c)
+                   ("!go" .       ?G))
+   org-agenda-files '("~/Documents/notes/")
+   org-todo-keywords '((sequence "TODO" "WIP" "BLOCKED" "CANCELLED" "TRANSIENT" "DONE")))
+  
   ;; org-agenda
   (if (work-machine-p)
       (setq
