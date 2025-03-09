@@ -133,7 +133,7 @@
     ("o" "Open denote directory" open-denote-directory-in-dired)
     ("c" "Capture node" denote)
     ("s" "Search denote files" search-denote-directory)
-    ("rr" "rename file" denote-rename-file)]
+    ("rr" "rename file" denote-rename-file-using-front-matter)]
    ["Links"
     ("ll" "insert" denote-link :if-mode org-mode)
     ("lb" "backlinks" denote-backlinks :if-mode org-mode)

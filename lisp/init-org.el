@@ -1,6 +1,10 @@
+;;; init-org.el  -*- lexical-binding: t; -*-
 (use-package org
   :hook
-  ((org-mode . visual-line-mode))
+  ((org-mode . (lambda ()
+                 (ant/electric-pair-disable-pairs!)
+                 (visual-line-mode))))
+  
   :config
   (setq
    ;; Edit settings
@@ -54,7 +58,6 @@
 (use-package org-modern
   :vc (:url "https://github.com/minad/org-modern" :rev "main")
   :config
-  (set-face-background 'fringe (face-attribute 'default :background))
   (setq
    org-auto-align-tags nil
    org-special-ctrl-a/e t
@@ -64,21 +67,20 @@
   :hook
   (org-mode . org-modern-mode))
 
-(defun ant/screenshot-filename ()
-  (let* ((buf-name (file-name-base (or (buffer-file-name) "screenshot")))
-         (timestamp (format-time-string "%Y-%m-%d_%H-%M-%S"))
-         (filename (concat buf-name "_" timestamp ".png")))
-    ;; Use this with org-attach-screenshot-command
-    (setq org-attach-screenshot-command 
-          (concat "screencapture -T5 " 
-                  (expand-file-name filename org-attach-screenshot-dir)))))
-
 (use-package org-attach-screenshot
   :ensure t
   :config
   (setq org-attach-screenshot-command-line "screencapture -T5 %f")
   (define-key org-mode-map (kbd "C-c s c") 'org-attach-screenshot))
 
+(defun ant/electric-pair-disable-pairs! ()
+  "Disable ?<, ?{ in `org-mode' when using `electric-pair-mode'."
+  (when (and electric-pair-mode (eql major-mode #'org-mode))
+    (setq-local electric-pair-inhibit-predicate
+                `(lambda (c)
+                   (if (or (char-equal c ?<) (char-equal c ?{))
+                       t
+                     (,electric-pair-inhibit-predicate c))))))
 
 ;; inspired by https://github.com/alaq/workflowy.el/
 (require 'ring)
@@ -102,8 +104,8 @@
   (define-key org-mode-map (kbd "C-c C-f")   'org-jump-to-favorite-node)
   (define-key org-mode-map (kbd "C-c F") 'org-clear-favorite-node)
   (define-key org-mode-map (kbd "C-c b")   'org-return-from-favorite)
-  (setq header-line-format
-        (format-outline-header-path (org-get-outline-path))))
+  (setq-local header-line-format
+              (format-outline-header-path (org-get-outline-path))))
 
 (defvar org-node-history-ring nil
   "Ring buffer storing visited node positions.")
@@ -209,6 +211,7 @@ Otherwise, jump to buffer-local favorite."
             (setq org-previous-buffer-position 
                   (cons (current-buffer) (point-marker)))
             (switch-to-buffer target-buffer))
+          (setq header-line-format (format-outline-header-path (org-get-outline-path t)))
           (widen)
           (goto-char (marker-position target))
           (org-narrow-to-subtree)

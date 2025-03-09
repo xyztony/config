@@ -37,13 +37,15 @@
 (defun ant/set-font-size ()
   (interactive)
   (let ((size
-         (* 10 (string-to-number
-                (completing-read "font size >> "
-                                 (mapcar #'number-to-string
-                                         (number-sequence 10 30)))))))
+         (round
+          (* 100 (string-to-number
+                  (completing-read "font size >"
+                                   (mapcar #'number-to-string
+                                           (number-sequence 1 5 0.1))))))))
     (ant/set-fonts size)))
 
-(defconst my-font-size 180)
+
+(defconst my-font-size 2)
 (ant/set-fonts my-font-size)
 
 (setopt display-fill-column-indicator-column 120)
@@ -58,7 +60,7 @@
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
-(load-theme 'creamsody-pitchblack t)
+(load-theme 'creamsody t)
 ;; (load-theme 'modus-vivendi-tritanopia t)
 ;; (load-theme 'humanoid-dark t)
 ;; (load-theme 'almost-mono-cream)
