@@ -25,6 +25,7 @@
         ("C->" . mc/mark-next-like-this)
         ("C-<" . mc/mark-previous-like-this)
         ("C-c C->" . mc/mark-all-like-this)
+        ("C-c C-s C->" . mc/skip-to-next-like-this)
         ("C-C C-C" . mc/edit-lines)
         ("C-c C-d" . mc/mark-next-like-this)))
 

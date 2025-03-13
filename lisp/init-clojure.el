@@ -51,8 +51,6 @@
   ((clojure-mode . my-clojure-mode-hook))
   :bind
   (:map clojure-mode-map
-        ("M-a" . clojure-backward-logical-sexp)
-        ("M-e" . clojure-forward-logical-sexp)
         ("C-c C-r n" . clojure-cycle-not)
         ("C-c C-r w" . clojure-cycle-when)
         ("C-c C-r i" . clojure-cycle-if)

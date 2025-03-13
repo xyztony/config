@@ -45,6 +45,14 @@
           ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--work-inbox.org"))
                             (org-agenda-overriding-header "Current Tasks")))))))
     (setq
+     org-tag-alist
+     ' (
+        ("@reports" .  ?r)
+        ("@dash" .     ?d)
+        ("@pres" .     ?p)
+        ("~pending~" . ?p)
+        ("~research" . ?R)
+        ("~stash" .    ?S))
      org-agenda-custom-commands
      '(("w" "Work"
         ((tags-todo ".*" ((org-agenda-files '("~/Documents/notes/20250101T000000--inbox.org"))

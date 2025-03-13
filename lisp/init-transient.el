@@ -24,7 +24,7 @@
   (let ((base ["Other"
                ("b" "eww" eww)
                ("o" "Olivetti" olivetti-mode)])
-        (extras (when (not (string-match-p "ard" (system-name)))
+        (extras (when (not (work-machine-p))
                   [("e" "elfeed" elfeed)])))
     (if (not (null extras))
         (vector (vconcat base
