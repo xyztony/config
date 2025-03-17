@@ -32,6 +32,26 @@
                    ("!go" .       ?G))
    org-agenda-files '("~/Documents/notes/")
    org-todo-keywords '((sequence "TODO" "WIP" "BLOCKED" "CANCELLED" "TRANSIENT" "DONE")))
+
+  ;; org-babel
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (shell . t)
+     (sql . t)
+     (sqlite . t)))
+
+  (setq
+   org-babel-default-header-args:sql 
+   '((:column . t)
+     (:header . t))
+
+   org-babel-default-header-args:sqlite
+   '((:column . t)
+     (:header . t))
+   
+   org-confirm-babel-evaluate nil)
   
   ;; org-agenda
   (if (work-machine-p)
@@ -66,6 +86,7 @@
 		  (org-level-7 . 1.1)
 		  (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face))))
+
 
 (use-package org-modern
   :vc (:url "https://github.com/minad/org-modern" :rev "main")
