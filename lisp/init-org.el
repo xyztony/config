@@ -4,6 +4,26 @@
   ((org-mode . (lambda ()
                  (ant/electric-pair-disable-pairs!)
                  (visual-line-mode))))
+
+  :preface
+  (defun ant/org-babel-create-sql-block ()
+    "Create a new SQL source block with interactive prompts."
+    (interactive)
+    (let* ((sql-type (completing-read "SQL Type: " '("sqlite" "postgresql" "mysql") nil t))
+           (query (read-string "Enter SQL query: "))
+           (header-args (cond
+                         ((string= sql-type "sqlite") ":results table :colnames yes")
+                         ((string= sql-type "postgresql") ":results table :colnames yes :engine postgresql")
+                         ((string= sql-type "mysql") ":results table :colnames yes :engine mysql")
+                         (t ""))))
+      (org-insert-structure-template "src")
+      (save-excursion
+        (end-of-line)
+        (insert sql-type)
+        (when (not (string-empty-p header-args))
+          (insert " " header-args))
+        (newline)
+        (insert query))))
   
   :config
   (setq
@@ -85,7 +105,10 @@
 		  (org-level-6 . 1.1)
 		  (org-level-7 . 1.1)
 		  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face))))
+    (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face)))
+  :bind
+  (:map org-mode-map
+        ("C-c s s" . ant/org-babel-create-sql-block)))
 
 
 (use-package org-modern
