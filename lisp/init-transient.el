@@ -68,7 +68,8 @@
     ("uv" "vundo" vundo)]
    ["Grep"
     ("g" "Grep" grep)
-    ("G" "Recursive grep" rgrep)]]
+    ("G" "Recursive grep" rgrep)
+    ("R" "Ripgrep" ripgrep-regexp)]]
   [["Mark"
     ("s" "Mark sexp at point" puni-mark-sexp-at-point)
     ("a" "Mark sexp around point" puni-mark-sexp-around-point)

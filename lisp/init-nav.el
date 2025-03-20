@@ -9,6 +9,11 @@
         ("C-c j m l" . avy-move-line)
         ("C-c j m r" . avy-move-region)))
 
+(use-package isearch
+  :config
+  (setq isearch-allow-motion t
+        isearch-motion-changes-direction t))
+
 (use-package dired
   :after dired
   :bind
@@ -18,6 +23,12 @@
 
 (use-package wgrep
   :ensure t)
+
+(use-package ripgrep
+  :ensure t
+  :bind
+  (:map ripgrep-search-mode-map
+        ("C-c C-e" . wgrep-change-to-wgrep-mode)))
 
 (use-package multiple-cursors
   :bind

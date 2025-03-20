@@ -1,4 +1,4 @@
-(defun ant/with-vertico-standard-mode (orig-fun &rest args)
+(defun ant/with-vertico-mode (orig-fun &rest args)
     (let ((was-flat-mode-on (bound-and-true-p vertico-flat-mode)))
       (when was-flat-mode-on
         (vertico-flat-mode -1))

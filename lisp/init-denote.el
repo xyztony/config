@@ -4,8 +4,8 @@
   :ensure t
   
   :config
-  (advice-add 'denote-find-backlink :around #'ant/with-vertico-standard-mode)
-  (advice-add 'denote-link :around #'ant/with-vertico-standard-mode)
+  (advice-add 'denote-find-backlink :around #'ant/with-vertico-mode)
+  (advice-add 'denote-link :around #'ant/with-vertico-mode)
   (setq denote-templates `(("thoughts" .
 			    ,(concat "* Some thoughts on ..."
 				     "\n\n"

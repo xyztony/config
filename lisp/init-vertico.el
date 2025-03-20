@@ -29,7 +29,9 @@
   :vc (:url "https://github.com/minad/affe" :rev :newest)
   :config
   (consult-customize affe-grep :preview-key "M-.")
-  (advice-add 'affe-grep :around #'ant/with-vertico-standard-mode)
-  (advice-add 'affe-find :around #'ant/with-vertico-standard-mode))
+  (advice-add 'affe-grep :around #'ant/with-vertico-mode)
+  (advice-add 'affe-find :around #'ant/with-vertico-mode))
+
+(advice-add 'consult-ripgrep :around #'ant/with-vertico-mode)
 
 (provide 'init-vertico)
