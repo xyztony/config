@@ -12,6 +12,10 @@
 (use-package isearch
   :config
   (setq isearch-allow-motion t
+        isearch-lazy-count t
+        isearch-lazy-highlight t
+        isearch-lax-whitespace t
+        isearch-regexp-lax-whitespace t
         isearch-motion-changes-direction t))
 
 (use-package dired
