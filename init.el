@@ -52,6 +52,7 @@
                                          "AWS_SECRET_ACCESS_KEY"
                                          "CEREBRAS_API_KEY"
                                          "DUCKDB_HOME"
+                                         "GEMINI_API_KEY"
                                          "KAGI_BASE"
                                          "GEMINI_API_KEY"
                                          "LINEAR_API_KEY"
