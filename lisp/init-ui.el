@@ -26,11 +26,11 @@
 
 (defun ant/set-fonts (font-size)
   (set-face-attribute 'default nil
-                        :font "Agave Nerd Font Mono"
+                        :font "Lilex"
                         :height font-size
                         :weight 'normal)
     (set-face-attribute 'fixed-pitch nil
-                        :font "Agave Nerd Font Mono"
+                        :font "Lilex"
                         :height font-size
                         :weight 'light))
 
@@ -55,12 +55,16 @@
   :vc (:url "https://github.com/emacsfodder/emacs-theme-creamsody"
             :rev :newest)
   :ensure t)
-
+(use-package solarized-theme
+  :vc (:url "https://github.com/bbatsov/solarized-emacs"
+            :rev :newest)
+  :ensure t)
 (use-package almost-mono-themes
   :ensure t)
 (use-package humanoid-themes
   :ensure t)
-(load-theme 'creamsody t)
+(load-theme 'solarized-selenized-light t)
+;; (load-theme 'creamsody t)
 ;; (load-theme 'modus-vivendi-tritanopia t)
 ;; (load-theme 'humanoid-dark t)
 ;; (load-theme 'almost-mono-cream)
