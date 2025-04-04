@@ -129,7 +129,7 @@ Returns information about the symbol's type and its definition."
                        :type "string"
                        :description "The name of the Emacs Lisp symbol, face, or function to look up"))
    :category "emacs")
-  
+
   (when-let ((key (getenv "GEMINI_API_KEY")))
     (setq gptel-backend
           (gptel-make-gemini "Gemini"
