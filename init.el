@@ -57,6 +57,7 @@
                                          "GEMINI_API_KEY"
                                          "LINEAR_API_KEY"
                                          "NVM_DIR"
+                                         "OPENROUTER_API_KEY"
                                          "XAI_API_KEY"
                                          "PATH"))
   (exec-path-from-shell-initialize)

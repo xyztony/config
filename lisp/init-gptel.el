@@ -140,6 +140,24 @@ Returns information about the symbol's type and its definition."
                       gemini-2.0-flash-thinking-exp-01-21
                       gemini-2.0-flash))))
 
+  (when-let ((key (getenv "OPENROUTER_API_KEY")))
+    (gptel-make-openai "OpenRouter"
+      :host "openrouter.ai"
+      :endpoint "/api/v1/chat/completions"
+      :stream t
+      :key key          
+      :models '(anthropic/claude-3.5-haiku
+                anthropic/claude-3.5-sonnet
+                anthropic/claude-3.7-sonnet
+                cohere/command-a
+                google/gemini-2.5-pro-exp-03-25:free
+                mistral/ministral-8b
+                openrouter/quasar-alpha
+                openai/o1-mini
+                openai/o3-mini-high
+                openai/o1-pro
+                perplexity/sonar)))
+
   (setq gptel-track-media t
         gptel-default-mode 'org-mode
         gptel-use-tools t)

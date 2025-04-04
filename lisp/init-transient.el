@@ -120,7 +120,10 @@
     ("ma" "maximize" maximize-window)
     ("mi" "minimize" minimize-window)]
    ["Balance"
-    ("=" "Balance windows" balance-windows)]
+    ("=" "Balance windows" balance-windows)
+    ("m h" "Main Horizontal" rotate:main-horizontal)
+    ("m v" "Main Vertical" rotate:main-vertical)
+    ("m e v" "Main Even Vertical" rotate:even-vertical)]
    ["Winner"
     ("u" "Undo" winner-undo)
     ("r" "Redo" winner-undo)]])
