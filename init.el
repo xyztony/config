@@ -95,7 +95,6 @@
 (require 'init-org)
 (require 'init-prolog)
 (require 'init-rotate)
-(require 'init-swift)
 (require 'init-transient)
 (require 'init-treesit)
 (require 'init-ui)

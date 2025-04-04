@@ -25,10 +25,40 @@
   :init
   (vertico-prescient-mode))
 
+(defgroup affe-extensions nil
+  "Customizations for extending affe."
+  :group 'affe)
+
+(defcustom affe-grep-ignore-globs
+  '(;;
+    "site-lisp/"
+    "**/data"
+    "**/dist"
+    "**/node_modules"
+    "**/package-lock.json"
+    ".clj-kondo/"
+    "elpa/"
+    "**/*.transit.json"
+    "History/**"
+    "**/#*#.*"
+    "**/.aider*"
+    "**/bikeshed*"
+    "gptel/"
+    "treesit-fold/")
+  "Glob patterns to ignore!"
+  :type '(repeat string)
+  :group 'affe-extensions)
+
 (use-package affe
   :vc (:url "https://github.com/minad/affe" :rev :newest)
   :config
   (consult-customize affe-grep :preview-key "M-.")
+  (setq affe-grep-command
+        (concat "rg "
+                (string-join
+                 (mapcan (lambda (glob) (list "-g" (concat "!" glob)))
+                         affe-grep-ignore-globs) " ")
+                " --null --no-heading --line-number -v ^$"))
   (advice-add 'affe-grep :around #'ant/with-vertico-mode)
   (advice-add 'affe-find :around #'ant/with-vertico-mode))
 
