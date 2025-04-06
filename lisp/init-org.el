@@ -105,7 +105,7 @@
 		  (org-level-6 . 1.1)
 		  (org-level-7 . 1.1)
 		  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Agave Nerd Font Mono" :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Lilex" :weight 'medium :height (cdr face)))
   :bind
   (:map org-mode-map
         ("C-c s s" . ant/org-babel-create-sql-block)))

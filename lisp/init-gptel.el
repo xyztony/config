@@ -149,14 +149,16 @@ Returns information about the symbol's type and its definition."
       :models '(anthropic/claude-3.5-haiku
                 anthropic/claude-3.5-sonnet
                 anthropic/claude-3.7-sonnet
-                cohere/command-a
-                google/gemini-2.5-pro-exp-03-25:free
+                google/gemini-2.5-pro-preview-03-25
                 mistral/ministral-8b
                 openrouter/quasar-alpha
                 openai/o1-mini
                 openai/o3-mini-high
                 openai/o1-pro
-                perplexity/sonar)))
+                meta-llama/llama-4-maverick
+                meta-llama/llama-4-scout
+                perplexity/sonar
+                perplexity/sonar-reasoning-pro)))
 
   (setq gptel-track-media t
         gptel-default-mode 'org-mode

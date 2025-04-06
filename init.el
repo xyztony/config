@@ -27,7 +27,6 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 
-
 (setenv "JAVA_HOME"
 	(mapconcat 'identity
 		   (list (substitute-in-file-name "$HOME")
@@ -40,6 +39,7 @@
   :init
   (setq mac-option-key-is-meta t
         mac-option-modifier 'meta
+        make-backup-files nil
         create-lockfiles nil
         completion-cycle-threshold 2
 	auto-revert-verbose nil
@@ -83,7 +83,6 @@
 (require 'init-denote)
 (when (not (work-machine-p))
   (require 'init-elfeed))
-(require 'init-eglot)
 (require 'init-envrc)
 (require 'init-eshell)
 (require 'init-eww)
@@ -91,6 +90,7 @@
 (require 'init-gptel)
 (require 'init-julia)
 (require 'init-lisp-stuff)
+(require 'init-lsp)
 (require 'init-magit)
 (require 'init-nav)
 (require 'init-org)

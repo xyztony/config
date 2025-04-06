@@ -1,5 +1,7 @@
 (use-package ace-window
-  :bind ("M-o" . ace-window))
+  :bind ("M-o" . ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?q ?j ?k ?l ?\; ?p)))
 
 (use-package avy
   :bind

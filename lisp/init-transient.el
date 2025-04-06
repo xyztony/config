@@ -101,7 +101,8 @@
      :transient t)]
    ["Split"
     ("-" "Split below" split-window-below)
-    ("/" "Split right" split-window-right)]
+    ("/" "Split right" split-window-right)
+    ("s" "Swap window" ace-swap-window)]
    ["Delete"
     ("q" "Delete window" delete-window)
     ("d" "Delete other windows" delete-other-windows)]
