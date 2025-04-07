@@ -47,7 +47,10 @@
         ("C-c C-d" . mc/mark-next-like-this)))
 
 (use-package popper
-  :ensure t)
+  :ensure t
+  :config
+  (setq popper-echo-dispatch-keys '(?q ?w ?e ?r    ?u ?i ?o ?p
+                                    ?a ?s ?d ?f    ?j    ?l ?\;)))
 (require 'popper)
 (popper-mode +1)
 (require 'popper-echo)
