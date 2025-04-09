@@ -1,3 +1,5 @@
+(require 'init-utils)
+
 (use-package ace-window
   :bind ("M-o" . ace-window)
   :config
@@ -72,6 +74,16 @@
 (global-set-key (kbd "M-~") 'popper-cycle-backwards)
 (global-set-key (kbd "C-M-`") 'popper-toggle-type)
 (global-set-key (kbd "C-M-k") 'popper-kill-latest-popup)
+
+(use-package xref
+  :custom
+  (xref-search-program 'ripgrep)
+  (xref-show-xrefs-function #'xref-show-definitions-completing-read)
+  (xref-auto-jump-to-first-definition t)
+  (xref-buffer-name "*xref*")
+  :config
+  (advice-add 'xref-show-definitions-completing-read
+              :around #'ant/with-vertico-mode))
 
 (defun ant/beginning-of-line ()
   "Swap between beginning of line, and first char of line."

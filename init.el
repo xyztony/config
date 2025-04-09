@@ -34,35 +34,35 @@
 		   "/"))
 
 (setq-default indent-tabs-mode nil)
+(setq-default ns-use-native-fullscreen nil)
 
 (use-package emacs
+  :custom
+  (mac-option-key-is-meta t)
+  (mac-option-modifier 'meta)
+  (make-backup-files nil)
+  (create-lockfiles nil)
+  (completion-cycle-threshold 2)
+  (auto-revert-verbose nil)
+  (custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  (exec-path-from-shell-variables '("ANTHROPIC_API_KEY"
+                                    "AWS_ACCESS_KEY"
+                                    "AWS_SECRET_ACCESS_KEY"
+                                    "CEREBRAS_API_KEY"
+                                    "DUCKDB_HOME"
+                                    "GEMINI_API_KEY"
+                                    "KAGI_BASE"
+                                    "GEMINI_API_KEY"
+                                    "LINEAR_API_KEY"
+                                    "NVM_DIR"
+                                    "OPENROUTER_API_KEY"
+                                    "XAI_API_KEY"
+                                    "PATH"))
+  (global-auto-revert-mode 1)
   :init
-  (setq mac-option-key-is-meta t
-        mac-option-modifier 'meta
-        make-backup-files nil
-        create-lockfiles nil
-        completion-cycle-threshold 2
-	auto-revert-verbose nil
-	custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (when (not (work-machine-p))
     (load custom-file))
-  ;; exports from my ~/.zshenv
-  (setq exec-path-from-shell-variables '("ANTHROPIC_API_KEY"
-                                         "AWS_ACCESS_KEY"
-                                         "AWS_SECRET_ACCESS_KEY"
-                                         "CEREBRAS_API_KEY"
-                                         "DUCKDB_HOME"
-                                         "GEMINI_API_KEY"
-                                         "KAGI_BASE"
-                                         "GEMINI_API_KEY"
-                                         "LINEAR_API_KEY"
-                                         "NVM_DIR"
-                                         "OPENROUTER_API_KEY"
-                                         "XAI_API_KEY"
-                                         "PATH"))
   (exec-path-from-shell-initialize)
-  :config
-  (global-auto-revert-mode 1)
   (unbind-key "s-p")
   :bind
   (("<C-return>" . newline-and-indent)
