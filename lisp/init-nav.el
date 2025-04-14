@@ -8,6 +8,8 @@
 (use-package avy
   :bind
   (:map global-map
+        ("M-j c" . avy-goto-char)
+        ("M-j l" . avy-goto-line)
         ("C-c j c" . avy-goto-char)
         ("C-c j l" . avy-goto-line)
         ("C-c j m l" . avy-move-line)

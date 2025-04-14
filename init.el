@@ -66,6 +66,7 @@
     (load custom-file))
   (exec-path-from-shell-initialize)
   (unbind-key "s-p")
+  (unbind-key "M-j")
   :bind
   (("<C-return>" . newline-and-indent)
    ("C-x C-r" . query-replace)
