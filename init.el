@@ -4,6 +4,7 @@
 (require 'package)
 
 (setq enable-local-eval nil)
+(setq ns-use-native-fullscreen nil)
 
 (defconst work-dir "~/.config/custard")
 (defconst home-dir "~/.emacs.d")
@@ -71,6 +72,7 @@
    ("C-j" . join-line)
    ("M-h" . mark-paragraph)
    ("M-s M-s" . ispell-word)
+   ("C-c C-r" . consult-ripgrep)
    ("C-a" . ant/beginning-of-line)
    ("C-c C-/" . vundo)
    ("s-b" . switch-to-buffer)
