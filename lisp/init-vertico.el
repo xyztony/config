@@ -51,6 +51,8 @@
 
 (use-package affe
   :vc (:url "https://github.com/minad/affe" :rev :newest)
+  :custom
+  (affe-count 1000)
   :config
   (consult-customize affe-grep :preview-key "M-.")
   (setq affe-grep-command
