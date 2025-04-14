@@ -158,6 +158,9 @@ Returns information about the symbol's type and its definition."
                 openai/gpt-4.5-preview
                 openai/gpt-4o-mini-search-preview
                 openai/gpt-4o-search-preview
+                openai/gpt-4.1
+                openai/gpt-4.1-mini
+                openai/gpt-4.1-nano
                 meta-llama/llama-4-maverick
                 meta-llama/llama-4-scout
                 perplexity/sonar
