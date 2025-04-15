@@ -68,6 +68,9 @@ and their content as the directive text."
                    new-count (hash-table-count directives-table))))))
   
   (ant/load-gptel-directives-from-org)
+  
+  (require 'init-utils)
+  (advice-add 'ant/gptel-load-session :around #'ant/with-vertico-mode)
 
   ;; https://github.com/karthink/gptel/blob/master/README.org#defining-gptel-tools
   (gptel-make-tool
@@ -139,6 +142,11 @@ Returns information about the symbol's type and its definition."
                       gemini-2.0-pro-exp-02-05
                       gemini-2.0-flash-thinking-exp-01-21
                       gemini-2.0-flash))))
+
+  (when-let ((key (getenv "ANTHROPIC_API_KEY")))
+    (gptel-make-anthropic "Claude"
+      :stream t 
+      :key key))
 
   (when-let ((key (getenv "OPENROUTER_API_KEY")))
     (gptel-make-openai "OpenRouter"

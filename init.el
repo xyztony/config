@@ -22,6 +22,7 @@
 
 (add-to-load-path "lisp")
 (add-to-load-path "gptel")
+(package-install-file (expand-file-name "gptel" user-emacs-directory))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
@@ -85,6 +86,7 @@
 (require 'init-denote)
 (when (not (work-machine-p))
   (require 'init-elfeed))
+(require 'init-eglot)
 (require 'init-envrc)
 (require 'init-eshell)
 (require 'init-eww)
@@ -92,7 +94,7 @@
 (require 'init-gptel)
 (require 'init-julia)
 (require 'init-lisp-stuff)
-(require 'init-lsp)
+;; (require 'init-lsp)
 (require 'init-magit)
 (require 'init-nav)
 (require 'init-org)

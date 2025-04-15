@@ -1,11 +1,9 @@
 (require 'transient)
-(require 'init-clojure)
-(require 'init-gptel)
 
 (use-package transient
   :ensure t
   :config
-  (setq transient-show-popup 0.15)
+  (setq transient-show-popup 1)
   (setq transient-detect-key-conflicts t)
   (setq transient-default-level 5)
   (transient-bind-q-to-quit)
@@ -39,10 +37,10 @@
 (transient-define-prefix transient-magit-menu ()
   "Magit menu"
   [["Branches"
-    ("b" "Branch" magit-branch)
-    ("c" "Checkout" magit-checkout)
-    ("s" "Spin-off" magit-branch-spinoff)
-    ("S" "Spin-out" magit-branch-spinout)]
+   ("b" "Branch" magit-branch)
+   ("c" "Checkout" magit-checkout)
+   ("s" "Spin-off" magit-branch-spinoff)
+   ("S" "Spin-out" magit-branch-spinout)]
    ["Changes"
     ("C" "Commit" magit-commit)
     ("P" "Push" magit-push)
@@ -150,7 +148,7 @@
     ("ad" "cljr-add-declaration" cljr-add-declaration)
     ("ai" "cljr-add-import-to-ns" cljr-add-import-to-ns)
     ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)
-    ("al" "add-debug-bindings" add-debug-bindings)]
+    ]
    ["C(onvert/cycle/clean)"
     ("ci" "clojure-cycle-if" clojure-cycle-if)
     ("cn" "cljr-clean-ns" cljr-clean-ns)
@@ -191,7 +189,7 @@
     ("i" "Toggle indicators" treesit-fold-indicators-mode)]])
 
 (transient-define-prefix transient-gptel-menu ()
-  "GPT-EL menu"
+  "gptel menu"
   [["gptel"
     ("m" "Gptel menu" gptel-menu)
     ("l" "Load session" ant/gptel-load-session)
