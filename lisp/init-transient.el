@@ -147,8 +147,7 @@
   [["Add"
     ("ad" "cljr-add-declaration" cljr-add-declaration)
     ("ai" "cljr-add-import-to-ns" cljr-add-import-to-ns)
-    ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)
-    ]
+    ("ar" "cljr-add-require-to-ns" cljr-add-require-to-ns)]
    ["C(onvert/cycle/clean)"
     ("ci" "clojure-cycle-if" clojure-cycle-if)
     ("cn" "cljr-clean-ns" cljr-clean-ns)
